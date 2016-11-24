@@ -5,4 +5,6 @@ class Parcel < ApplicationRecord
 
   enum status: [:Pending, :Arrived, :"Ready To Ship", :Shipped]
   enum parcel_good: [:Normal, :Sensitive]
+
+  mount_uploader :image, ImageUploader
 end

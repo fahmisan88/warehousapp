@@ -40,13 +40,11 @@
             <h3 class="panel-title"><i class="fa fa-ship fa-fw"></i> My Shipments</h3>
           </div>
           <div class="panel-body">
-            <div class = "shipments">
+            <div class = "shipments text-center">
 
               <% if @shipments.empty? %>
               <h3 class="text-center">You have not post any shipment yet. Go create shipment by clicking the button below</h3>
-              <div class="text-center"><%= link_to "Create Shipment", new_shipment_path, class: "btn btn-success" %></div>
-              <div class="button text-center">
-                <%= link_to "Post Shipment", new_shipment_path(id: @shipment), class: "btn btn-success btn-lg" %>
+                <%= link_to "Create Shipment", new_shipment_path(id: @shipment), class: "btn btn-success btn-lg" %>
               </div>
               <% else %>
               <br>
@@ -54,7 +52,6 @@
 
             </div>
             <div>
-              <%@shipments.each do |shipment|%>
 
 
                       <table class="table table-bordered">
@@ -68,6 +65,7 @@
                           </tr>
                         </thead>
                         <tbody>
+                          <%@shipments.each do |shipment|%>
                           <tr>
                             <td><%= shipment.created_at.strftime("%d-%m-%Y  (%H:%M)")%> </td>
                             <td><%= shipment.id%></td>
@@ -93,14 +91,14 @@
                                 <% end%>
                                 <span><%= link_to "", shipment_path(shipment), class:"fa fa-trash", data: { confirm: "Are you sure you want delete this shipment?"}, method: :delete %></span>
                                 </td>
+                                <%end%>
+                                <%end%>
                           </tr>
 
 
                         </tbody>
                       </table>
 
-                <%end%>
-                <%end%>
               </div>
             </div>
           </div>

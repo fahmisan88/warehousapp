@@ -1,6 +1,7 @@
 class ShipmentsController < ApplicationController
   before_action :authenticate!
 
+
   def index
     if admin_user || staff_user
     @shipments= Shipment.all.order(created_at: :desc)
@@ -69,6 +70,9 @@ class ShipmentsController < ApplicationController
         # @shipment.create_activity :destroy, owner: current_user
         redirect_to shipments_path
         # flash[:success]
+      else
+        redirect_to shipments_path
+        # flash[:danger]
       end
     end
 
@@ -77,5 +81,6 @@ class ShipmentsController < ApplicationController
     def shipment_params
       params.require(:shipment).permit(:status, :remark, :weight, :volume, :charge, :bill_id, :bill_url, :due_at, :paid_at)
     end
+
 
 end
