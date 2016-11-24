@@ -1,0 +1,152 @@
+<div class="page-content-inner">
+    <!-- Profile -->
+    <div class="row">
+        <div class="col-xl-2">
+        </div>
+        <div class="col-xl-8">
+            <section class="panel panel-with-borders">
+                  <div class="panel-heading">
+                    <h3>Profile Information</h3>
+                  </div>
+                  <div class="panel-body">
+                    <div class="row">
+                      <div class="col-lg-4">
+                        <div class="form-group">
+                          <label class="form-control-label">Full Name</label>
+                          <input type="text" class="form-control" placeholder="<%= current_user.firstname + ' ' + current_user.lastname %>" readonly>
+                        </div>
+                      </div>
+                      <div class="col-lg-4">
+                        <div class="form-group">
+                          <label class="form-control-label">Email</label>
+                          <input type="text" class="form-control" placeholder="<%= current_user.email %>" readonly>
+                        </div>
+                      </div>
+                      <div class="col-lg-2">
+                        <div class="form-group">
+                          <label class="form-control-label">Member ID</label>
+                          <input type="text" class="form-control" placeholder="Q<%= current_user.id %>" readonly>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-lg-8">
+                        <label class="form-control-label">Address</label>
+                        <input type="text" class="form-control" placeholder="Q<%= current_user.id %>" readonly>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="panel-footer">
+                    <h3>footer</h3>
+                  </div>
+            </section>
+        </div>
+    </div>
+    <div class="col-xl-2">
+    </div>
+    <!-- End Profile -->
+
+</div>
+
+<!-- Page Scripts -->
+<script>
+    $(function() {
+
+        ///////////////////////////////////////////////////////////
+        // ADJUSTABLE TEXTAREA
+        autosize($('.adjustable-textarea'));
+
+        ///////////////////////////////////////////////////////////
+        // MEDIA PLAYER
+        if (!(typeof angular === 'undefined')) {
+            $('.mediatec-cleanaudioplayer').cleanaudioplayer();
+            $('.mediatec-cleanvideoplayer').cleanvideoplayer();
+        }
+
+        ///////////////////////////////////////////////////////////
+        // CALENDAR
+        $('.example-calendar-block').fullCalendar({
+            //aspectRatio: 2,
+            height: 450,
+            header: {
+                left: 'prev, next',
+                center: 'title',
+                right: 'month, agendaWeek, agendaDay'
+            },
+            buttonIcons: {
+                prev: 'none fa fa-arrow-left',
+                next: 'none fa fa-arrow-right',
+                prevYear: 'none fa fa-arrow-left',
+                nextYear: 'none fa fa-arrow-right'
+            },
+            Actionable: true,
+            eventLimit: true, // allow "more" link when too many events
+            viewRender: function(view, element) {
+                if (!cleanUI.hasTouch) {
+                    $('.fc-scroller').jScrollPane({
+                        autoReinitialise: true,
+                        autoReinitialiseDelay: 100
+                    });
+                }
+            },
+            eventClick: function(calEvent, jsEvent, view) {
+                if (!$(this).hasClass('event-clicked')) {
+                    $('.fc-event').removeClass('event-clicked');
+                    $(this).addClass('event-clicked');
+                }
+            },
+            defaultDate: '2016-05-12',
+            events: [
+                {
+                    title: 'All Day Event',
+                    start: '2016-05-01',
+                    className: 'fc-event-success'
+                },
+                {
+                    id: 999,
+                    title: 'Repeating Event',
+                    start: '2016-05-09T16:00:00',
+                    className: 'fc-event-default'
+                },
+                {
+                    id: 999,
+                    title: 'Repeating Event',
+                    start: '2016-05-16T16:00:00',
+                    className: 'fc-event-success'
+                },
+                {
+                    title: 'Conference',
+                    start: '2016-05-11',
+                    end: '2016-05-14',
+                    className: 'fc-event-danger'
+                }
+            ]
+        });
+
+        ///////////////////////////////////////////////////////////
+        // SWAL ALERTS
+        $('.swal-btn-success').click(function(e){
+            e.preventDefault();
+            swal({
+                title: "Following",
+                text: "Now you are following Artour Scott",
+                type: "success",
+                confirmButtonClass: "btn-success",
+                confirmButtonText: "Ok"
+            });
+        });
+
+        $('.swal-btn-success-2').click(function(e){
+            e.preventDefault();
+            swal({
+                title: "Friends request",
+                text: "Friends request was succesfully sent to Artour Scott",
+                type: "success",
+                confirmButtonClass: "btn-success",
+                confirmButtonText: "Ok"
+            });
+        });
+
+    });
+</script>
+<!-- End Page Scripts -->

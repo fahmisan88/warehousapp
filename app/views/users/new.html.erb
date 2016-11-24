@@ -1,0 +1,46 @@
+<div id="header">
+  <%= render partial: 'partials/header' %>
+</div>
+<div class="container col-md-6 text-center">
+  <h3 class="text-center">
+    Register Form
+  </h3>
+  <br>
+  <%= form_for(@user, url: {action: "create"}, method: :post, html: {id: "form-validation"} ) do %>
+  <div class="form-group">
+    <input id="validation-firstname"
+    class="form-control"
+    placeholder="Fullname"
+    name="user[name]"
+    type="text"
+    data-validation="[L<=20, NOTEMPTY]"
+    data-validation-message="Please type your first name not more than 20 characters">
+  </div>
+
+  <div class="form-group">
+    <div class="form-input-icon form-input-icon-right">
+      <i class="icmn-spinner11 util-spin"></i>
+      <input id="validation-email"
+      class="form-control"
+      placeholder="Email"
+      name="user[email]"
+      type="text"
+      data-validation="[EMAIL]">
+    </div>
+  </div>
+  <div class="form-group">
+    <input id="validation-password"
+    class="form-control password"
+    name="user[password]"
+    type="password" data-validation="[L>=6]"
+    data-validation-message="$ must be at least 6 characters"
+    placeholder="Password">
+  </div>
+  <div class="form-group">
+    <input type="password" name="user[password2]" class="form-control password" placeholder="Repeat Password" data-validation="[V==user[password]]" data-validation-message="Both password must match">
+  </div>
+  <div class="form-actions">
+    <button type="submit" class="btn btn-primary width-150">Sign Up</button>
+  </div>
+  <% end %>
+</div>

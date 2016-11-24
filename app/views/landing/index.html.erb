@@ -1,0 +1,72 @@
+<div id="header">
+  <%= render partial: 'partials/header' %>
+</div>
+<div class="background">
+  <div class="content">
+    <h1 class="welcometext"> Welcome to EZICARGO </h1>
+    <h1 class="welcometext2"> Your Trusted Partner In China. </h1>
+    <h4 class="welcometext2">We handle the shipping process from China to Malaysia just for you. </h4>
+  </div>
+</div>
+<div>
+<div>
+  <h1 class="text-center"> How It Works? </h1>
+</div>
+<section class="howitwork">
+  <div class="feature text-center">
+    <%= fa_icon 'shopping-cart 5x', class:"featurecolor"%>
+    <h4> Shop at China's ecommerce web </h4>
+  </div>
+  <div class="feature text-center">
+    <%= fa_icon 'truck 5x', class:"featurecolor" %>
+    <h4> Deliver items to our warehouse  </h4>
+  </div>
+  <div class="feature text-center">
+    <%= fa_icon 'shopping-bag 5x', class:"featurecolor" %>
+    <h4> We manage your parcel </h4>
+  </div>
+  <div class="feature text-center">
+    <%= fa_icon 'plane 5x', class:"featurecolor" %>
+    <h4> We ship it to you in Malaysia </h4>
+  </div>
+</section>
+</div>
+<div class="services">
+<div>
+  <h1 class="text-center"> Our Services </h1>
+</div>
+<section class= "minipics">
+  <div>
+    <%= image_tag 'storage.jpg', class: "image-setting" %>
+    <div class= "text-center">
+      <h3> Storage </h3>
+    </div>
+  </div>
+  <div>
+    <%= image_tag 'inspection.jpg', class: "image-setting" %>
+    <div class= "text-center">
+      <h3> Inspection </h3>
+    </div>
+  </div>
+  <div>
+    <%= image_tag 'packing.jpg', class: "image-setting" %>
+    <div class= "text-center">
+      <h3 > Repacking </h3>
+    </div>
+  </div>
+  <div>
+    <%= image_tag 'shipping.jpg', class: "image-setting" %>
+    <div class= "text-center">
+      <h3 > Shipping </h3>
+    </div>
+  </div>
+</section>
+</div>
+<section class= "howitwork text-center">
+  <div>
+    <h1> Start Shopping & Shipping From China Today! </h1>
+    <br>
+    <%=link_to "Register Now", new_user_path, class:"btn btn-success btn-lg" %>
+  </div>
+</section>
+<!-- Modal -->

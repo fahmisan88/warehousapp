@@ -1,0 +1,52 @@
+<br>
+<div id="wrapper">
+  <div id="page-wrapper">
+    <br>
+    <br>
+    <div class="row">
+        <div class="col-lg-12">
+            <ol class="breadcrumb">
+                <li class="active">
+                    <i class="fa fa-ship"></i> Shipment
+                </li>
+            </ol>
+        </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title"><i class="fa fa-ship fa-fw"></i> Update Shipment</h3>
+          </div>
+          <div class="panel-body">
+            <div class="section top-padding">
+              <div class="container">
+
+                <%= form_for @shipment do |f| %>
+                <div>
+                  <%= f.label :weight %>
+                  <%= f.text_field :weight, class:"form-control" %>
+                </div>
+                <div>
+                  <%= f.label :"volume metric" %>
+                  <%= f.text_field :volume, class:"form-control" %>
+                </div>
+                <div>
+                  <%= f.label :"charge" %>
+                  <%= f.text_field :charge, class:"form-control" %>
+                </div>
+                  <div>
+                    <%= f.submit class:"btn btn-success" %>
+                  </div>
+                  <% end %>
+
+                  <%= link_to 'Back', shipments_path, class:"btn btn-link" %>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

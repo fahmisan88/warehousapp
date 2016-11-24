@@ -1,0 +1,30 @@
+<div id="header">
+  <%= render partial: 'partials/header' %>
+</div>
+<div>
+  <h3 class="text-center">
+    <i class="icmn-enter margin-right-10"></i>
+    Login Form
+  </h3>
+  <br />
+  <%= form_for(:user, url: sessions_path, html: {id: "form-validation"} ) do |f| %>
+  <div class="form-group">
+    <%= f.text_field :email, required: true, id: "user_email_field", class: 'form-control', placeholder: 'email' %>
+  </div>
+  <div class="form-group">
+    <%= f.password_field :password, id: "user_password_field", class: 'form-control',  placeholder: 'password' %>
+  </div>
+  <div class="form-group">
+    <a href="javascript: void(0);" class="pull-right">Forgot Password?</a>
+    <div class="checkbox">
+      <label>
+        <input type="checkbox" name="example6" checked>
+        Remember me
+      </label>
+    </div>
+  </div>
+  <div class="form-actions">
+    <%= f.submit "Login", class: "btn btn-primary width-150" %>
+  </div>
+  <% end %>
+</div>

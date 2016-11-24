@@ -1,0 +1,54 @@
+#flash-messages-container {
+opacity: 1;
+  .flash-messages {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 2;
+
+    p {
+      margin: 0;
+    }
+
+    .alert {
+      border: 0;
+    }
+
+    .alert-success {
+      background-color: green;
+      color: white;
+    }
+
+    .alert-danger {
+      background-color: red;
+      color: white;
+    }
+
+    .close {
+      line-height: 0;
+      padding: 7px;
+      font-size: 40px;
+      opacity: 1;
+      color: white;
+    }
+
+    .list-styling {
+      width: 500px;
+      margin: 0 auto;
+      list-style-type: none;
+      text-align: left;
+    }
+
+    .message {
+      text-align: center;
+      font-size: 16px;
+      text-shadow: 1px 1px 1px rgba(0,0,0,0.6);
+    }
+
+    .fadeOut {
+      opacity: 0;
+      transition: opacity 3s ease-in-out;
+    }
+  }
+}

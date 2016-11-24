@@ -1,0 +1,67 @@
+.background{
+  background-image: asset-url("parcel.jpg");
+  height: calc(100vh - 52px);
+  width: 100%;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  // -webkit-filter: opacity(50%);
+  // filter: opacity(50%);
+}
+
+
+.welcometext{
+  background: white;
+  border-style: solid;
+  border-color: black;
+  color: black;
+  font-size: 70px;
+}
+
+.welcometext2{
+  color: white;
+  text-align: center;
+}
+
+.howitwork {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 1200px;
+  margin: 50px auto;
+  justify-content: space-around;
+}
+
+.feature {
+  flex: 2 0 280;
+  margin: 20px 10px;
+}
+
+.featurecolor{
+  color: #222;
+}
+.services{
+  background-color: #dee1e5;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.minipics {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 1200px;
+  margin: 50px auto;
+  justify-content: space-around;
+}
+
+.image-setting{
+  width: 300px;
+  height: 30vh;
+}
+
+@media all and (max-width: 1199px) {
+
+
+}

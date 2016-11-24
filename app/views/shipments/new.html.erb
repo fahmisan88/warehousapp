@@ -1,0 +1,161 @@
+<br>
+<div id="wrapper">
+  <div id="page-wrapper">
+<br>
+<br>
+    <div class="row">
+        <div class="col-lg-12">
+            <ol class="breadcrumb">
+                <li class="active">
+                    <i class="fa fa-ship"></i> Shipment
+                </li>
+            </ol>
+        </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-8">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title"><i class="fa fa-ship fa-fw"></i> Create Shipment</h3>
+          </div>
+          <div class="panel-body">
+            <%= form_for(@shipment, url: shipments_path, html: { id: "shipment-create-form" }) do |f| %>
+            <div class = "shipments">
+
+              <% if @parcels.empty? %>
+              <h3 class="text-center">No parcels available yet for shipment. Please create your parcels by clicking the button below.</h3>
+              <div class="text-center"><%= link_to "Create Parcel", new_parcel_path, class: "btn btn-success" %></div>
+              <% else %>
+
+              <table class="form-group table table-bordered">
+                <thead>
+                  <tr>
+                    Parcel List
+                  </tr>
+                  <tr>
+                    <th>Select</th>
+                    <th>AWB No.</th>
+                    <th>Product Description</th>
+                    <th>Status</th>
+                    <th>Weight(kg)</th>
+                    <th>Volume Metric</th>
+
+                  </tr>
+                </thead>
+                <% @parcels.each do |parcel|%>
+                <tbody>
+                  <% if parcel.status != ("Ready To Ship"||"Shipped") %>
+                  <tr>
+                    <td>
+                      <%if parcel.status == "Pending"%>
+                      <%else%>
+                      <%= check_box_tag 'parcel_id[]', parcel.id%>
+                      <% end%>
+                    </td>
+                    <td><%= label_tag parcel.awb%></td>
+                    <td><%= label_tag parcel.description %></td>
+                    <td><%= label_tag parcel.status %></td>
+                    <td><%= label_tag parcel.weight %></td>
+                    <td><%= label_tag parcel.volume %></td>
+                  </tr>
+                  <% else %>
+                  <% end %>
+                  <%end%>
+                  <tr>
+                    <td colspan="4" align="right">Total Selected</td>
+                    <td> <span id="totalweight">0</span>(kg)</td>
+                    <td> <span id="totalmetric">0</span></td>
+
+                  </tr>
+                </tbody>
+              </table>
+
+<br>
+              <table class="table table-striped table-bordered">
+                <thead>
+                  <tr>
+                    <strong>Add Extra Services</strong>
+                  </tr>
+                  <tr>
+                    <th><b>Select</b></th>
+                    <th><b>Service</b></th>
+                    <th><b>Description</b></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <td><label><input type="checkbox" value=""></label></td>
+                  <td>Photoshoot</td>
+                  <td>We will open the parcel and snap a picture of your product for your reference.</td>
+                </tbody>
+                <tbody>
+                  <td><label><input type="checkbox" value=""></label></td>
+                  <td>Inspection</td>
+                  <td>We will open the parcel and inspect each products for their quality and quantity.</td>
+                </tbody>
+                <tbody>
+                  <td><label><input type="checkbox" value=""></label></td>
+                  <td>Reorganize</td>
+                  <td>We will pack all your separate parcels into one parcel to avoid expensive overcharge from volume metric </td>
+                </tbody>
+                <tbody>
+                  <td><label><input type="checkbox" value=""></label></td>
+                  <td>Repackaging</td>
+                  <td>Any parcels that are torn, bulky or unpacked properly will be repack back</td>
+                </tbody>
+              </table>
+              <br>
+
+              <div class="form-group">
+                <label> <%= f.label :type_field, "Remarks" %> </label>
+                <%= f.text_field :remark, id: "type_field", class: 'form-control', type:"text" %>
+
+              </div>
+
+              <div class="form-group">
+                <%= f.submit "Post Shipment", class:"btn btn-success" %>
+              </div>
+
+            </div>
+            <%end%>
+            <% end %>
+          </div>
+        </div>
+
+      </div>
+      <div class="col-lg-4">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title"><i class="fa fa-home fa-fw"></i> Shipping Address</h3>
+          </div>
+          <div class="panel-body">
+            <div class="table-responsive">
+              <div class="list-group">
+                <b href="#" class="list-group-item">
+
+                  <b>Name: </b>
+                  <%=current_user.name %>
+                  <br>
+                  <b>Address: </b>
+                  <%=current_user.address%>
+                  <br>
+                  <b>Postcode:</b>
+                  <%=current_user.postcode%>
+                  <br>
+                  <b>Phone No.:</b>
+                  <%=current_user.phone%>
+                </b>
+
+              </div>
+            </div>
+            <%if current_user.address.nil?%>
+            <div class="text-right">
+              <a href="#">Update Shipping Address <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+            <%else%>
+            <%end%>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
