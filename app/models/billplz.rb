@@ -8,7 +8,7 @@ class Billplz
       email:              shipment.user.email,
       name:               "test user",
       amount:             shipment.charge*100,
-      callback_url:       "http://localhost:3000/webhooks/payment_callback",
+      callback_url:       "http://localhost:3000/webhooks/payment-callback",
       description:        'ezicargo',
       due_at:             shipment.due_at,
       redirect_url:       "http://localhost:3000/shipments/#{shipment.id}",
