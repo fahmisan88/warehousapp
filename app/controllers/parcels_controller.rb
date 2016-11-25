@@ -3,11 +3,21 @@ class ParcelsController < ApplicationController
 
   def index
     if admin_user || staff_user
-    @parcels= Parcel.all.order(created_at: :desc)
+    @parcels= Parcel.all.order(created_at: :desc).page params[:page]
     else
-    @parcels= current_user.parcels.all.order(created_at: :desc)
+    @parcels= current_user.parcels.all.order(created_at: :desc).page params[:page]
     end
+# need to check if it serchkick breaks the above law
+    if params[:search]
+      Parcel.reindex
+    if params[:search].empty?
+        redirect_to parcels_path
+      elsif
+        @parcels=Parcel.search(params[:search], field:[{status: :word_start}])
+      else
 
+      end
+    end
   end
 
   def show
@@ -28,6 +38,7 @@ class ParcelsController < ApplicationController
       flash[:success] = "You've created a parcel."
       redirect_to parcels_path
     else
+      flash[:danger]
       redirect_to new_parcel_path
     end
   end
@@ -63,7 +74,10 @@ class ParcelsController < ApplicationController
       if @parcel.destroy
         # @parcel.create_activity :destroy, owner: current_user
         redirect_to parcels_path
-        # flash[:success]
+        flash[:success] = "You've deleted a parcel."
+      else
+        flash[:danger]
+        redirect_to parcels_path
       end
     end
 

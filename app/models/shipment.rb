@@ -6,4 +6,6 @@ class Shipment < ApplicationRecord
   enum status: [:Processing, :"Awaiting Payment", :Paid]
 
   before_destroy :update_status, prepend: true
+  searchkick
+  paginates_per 10
 end

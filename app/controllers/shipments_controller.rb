@@ -4,10 +4,20 @@ class ShipmentsController < ApplicationController
 
   def index
     if admin_user || staff_user
-    @shipments= Shipment.all.order(created_at: :desc)
+    @shipments= Shipment.all.order(created_at: :desc).page params[:page]
     else
-    @shipments= current_user.shipments.all.order(created_at: :desc)
+    @shipments= current_user.shipments.all.order(created_at: :desc).page params[:page]
     end
+
+    if params[:search]
+      Shipment.reindex
+    if params[:search].empty?
+        redirect_to shipments_path
+      elsif
+        @shipments=Shipment.search(params[:search], field:[{status: :word_start}])
+      else
+        end
+      end
   end
 
   def show
@@ -31,9 +41,10 @@ class ShipmentsController < ApplicationController
       @shipment.ordered_parcels.create( {:parcel_id => parcel.id})
       parcel.update({:status => :"Ready To Ship"})
       end
-
+      flash[:success] = "You've post a shipment."
       redirect_to shipments_path
     else
+      flash[:danger]
       redirect_to new_shipment_path
     end
   end
@@ -68,11 +79,11 @@ class ShipmentsController < ApplicationController
       authorize @shipment
       if @shipment.destroy
         # @shipment.create_activity :destroy, owner: current_user
+        flash[:success]= "You've cancelled your shipment."
         redirect_to shipments_path
-        # flash[:success]
       else
+        flash[:danger]
         redirect_to shipments_path
-        # flash[:danger]
       end
     end
 

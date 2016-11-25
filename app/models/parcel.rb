@@ -7,4 +7,6 @@ class Parcel < ApplicationRecord
   enum parcel_good: [:Normal, :Sensitive]
 
   mount_uploader :image, ImageUploader
+  searchkick
+  paginates_per 10
 end

@@ -37,6 +37,8 @@ gem 'mini_magick'
 gem 'bcrypt'
 gem 'pundit'
 gem 'figaro'
+gem 'searchkick'
+gem 'kaminari'
 
 group :production do
   gem 'rails_12factor'
