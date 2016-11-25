@@ -64,13 +64,13 @@
                   <th>Volume Metric</th>
                 </tr>
               </thead>
-              <%@shipments.each do |shipment|%>
+
               <tbody>
-                <% shipment.ordered_parcels.each do |ordered_parcel| %>
+                <% @shipment.ordered_parcels.each do |ordered_parcel| %>
                 <tr>
                   <td><%= ordered_parcel.parcel.awb%> </td>
                   <td><%= ordered_parcel.parcel.description%></td>
-                  <td><%=ordered_parcel.parcel.parcel_good%></td>
+                  <td><%= ordered_parcel.parcel.parcel_good%></td>
                   <td><%= ordered_parcel.parcel.weight%></td>
                   <td><%= ordered_parcel.parcel.volume%></td>
                 </tr>
@@ -79,13 +79,13 @@
                   <td></td>
                   <td></td>
                   <td>Total: </td>
-                  <td><%=shipment.weight%></td>
-                  <td><%=shipment.volume%></td>
+                  <td><%=@shipment.weight%></td>
+                  <td><%=@shipment.volume%></td>
                 </tr>
               </tbody>
 
             </table>
-            <% end %>
+
 
           </div>
         </div>
@@ -123,6 +123,10 @@
               </tbody>
             </table>
             <%if @shipment.charge.nil?%>
+            <%elsif @shipment.status == "Paid"%>
+            <div class="button text-center">
+            <%= link_to "View Bill", @shipment.bill_url, class: "btn btn-success btn-lg" %>
+            </div>
             <%else%>
             <div class="button text-center">
               <%= link_to "Pay Now", @shipment.bill_url, class: "btn btn-success btn-lg" %>

@@ -21,7 +21,6 @@ class ShipmentsController < ApplicationController
   end
 
   def show
-    @shipments= current_user.shipments.all.order(created_at: :desc)
     @shipment = Shipment.find_by(id: params[:id])
     authorize @shipment
   end
@@ -58,13 +57,13 @@ class ShipmentsController < ApplicationController
       @shipment = Shipment.find(params[:id])
       authorize @shipment
       if @shipment.update(shipment_params)
-        if @shipment.totalprice != nil
-        # flash[:success]
+        if @shipment.charge != nil
         @bill = Billplz.create_bill_for(@shipment)
         @shipment.update_attributes(bill_id: @bill.parsed_response['id'], bill_url: @bill.parsed_response['url'], status: :"Awaiting Payment")
         # @shipment.create_activity :update, owner: current_user
         # redirect_to @bill.parsed_response['url']
-        redirect_to shipment_path
+        flash[:success] ="Payment Request has been sent"
+        redirect_to shipments_path
         else
           redirect_to shipments_path
         end
