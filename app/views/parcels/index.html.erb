@@ -16,15 +16,17 @@
       <div class="col-lg-2">
         <div class="panel panel-default">
           <div class="panel-heading">
-            <h3 class="panel-title"><i class="fa fa-search fa-fw"></i>Search Panel</h3>
+            <h3 class="panel-title"><i class="fa fa-search fa-fw"></i>Search AWB</h3>
           </div>
           <div class="panel-body">
             <div class="table-responsive">
               <div class="list-group">
+                <%= form_tag(parcels_path, method: "get", id: "search-form") do %>
                 <b class="list-group-item">
-                  <%= form_tag(parcels_path, method: "get", id: "search-form") %>
-                  <%= search_field_tag :search, params[:search], placeholder: "Search", class: "form-control text" %>
+                  <%= text_field_tag :search, params[:search], class: "form-control text" %>
+                  <%= submit_tag "Search", :name => nil%>
                 </b>
+                <%end%>
 
               </div>
             </div>

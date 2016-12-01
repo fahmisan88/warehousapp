@@ -7,6 +7,9 @@ class Parcel < ApplicationRecord
   enum parcel_good: [:Normal, :Sensitive]
 
   mount_uploader :image, ImageUploader
-  searchkick
   paginates_per 10
+
+  def self.search(search)
+    where("awb ILIKE ?", "%#{search}%")
+  end
 end
