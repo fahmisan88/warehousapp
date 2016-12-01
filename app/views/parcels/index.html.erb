@@ -22,8 +22,8 @@
             <div class="table-responsive">
               <div class="list-group">
                 <%= form_tag(parcels_path, method: "get", id: "search-form") do %>
-                <b class="list-group-item">
-                  <%= text_field_tag :search, params[:search], class: "form-control text" %>
+                <b class="list-group-item text-center">
+                  <%= text_field_tag :search, params[:search], class: "form-control text", placeholder:"AWB" %>
                   <%= submit_tag "Search", :name => nil%>
                 </b>
                 <%end%>
@@ -44,9 +44,9 @@
           <div class="panel-body">
             <div class = "parcels">
               <% if @parcels.empty? %>
-              <h3 class="text-center">You have not create any parcels yet. Go create parcel by clicking the button below</h3>
+              <h3 class="text-center">No parcels available or match the AWB <%= params[:search] %>. Please create parcel first.</h3>
               <div class="text-center"><%= link_to "Create Parcel", new_parcel_path, class: "btn btn-success" %></div>
-              <% else %>
+              <%else%>
 
               <div>
 
@@ -64,7 +64,7 @@
                   <tbody>
                     <%@parcels.each do |parcel|%>
                     <tr>
-                      <td><%= parcel.created_at.strftime("%d-%m-%Y  (%H:%M)")%></td>
+                      <td><%= parcel.updated_at.strftime("%d-%m-%Y  (%H:%M)")%></td>
                       <td><%= parcel.awb%> </td>
                       <td><%= parcel.description%> </td>
                       <td><%= parcel.status%></td>

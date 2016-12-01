@@ -46,7 +46,7 @@
                 <tbody>
                   <% if parcel.status != ("Ready To Ship"||"Shipped") %>
                   <tr>
-                    <td>
+                    <td class="text-center">
                       <%if parcel.status == "Pending"%>
                       <%else%>
                       <%= check_box_tag 'parcel_id[]', parcel.id%>
@@ -83,22 +83,22 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <td><label><input type="checkbox" value=""></label></td>
+                  <td class="text-center"><label><input type="checkbox" value=""></label></td>
                   <td>Photoshoot</td>
                   <td>We will open the parcel and snap a picture of your product for your reference.</td>
                 </tbody>
                 <tbody>
-                  <td><label><input type="checkbox" value=""></label></td>
+                  <td class="text-center"><label><input type="checkbox" value=""></label></td>
                   <td>Inspection</td>
                   <td>We will open the parcel and inspect each products for their quality and quantity.</td>
                 </tbody>
                 <tbody>
-                  <td><label><input type="checkbox" value=""></label></td>
+                  <td class="text-center"><label><input type="checkbox" value=""></label></td>
                   <td>Reorganize</td>
                   <td>We will pack all your separate parcels into one parcel to avoid expensive overcharge from volume metric </td>
                 </tbody>
                 <tbody>
-                  <td><label><input type="checkbox" value=""></label></td>
+                  <td class="text-center"><label><input type="checkbox" value=""></label></td>
                   <td>Repackaging</td>
                   <td>Any parcels that are torn, bulky or unpacked properly will be repack back</td>
                 </tbody>

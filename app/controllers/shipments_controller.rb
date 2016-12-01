@@ -4,20 +4,10 @@ class ShipmentsController < ApplicationController
 
   def index
     if admin_user || staff_user
-    @shipments= Shipment.all.order(created_at: :desc).page params[:page]
+    @shipments= Shipment.all.order(updated_at: :desc).page params[:page]
     else
-    @shipments= current_user.shipments.all.order(created_at: :desc).page params[:page]
+    @shipments= current_user.shipments.order(updated_at: :desc).page params[:page]
     end
-
-    if params[:search]
-      Shipment.reindex
-    if params[:search].empty?
-        redirect_to shipments_path
-      elsif
-        @shipments=Shipment.search(params[:search], field:[{status: :word_start}])
-      else
-        end
-      end
   end
 
   def show
