@@ -8,6 +8,15 @@ class ShipmentsController < ApplicationController
     else
     @shipments= current_user.shipments.order(updated_at: :desc).page params[:page]
     end
+
+    if params[:search]
+      if admin_user || staff_user
+      @shipments = Shipment.search(params[:search]).order("updated_at DESC").page params[:page]
+      else
+      @shipments = current_user.shipments.search(params[:search]).order("updated_at DESC").page params[:page]
+    end
+    else
+    end
   end
 
   def show

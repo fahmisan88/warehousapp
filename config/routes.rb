@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   resources :users, only: [:new, :create, :edit, :update]
   resources :parcels
   resources :shipments
+  resources :currencies, only: [:new, :create, :edit, :update]
 
   scope '/webhooks', controller: :webhooks do
   post 'payment-callback', to: 'webhooks#payment_callback', as: :payment_callback
