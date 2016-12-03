@@ -1,4 +1,5 @@
 class Parcel < ApplicationRecord
+  include PublicActivity::Common
   belongs_to :user
   has_many :ordered_parcels
   has_many :shipments, through: :ordered_parcels

@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   include Pundit
+  include PublicActivity::StoreController
   protect_from_forgery with: :exception
 
   rescue_from Pundit::NotAuthorizedError do |exception|

@@ -1,4 +1,6 @@
 class Shipment < ApplicationRecord
+  include PublicActivity::Common
+  
   has_many :parcels, through: :ordered_parcels
   has_many :ordered_parcels, dependent: :destroy
   belongs_to :user

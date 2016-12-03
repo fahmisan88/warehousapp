@@ -39,6 +39,7 @@ gem 'pundit'
 gem 'figaro'
 gem 'kaminari'
 gem 'httparty'
+gem 'public_activity'
 
 group :production do
   gem 'rails_12factor'

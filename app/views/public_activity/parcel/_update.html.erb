@@ -1,0 +1,4 @@
+<div href="#" class="list-group-item">
+    <span class="badge"><%= distance_of_time_in_words(Time.now, activity.trackable.created_at)%> ago</span>
+    <i class="fa fa-fw fa-archive"></i>Admin update parcel (AWB: <%= link_to activity.trackable.awb, activity.trackable %>) status to <%=activity.trackable.status%>
+</div>

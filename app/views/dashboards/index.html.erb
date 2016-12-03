@@ -138,41 +138,12 @@
                         </div>
                         <div class="panel-body">
                             <div class="list-group">
-                                <a href="#" class="list-group-item">
-                                    <span class="badge">just now</span>
-                                    <i class="fa fa-fw fa-archive"></i> Ahmad Fahmi created new parcel (abc12355)
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    <span class="badge">4 minutes ago</span>
-                                    <i class="fa fa-fw fa-ship"></i> Anum has post a shipment (ID:28)
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    <span class="badge">23 minutes ago</span>
-                                    <i class="fa fa-fw fa-money"></i> Payment for order 392 has received
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    <span class="badge">46 minutes ago</span>
-                                    <i class="fa fa-fw fa-user"></i> Azlan has registered as a new member
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    <span class="badge">1 hour ago</span>
-                                    <i class="fa fa-fw fa-user"></i> A new user has been added
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    <span class="badge">2 hours ago</span>
-                                    <i class="fa fa-fw fa-archive"></i> Ahmad Fahmi parcel (234jmfk) has arrived
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    <span class="badge">yesterday</span>
-                                    <i class="fa fa-fw fa-archive"></i> Ahmad Fahmi parcel (safafafk) has arrived
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    <span class="badge">two days ago</span>
-                                    <i class="fa fa-fw fa-archive"></i> Ahmad Fahmi parcel (asdas) has arrived
-                                </a>
+                              <% @activities.each do |activity| %>
+                                  <%= render_activity activity %>
+                              <%end%>
                             </div>
                             <div class="text-right">
-                                <a href="#">View All Activity <i class="fa fa-arrow-circle-right"></i></a>
+                                <a href="<%=activities_path%>">View All Activity <i class="fa fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
                     </div>

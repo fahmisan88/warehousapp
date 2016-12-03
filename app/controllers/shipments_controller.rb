@@ -34,7 +34,7 @@ class ShipmentsController < ApplicationController
     @shipment= current_user.shipments.build(shipment_params)
     authorize @shipment
     if @shipment.save
-      # @shipment.create_activity :create, owner: current_user
+      @shipment.create_activity :create, owner: current_user
       @parcels.each do |parcel|
       @shipment.ordered_parcels.create( {:parcel_id => parcel.id})
       parcel.update({:status => :"Ready To Ship"})
@@ -59,7 +59,7 @@ class ShipmentsController < ApplicationController
         if @shipment.charge != nil
         @bill = Billplz.create_bill_for(@shipment)
         @shipment.update_attributes(bill_id: @bill.parsed_response['id'], bill_url: @bill.parsed_response['url'], status: :"Awaiting Payment")
-        # @shipment.create_activity :update, owner: current_user
+        @shipment.create_activity :update, owner: current_user
         # redirect_to @bill.parsed_response['url']
         flash[:success] ="Payment Request has been sent"
         redirect_to shipments_path
@@ -76,7 +76,6 @@ class ShipmentsController < ApplicationController
       @shipment = Shipment.find(params[:id])
       authorize @shipment
       if @shipment.destroy
-        # @shipment.create_activity :destroy, owner: current_user
         flash[:success]= "You've cancelled your shipment."
         redirect_to shipments_path
       else

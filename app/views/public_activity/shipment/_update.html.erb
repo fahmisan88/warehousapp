@@ -1,0 +1,4 @@
+<div href="#" class="list-group-item">
+    <span class="badge"><%= distance_of_time_in_words(Time.now, activity.trackable.created_at)%> ago</span>
+    <i class="fa fa-fw fa-archive"></i>Admin update shipment (ID: <%= link_to activity.trackable.id, activity.trackable %>) status to <%=activity.trackable.status%>
+</div>

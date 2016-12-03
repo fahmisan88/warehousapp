@@ -1,0 +1,9 @@
+
+    <div href="#" class="list-group-item">
+      <% if activity.trackable %>
+        <span class="badge"><%= distance_of_time_in_words(Time.now, activity.trackable.created_at)%> ago</span>
+        <i class="fa fa-fw fa-archive"></i>User (ID: <%=activity.trackable.user_id%>) create a parcel (AWB: <%=activity.trackable.awb%>)
+        <% else %>
+        <i class="fa fa-fw fa-trash"></i>User (ID: <%=activity.owner_id%>) created a parcel which has been removed
+        <% end %>
+    </div>

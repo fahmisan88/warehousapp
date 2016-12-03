@@ -34,7 +34,7 @@ class ParcelsController < ApplicationController
       authorize @parcel
     if @parcel.save
       @parcel.update_attributes(status: :Pending)
-      # @parcel.create_activity :create, owner: current_user
+      @parcel.create_activity :create, owner: current_user
       flash[:success] = "You've created a parcel."
       redirect_to parcels_path
     else
@@ -56,7 +56,7 @@ class ParcelsController < ApplicationController
       if @parcel.update(parcel_params)
         if @parcel.weight && @parcel.volume != nil
           @parcel.update_attributes(status: :Arrived)
-          # @parcel.create_activity :update, owner: current_user
+          @parcel.create_activity :update, owner: current_user
         else
         end
         # flash[:success]
@@ -72,7 +72,6 @@ class ParcelsController < ApplicationController
       authorize @parcel
 
       if @parcel.destroy
-        # @parcel.create_activity :destroy, owner: current_user
         redirect_to parcels_path
         flash[:success] = "You've deleted a parcel."
       else
