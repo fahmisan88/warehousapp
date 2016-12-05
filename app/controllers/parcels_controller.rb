@@ -59,11 +59,11 @@ class ParcelsController < ApplicationController
           @parcel.create_activity :update, owner: current_user
         else
         end
-        # flash[:success]
+        flash[:success] = "You've updated your parcel!"
         redirect_to parcel_path(@parcel)
       else
         redirect_to parcels_path
-        # flash[:danger]
+        flash[:danger]
       end
     end
 
@@ -83,7 +83,7 @@ class ParcelsController < ApplicationController
   private
 
     def parcel_params
-      params.require(:parcel).permit(:awb, :description, :image, :remark, :parcel_good, :status, :volume, :weight)
+      params.require(:parcel).permit(:awb, :description, :image, :remark, :parcel_good, :status, :volume, :weight, :photoshoot, :inspection, :reorganize, :repackaging)
     end
 
 end

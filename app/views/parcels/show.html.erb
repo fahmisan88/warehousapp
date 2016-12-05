@@ -44,6 +44,15 @@
                   <td><%=@parcel.status%></td>
                 </tr>
                 <tr>
+                  <th>Extra Service</th>
+                  <td>
+                  <% if @parcel.photoshoot == true%>| Photoshoot | <% else;end%>
+                  <% if @parcel.inspection == true%>| Inspection | <% else;end%>
+                  <% if @parcel.reorganize == true%>| Reorganize | <% else;end%>
+                  <% if @parcel.repackaging == true%>| Repackaging |<% else;end%>
+                  </td>
+                </tr>
+                <tr>
                   <th>Weight</th>
                   <td><%=@parcel.weight%></td>
                 </tr>
