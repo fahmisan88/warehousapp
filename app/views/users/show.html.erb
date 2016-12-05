@@ -1,0 +1,60 @@
+<br>
+<div id="wrapper">
+  <div id="page-wrapper">
+    <br>
+    <br>
+    <div class="row">
+        <div class="col-lg-12">
+            <ol class="breadcrumb">
+                <li class="active">
+                    <i class="fa fa-user"></i> User
+                </li>
+            </ol>
+        </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-8">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title"><i class="fa fa-user fa-fw"></i> My Profile</h3>
+          </div>
+          <div class="panel-body">
+
+
+            <table class="table">
+              <tbody>
+                <tr>
+                  <th>Name</th>
+                  <td><%=@user.name%></td>
+                </tr>
+                <tr>
+                  <th>Email</th>
+                  <td><%=@user.email%></td>
+                </tr>
+                <tr>
+                  <th>Address</th>
+                  <td><%=@user.address%></td>
+                </tr>
+                <tr>
+                  <th>Postcode</th>
+                  <td><%=@user.postcode%></td>
+                </tr>
+                <tr>
+                  <th>Mobile Phone</th>
+                  <td><%=@user.phone%></td>
+                </tr>
+                <tr>
+                  <th>Member since</th>
+                  <td><%=@user.created_at.strftime("%d-%m-%Y")%></td>
+                </tr>
+
+              </tbody>
+            </table>
+            <%= link_to 'Back', dashboard_path, class:"btn btn-link" %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>

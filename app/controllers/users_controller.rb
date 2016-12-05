@@ -1,6 +1,10 @@
 class UsersController < ApplicationController
 
-  before_action :authorize, except: [:new, :create ]
+  before_action :authenticate!,  only: [:edit, :update]
+
+  def show
+    @user = User.find_by(id: params[:id])
+  end
 
   def new
     if current_user
@@ -18,10 +22,10 @@ class UsersController < ApplicationController
         redirect_to root_path
       else
         redirect_to '/register'
-        puts @user.errors.full_messages
+        flash[:danger] = "You have registered!"
       end
     else
-      puts "password not match"
+      flash[:danger] = "Your password does not match!"
     end
   end
 
@@ -34,9 +38,10 @@ class UsersController < ApplicationController
     @user = User.find_by(id: params[:id])
     authorize @user
     if @user.update(user_params)
-
-      redirect_to dashboard_path
+      flash[:success] = "You have update your account!"
+      redirect_to user_path
     else
+      flash[:danger] = "Your update failed!"
       render :edit
     end
   end
@@ -48,6 +53,6 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:name, :phone, :address, :postcode, :email, :password, :password2)
+    params.require(:user).permit(:phone, :address, :postcode,:password)
   end
 end

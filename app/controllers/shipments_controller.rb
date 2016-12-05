@@ -39,6 +39,7 @@ class ShipmentsController < ApplicationController
       @shipment.ordered_parcels.create( {:parcel_id => parcel.id})
       parcel.update({:status => :"Ready To Ship"})
       end
+      @shipment.update_attributes(status: :Processing)
       flash[:success] = "You've post a shipment."
       redirect_to shipments_path
     else
@@ -82,6 +83,15 @@ class ShipmentsController < ApplicationController
         flash[:danger]
         redirect_to shipments_path
       end
+    end
+
+    def statement
+      if admin_user || staff_user
+      @shipments= Shipment.all.where(status: 2).order(updated_at: :desc).page params[:page]
+      else
+      @shipments= current_user.shipments.where(status: 2).order(updated_at: :desc).page params[:page]
+      end
+
     end
 
   private
