@@ -1,6 +1,6 @@
 class Shipment < ApplicationRecord
   include PublicActivity::Common
-  
+
   has_many :parcels, through: :ordered_parcels
   has_many :ordered_parcels, dependent: :destroy
   belongs_to :user
@@ -11,9 +11,11 @@ class Shipment < ApplicationRecord
   paginates_per 10
 
 
-
-  # def self.search(search)
-  #   where("id", "%#{search}%") ----> need to add shipping tracking id, cannot search id directly
-  # end
+# searching not yet done properly
+  def self.search(search)
+    where("status = ?", Shipment.statuses[:Paid])
+    where("status = ?", Shipment.statuses[:"Awaiting Payment"])
+    where("status = ?", Shipment.statuses[:Processing])
+  end
 
 end
