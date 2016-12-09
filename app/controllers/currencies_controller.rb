@@ -1,18 +1,5 @@
 class CurrenciesController < ApplicationController
-  def new
-    @currency = Currency.new
-  end
-
-  def create
-    @currency = Currency.create(currency_params)
-    if @currency.save
-      redirect_to dashboard_path
-      flash[:success] = "You've created a currency change."
-    else
-      flash[:danger]
-    end
-  end
-
+  
   def edit
     @currency = Currency.find(params[:id])
   end

@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   resources :users, only: [:show, :new, :create, :edit, :update]
   resources :parcels
   resources :shipments
-  resources :currencies, only: [:new, :create, :edit, :update]
+  resources :currencies, only: [:edit, :update]
   resources :activities, only:[:index]
 
   scope '/webhooks', controller: :webhooks do

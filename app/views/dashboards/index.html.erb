@@ -189,13 +189,11 @@
                             <div class="table-responsive">
                               <div class="list-group">
                                   <b href="#" class="list-group-item">
-
-                                      <i class="fa fa-fw fa-dolar"></i> 1 MYR = <%=@currency.change%> RMB
+                                      <i class="fa fa-fw fa-dolar"></i>1 MYR = <%=@currency.change%> RMB
                                   </b>
-
                               </div>
                             </div>
-                            <% if admin_user||staff_user%>
+                            <%if admin_user||staff_user%>
                             <div class="text-right">
                                 <a href="<%=edit_currency_path(@currency)%>">Update Currency Rate <i class="fa fa-arrow-circle-right"></i></a>
                             </div>
