@@ -50,9 +50,12 @@
                       <li>
                           <a href="<%= parcels_path %>">My Parcels</a>
                       </li>
+                      <%if admin_user||staff_user %>
+                      <% else %>
                       <li>
                           <a href="<%= new_parcel_path %>">Create Parcel</a>
                       </li>
+                      <% end %>
                   </ul>
                 </li>
                 <li>
@@ -61,9 +64,12 @@
                       <li>
                           <a href="<%= shipments_path %>">My Shipments</a>
                       </li>
+                      <%if admin_user||staff_user %>
+                      <% else %>
                       <li>
                           <a href="<%= new_shipment_path %>">Create Shipment</a>
                       </li>
+                      <% end %>
                   </ul>
                 </li>
                 <li>
