@@ -26,7 +26,7 @@ class ShipmentsController < ApplicationController
 
   def new
     @shipment= Shipment.new
-    @parcels = current_user.parcels
+    @parcels = current_user.parcels.where(status: 1)
   end
 
   def create
@@ -39,7 +39,9 @@ class ShipmentsController < ApplicationController
       @shipment.ordered_parcels.create( {:parcel_id => parcel.id})
       parcel.update({:status => :"Ready To Ship"})
       end
-      @shipment.update_attributes(status: :Processing)
+      valvolume = @parcels.sum(:volume)
+      valweight = @parcels.sum(:weight)
+      @shipment.update_attributes(status: :Processing, :volume => valvolume, :weigth => valweight)
       flash[:success] = "You've post a shipment."
       redirect_to shipments_path
     else

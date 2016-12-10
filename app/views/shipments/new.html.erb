@@ -23,8 +23,7 @@
             <div class = "shipments">
 
               <% if @parcels.empty? %>
-              <h3 class="text-center">No parcels available yet for shipment. Please create your parcels by clicking the button below.</h3>
-              <div class="text-center"><%= link_to "Create Parcel", new_parcel_path, class: "btn btn-success" %></div>
+              <h3 class="text-center">No parcels available yet for shipment</h3>
               <% else %>
 
               <table class="form-group table table-bordered">
@@ -63,8 +62,8 @@
                   <%end%>
                   <tr>
                     <td colspan="4" align="right">Total Selected</td>
-                    <td> <span id="totalweight">0</span>(kg)</td>
-                    <td> <span id="totalmetric">0</span></td>
+                    <td> <span id="totalweight"><%=@parcels.sum(:weight)%></span>(kg)</td>
+                    <td> <span id="totalmetric"><%=@parcels.sum(:volume)%></span></td>
 
                   </tr>
                 </tbody>
