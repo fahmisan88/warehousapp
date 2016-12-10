@@ -12,4 +12,5 @@ class User < ApplicationRecord
   validates :name, presence: true, length: { maximum: 30 }
   enum role: [:user, :staff, :admin]
 
+
 end
