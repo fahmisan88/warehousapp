@@ -18,3 +18,7 @@
 
 # Ignore application configuration
 /config/application.yml
+
+# ignore all images upload
+/app/uploaders/*
+!/app/uploaders/image_uploader.rb
