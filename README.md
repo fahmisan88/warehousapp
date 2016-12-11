@@ -1,4 +1,7 @@
 # README
 
 1. install imagemagick
-..`sudo apt-get install imagemagick`
+```bash
+sudo apt-get update
+sudo apt-get install imagemagick
+```
