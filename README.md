@@ -1,6 +1,6 @@
 # README
 
-1. install imagemagick
+1. install *imagemagick*
 
 ```bash
 sudo apt-get update
