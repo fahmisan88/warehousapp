@@ -17,6 +17,7 @@ class ShipmentsController < ApplicationController
     end
     else
     end
+
   end
 
   def show
@@ -41,7 +42,7 @@ class ShipmentsController < ApplicationController
       end
       valvolume = @parcels.sum(:volume)
       valweight = @parcels.sum(:weight)
-      @shipment.update_attributes(status: :Processing, :volume => valvolume, :weigth => valweight)
+      @shipment.update_attributes(status: "Processing", :volume => valvolume, :weight => valweight)
       flash[:success] = "You've post a shipment."
       redirect_to shipments_path
     else
@@ -61,7 +62,7 @@ class ShipmentsController < ApplicationController
       if @shipment.update(shipment_params)
         if @shipment.charge != nil
         @bill = Billplz.create_bill_for(@shipment)
-        @shipment.update_attributes(bill_id: @bill.parsed_response['id'], bill_url: @bill.parsed_response['url'], status: :"Awaiting Payment")
+        @shipment.update_attributes(bill_id: @bill.parsed_response['id'], bill_url: @bill.parsed_response['url'], status: "Awaiting Payment")
         @shipment.create_activity :update, owner: current_user
         # redirect_to @bill.parsed_response['url']
         flash[:success] ="Payment Request has been sent"

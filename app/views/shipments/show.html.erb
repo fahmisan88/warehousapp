@@ -110,7 +110,13 @@
                 </tr>
                 <tr>
                   <th>Final Weight/Volume Metric</th>
-                  <td><%=@shipment.weight%></td>
+                  <td>
+                    <% if @shipment.weight >= @shipment.volume %>
+                    <%=@shipment.weight%>
+                    <% else %>
+                    <%=@shipment.volume %>
+                    <% end%>
+                  </td>
                 </tr>
                 <tr>
                   <th>Status</th>
