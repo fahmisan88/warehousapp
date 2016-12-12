@@ -133,6 +133,7 @@
                   <h3 class="panel-title"><i class="fa fa-archive fa-fw"></i>Received Parcel Image</h3>
               </div>
               <div class="panel-body">
+                <%if @parcel.image1? || @parcel.image2? || @parcel.image3? || @parcel.image4? || @parcel.image5? %>
                   <div class="table-responsive">
                     <div class="list-group text-center">
                         <a href="#" class="list-group-item">
@@ -140,6 +141,12 @@
                         </a>
                     </div>
                   </div>
+                  <div class="text-right">
+                      <a href="<%=edit_parcel_path%>">Not Your Ordered Product? Apply for Refund! <i class="fa fa-arrow-circle-right"></i></a>
+                  </div>
+                  <%else%>
+                  No Image Available For Received Parcel
+                  <%end%>
 
               </div>
           </div>

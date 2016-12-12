@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161212111040) do
+ActiveRecord::Schema.define(version: 20161212113401) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -72,6 +72,7 @@ ActiveRecord::Schema.define(version: 20161212111040) do
     t.decimal  "length"
     t.decimal  "height"
     t.decimal  "chargeable"
+    t.boolean  "refund"
   end
 
   create_table "shipments", force: :cascade do |t|

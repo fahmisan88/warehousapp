@@ -53,7 +53,7 @@ class ParcelsController < ApplicationController
       @parcel = Parcel.find(params[:id])
       authorize @parcel
 
-      if @parcel.update(parcel_params)
+      if @parcel.update(update_parcel_params)
         if @parcel.weight? && @parcel.length? && @parcel.width? && @parcel.height?
         @parcel.update_attributes(volume: ((@parcel.length * @parcel.width * @parcel.height)/6000.to_f).ceil, weight: (@parcel.weight.to_f).ceil)
         if @parcel.weight && @parcel.volume != nil
@@ -87,7 +87,11 @@ class ParcelsController < ApplicationController
   private
 
     def parcel_params
-      params.require(:parcel).permit(:awb,:new_awb, :description, :image, :remark, :parcel_good, :status, :volume, :weight, :photoshoot, :inspection, :product_chinese, :product_quantity, :product_total_price, :price_per_unit,:image5,:image4, :image3, :image2,:image1, :length,:width,:height, :chargeable)
+      params.require(:parcel).permit(:awb, :description, :image, :remark, :parcel_good, :status, :photoshoot, :inspection, :product_chinese, :product_quantity, :product_total_price, :price_per_unit)
+    end
+
+    def update_parcel_params
+      params.require(:parcel).permit(:refund,:new_awb,:image5,:image4, :image3, :image2,:image1,:length,:width,:height,:volume,:weight,:chargeable)
     end
 
 end
