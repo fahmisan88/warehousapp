@@ -33,6 +33,9 @@ class ShipmentsController < ApplicationController
   def create
     @parcels= Parcel.where(id: params[:parcel_id])
     @shipment= current_user.shipments.build(shipment_params)
+    valvolume = @parcels.sum(:volume)
+    valweight = @parcels.sum(:weight)
+    valchargeable = @parcels.sum(:chargeable)
     authorize @shipment
     if @shipment.save
       @shipment.create_activity :create, owner: current_user
@@ -40,9 +43,7 @@ class ShipmentsController < ApplicationController
       @shipment.ordered_parcels.create( {:parcel_id => parcel.id})
       parcel.update({:status => :"Ready To Ship"})
       end
-      valvolume = @parcels.sum(:volume)
-      valweight = @parcels.sum(:weight)
-      @shipment.update_attributes(status: "Processing", :volume => valvolume, :weight => valweight)
+      @shipment.update_attributes(status: "Processing", :volume => valvolume, :weight => valweight, :chargeable => valchargeable )
       flash[:success] = "You've post a shipment."
       redirect_to shipments_path
     else

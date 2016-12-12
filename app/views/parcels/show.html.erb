@@ -72,18 +72,35 @@
                 <tr>
                   <th>Extra Service</th>
                   <td>
+                    <%if @parcel.photoshoot? || @parcel.inspection? %>
                   <% if @parcel.photoshoot == true%>| Photoshoot | <% else;end%>
                   <% if @parcel.inspection == true%>| Inspection | <% else;end%>
+                  <% else %>
+                  None
+                  <%end%>
                   </td>
                 </tr>
                 <tr>
                   <th>Weight</th>
-                  <td><%=@parcel.weight%></td>
+                  <td>
+                    <% if @parcel.weight? %>
+                    <%=@parcel.weight%> kg
+                    <%else%>
+                    Not Yet Available
+                    <%end%>
+                  </td>
                 </tr>
                 <tr>
                   <th>Volume Metric</th>
-                  <td><%=@parcel.volume%></td>
+                  <td>
+                    <% if @parcel.volume? %>
+                    <%=@parcel.volume%> kg (<%=@parcel.width%> cm X <%=@parcel.length%> cm X <%=@parcel.height%> cm)
+                    <% else %>
+                    Not Yet Available
+                    <% end%>
+                  </td>
                 </tr>
+
               </tbody>
             </table>
             <%= link_to 'Back', parcels_path, class:"btn btn-link" %>

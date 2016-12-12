@@ -54,9 +54,13 @@ class ParcelsController < ApplicationController
       authorize @parcel
 
       if @parcel.update(parcel_params)
+        if @parcel.weight? && @parcel.length? && @parcel.width? && @parcel.height?
+        @parcel.update_attributes(volume: ((@parcel.length * @parcel.width * @parcel.height)/6000.to_f).ceil, weight: (@parcel.weight.to_f).ceil)
         if @parcel.weight && @parcel.volume != nil
-          @parcel.update_attributes(status: :Arrived)
+          @parcel.update_attributes(status: 1, chargeable: ((@parcel.weight+@parcel.volume)/2.to_f).ceil)
           @parcel.create_activity :update, owner: current_user
+        else
+        end
         else
         end
         flash[:success] = "You've updated your parcel!"
@@ -83,7 +87,7 @@ class ParcelsController < ApplicationController
   private
 
     def parcel_params
-      params.require(:parcel).permit(:awb,:new_awb, :description, :image, :remark, :parcel_good, :status, :volume, :weight, :photoshoot, :inspection, :product_chinese, :product_quantity, :product_total_price, :price_per_unit,:image5,:image4, :image3, :image2,:image1)
+      params.require(:parcel).permit(:awb,:new_awb, :description, :image, :remark, :parcel_good, :status, :volume, :weight, :photoshoot, :inspection, :product_chinese, :product_quantity, :product_total_price, :price_per_unit,:image5,:image4, :image3, :image2,:image1, :length,:width,:height, :chargeable)
     end
 
 end

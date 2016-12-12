@@ -23,18 +23,29 @@
             <div class="container">
               <%= form_for(@parcel, url: parcel_path(@parcel), html: { id: "parcel-update-form" }) do |f| %>
               <form>
+                <% if admin_user||staff_user%>
+                <% else %>
                 <div class="form-group">
                   <label for="AWB">Air Way Bill (AWB):</label>
-                  <%= f.text_field :new_awb, required: true, id: "type_field", class: 'form-control', placeholder:"AWB", type:"text" %>
+                  <%= f.text_field :new_awb, id: "type_field", class: 'form-control', placeholder:"AWB", type:"text" %>
                 </div>
+                <% end %>
                 <% if admin_user||staff_user%>
                 <div class="form-group">
                   <label for="pwd">Weight:</label>
                   <%= f.text_field :weight, id: "type_field", class: 'form-control', placeholder:"Weight(kg)", type:"text" %>
                 </div>
                 <div class="form-group">
-                  <label for="pwd">Volume Metric:</label>
-                  <%= f.text_field :volume, id: "type_field", class: 'form-control', placeholder:"Volume Metric", type:"text" %>
+                  <label for="pwd">Width:</label>
+                  <%= f.text_field :width, id: "type_field", class: 'form-control', placeholder:"Width (cm)", type:"text" %>
+                </div>
+                <div class="form-group">
+                  <label for="pwd">Length:</label>
+                  <%= f.text_field :length, id: "type_field", class: 'form-control', placeholder:"Length (cm)", type:"text" %>
+                </div>
+                <div class="form-group">
+                  <label for="pwd">Height:</label>
+                  <%= f.text_field :height, id: "type_field", class: 'form-control', placeholder:"Height (cm)", type:"text" %>
                 </div>
                 <div class="form-group">
                   <%= f.label :"Upload Image 1" %>

@@ -37,7 +37,7 @@
                     <th>Product Description</th>
                     <th>Status</th>
                     <th>Weight(kg)</th>
-                    <th>Volume Metric</th>
+                    <th>Volume Metric(kg)</th>
 
                   </tr>
                 </thead>
@@ -48,7 +48,7 @@
                     <td class="text-center">
                       <%if parcel.status == "Pending"%>
                       <%else%>
-                      <%= check_box_tag 'parcel_id[]', parcel.id%>
+                      <%= check_box_tag 'parcel_id[]', parcel.id, required: true%>
                       <% end%>
                     </td>
                     <td><%= label_tag parcel.awb%></td>
@@ -61,11 +61,18 @@
                   <% end %>
                   <%end%>
                   <tr>
-                    <td colspan="4" align="right">Total Selected</td>
-                    <td> <span id="totalweight"><%=@parcels.sum(:weight)%></span>(kg)</td>
-                    <td> <span id="totalmetric"><%=@parcels.sum(:volume)%></span></td>
+                    <td colspan="4" align="right">Total Kg</td>
+                    <td> <span id="totalweight"><%=@parcels.sum(:weight)%></span> (kg)</td>
+                    <td> <span id="totalmetric"><%=@parcels.sum(:volume)%></span> (kg)</td>
 
                   </tr>
+                  <% if @parcels.sum(:volume)> @parcels.sum(:weight)%>
+                  <tr>
+                    <td colspan="4" align="right"><strong>  Chargeable Kg </strong></td>
+                    <td colspan="2" align="left" class="text-center"> <span id="totalweight"><%=@parcels.sum(:chargeable)%></span> (kg)</td>
+                  </tr>
+                  <%else%>
+                  <%end%>
                 </tbody>
               </table>
 
