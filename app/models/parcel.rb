@@ -4,7 +4,7 @@ class Parcel < ApplicationRecord
   has_many :ordered_parcels
   has_many :shipments, through: :ordered_parcels
 
-  enum status: [:Waiting, :Arrived, :"Ready To Ship", :Shipped]
+  enum status: [:Waiting, :Arrived, :"Ready To Ship", :Shipped, :"Request Refund", :Refunding, :Refunded]
   enum parcel_good: [:Normal, :Sensitive, :"I Dont Know"]
 
   mount_uploader :image, ImageUploader

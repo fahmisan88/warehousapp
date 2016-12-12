@@ -53,11 +53,13 @@
                     </td>
                     <td><%=@parcel.description%></td>
                   </tbody>
-
-
                 </table>
+                <div class="form-group">
+                  <label for="refund">Reason:</label>
+                  <%= f.text_field :refund_explain, id: "type_field", class: 'form-control', placeholder:"Why apply for refund?", type:"text", required: true %>
+                </div>
                 <% end %>
-                <% if admin_user||staff_user%>
+                <% if admin_user||staff_user %>
                 <div class="form-group">
                   <label for="pwd">Weight:</label>
                   <%= f.text_field :weight, id: "type_field", class: 'form-control', placeholder:"Weight(kg)", type:"text" %>
@@ -94,6 +96,13 @@
                   <%= f.label :"Upload Image 5" %>
                   <%= f.file_field :image5, class:"form-control" %>
                 </div>
+                <%if @parcel.status == "Request Refund" || @parcel.status == "Refunding" %>
+                <div class="form-group">
+                  <label for="type">Refund Status</label>
+                  <%= f.select :status, [ 'Refunding', 'Refunded'],{ :include_blank => '-- Select Refund Status --' }, class:"form-control" %>
+                </div>
+                <% else %>
+                <% end %>
                 <% else %>
                 <% end %>
                 <div class="text-center">

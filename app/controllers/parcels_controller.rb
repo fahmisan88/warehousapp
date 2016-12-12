@@ -46,7 +46,6 @@ class ParcelsController < ApplicationController
   def edit
     @parcel = Parcel.find(params[:id])
     authorize @parcel
-
   end
 
   def update
@@ -59,10 +58,15 @@ class ParcelsController < ApplicationController
         if @parcel.weight && @parcel.volume != nil
           @parcel.update_attributes(status: 1, chargeable: ((@parcel.weight+@parcel.volume)/2.to_f).ceil)
           @parcel.create_activity :update, owner: current_user
+          if @parcel.refund == true
+            @parcel.update_attributes(status: :"Request Refund")
+          else
+          end
         else
         end
         else
         end
+
         flash[:success] = "You've updated your parcel!"
         redirect_to parcel_path(@parcel)
       else
@@ -87,11 +91,11 @@ class ParcelsController < ApplicationController
   private
 
     def parcel_params
-      params.require(:parcel).permit(:awb, :description, :image, :remark, :parcel_good, :status, :photoshoot, :inspection, :product_chinese, :product_quantity, :product_total_price, :price_per_unit)
+      params.require(:parcel).permit(:awb, :description, :image, :remark, :parcel_good, :photoshoot, :inspection, :product_chinese, :product_quantity, :product_total_price, :price_per_unit)
     end
 
     def update_parcel_params
-      params.require(:parcel).permit(:refund,:new_awb,:image5,:image4, :image3, :image2,:image1,:length,:width,:height,:volume,:weight,:chargeable)
+      params.require(:parcel).permit(:refund,:refund_explain,:new_awb,:image5,:image4, :image3, :image2,:image1,:length,:width,:height,:volume,:weight,:chargeable, :status)
     end
 
 end
