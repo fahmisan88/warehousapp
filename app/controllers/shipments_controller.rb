@@ -91,9 +91,9 @@ class ShipmentsController < ApplicationController
 
     def statement
       if admin_user || staff_user
-      @shipments= Shipment.all.where(status: 2).order(updated_at: :desc).page params[:page]
+      @shipments= Shipment.all.where(status: 'Paid').order(updated_at: :desc).page params[:page]
       else
-      @shipments= current_user.shipments.where(status: 2).order(updated_at: :desc).page params[:page]
+      @shipments= current_user.shipments.where(status: 'Paid').order(updated_at: :desc).page params[:page]
       end
 
     end
@@ -101,7 +101,7 @@ class ShipmentsController < ApplicationController
   private
 
     def shipment_params
-      params.require(:shipment).permit(:status, :remark, :weight, :volume, :charge, :bill_id, :bill_url, :due_at, :paid_at)
+      params.require(:shipment).permit(:status, :remark, :weight, :volume, :charge, :bill_id, :bill_url, :due_at, :paid_at, :reorganize, :repackaging)
     end
 
 

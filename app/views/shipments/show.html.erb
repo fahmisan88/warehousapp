@@ -138,6 +138,17 @@
                   <td><%=@shipment.status%></td>
                 </tr>
                 <tr>
+                  <th>Extra Service</th>
+                  <td>
+                    <%if @shipment.reorganize? || @shipment.repackaging? %>
+                    <% if @shipment.reorganize == true%>| Reorganize | <% else;end%>
+                    <% if @shipment.repackaging == true%>| Repackaging | <% else;end%>
+                    <% else %>
+                    None
+                    <%end%>
+                  </td>
+                </tr>
+                <tr>
                   <th>Total Price</th>
                   <td>RM <%=@shipment.charge%></td>
                 </tr>
