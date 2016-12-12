@@ -15,3 +15,36 @@
 //= require bootstrap-sprockets
 //= require turbolinks
 //= require_tree .
+
+function validateFiles(inputFile) {
+  var maxExceededMessage = "This file exceeds the maximum allowed file size (300 KB)";
+  var extErrorMessage = "Only image file with extension: .jpg, .jpeg, .gif or .png is allowed";
+  var maxExtErrorMessage = "This file exceeds the maximum allowed file size (300 KB) \nand is not allowed file extension (only .jpg, .jpeg, .gif or .png)";
+  var allowedExtension = ["jpg", "jpeg", "gif", "png"];
+
+  var extName;
+  var maxFileSize = $(inputFile).data('max-file-size');
+  var sizeExceeded = false;
+  var extError = false;
+
+  $.each(inputFile.files, function() {
+    if (this.size && maxFileSize && this.size > parseInt(maxFileSize)) {sizeExceeded=true;};
+    extName = this.name.split('.').pop();
+    if ($.inArray(extName, allowedExtension) == -1) {extError=true;};
+  });
+  if (sizeExceeded && extError) {
+    window.alert(maxExtErrorMessage);
+    $(inputFile).val('');
+  };
+
+  if (sizeExceeded && extError == false) {
+    window.alert(maxExceededMessage);
+    $(inputFile).val('');
+  };
+
+  if (extError && sizeExceeded == false) {
+    window.alert(extErrorMessage);
+    $(inputFile).val('');
+  };
+
+}
