@@ -25,7 +25,7 @@
               <form>
                 <div class="form-group">
                   <label for="type">Type of parcel</label>
-                  <%= f.select :parcel_good, [ 'Normal', 'Sensitive'],{ :include_blank => '-- Select One --' }, class:"form-control", required: true %>
+                  <%= f.select :parcel_good, [ 'Normal', 'Sensitive', 'I Dont Know'],{ :include_blank => '-- Select One --' }, class:"form-control", required: true %>
                 </div>
                 <div class="form-group">
                   <label for="AWB">Air Way Bill (AWB):</label>
@@ -34,6 +34,22 @@
                 <div class="form-group">
                   <label for="pwd">Product Description:</label>
                   <%= f.text_field :description, required: true, id: "type_field", class: 'form-control', placeholder:"Description", type:"text" %>
+                </div>
+                <div class="form-group">
+                  <label for="pwd">Product Quantity:</label>
+                  <%= f.text_field :product_quantity, required: true, id: "type_field", class: 'form-control', placeholder:"Quantity", type:"text" %>
+                </div>
+                <div class="form-group">
+                  <label for="pwd">Price Per Unit:</label>
+                  <%= f.text_field :price_per_unit, required: true, id: "type_field", class: 'form-control', placeholder:"RMB", type:"text" %>
+                </div>
+                <div class="form-group">
+                  <label for="pwd">Total Price:</label>
+                  <%= f.text_field :product_total_price, required: true, id: "type_field", class: 'form-control', placeholder:"RMB", type:"text" %>
+                </div>
+                <div class="form-group">
+                  <label for="pwd">Product Name in Chinese:</label>
+                  <%= f.text_field :product_chinese, required: true, id: "type_field", class: 'form-control', placeholder:"Copy paste product name in Chinese", type:"text" %>
                 </div>
                 <div class="form-group">
                   <label for="pwd">Remarks:</label>
@@ -57,23 +73,14 @@
                   <tbody>
                     <td class="text-center"><%= f.check_box :photoshoot, {}, "true", "false"%></td>
                     <td>Photoshoot</td>
-                    <td>We will open the parcel and snap a picture of your product for your reference.</td>
+                    <td>Please snap picture for me when my parcel arrive</td>
                   </tbody>
                   <tbody>
                     <td class="text-center"><%= f.check_box :inspection, {}, "true", "false"%></td>
                     <td>Inspection</td>
-                    <td>We will open the parcel and inspect each products for their quality and quantity.</td>
+                    <td>Please inspect my goods quantity when my parcel arrive</td>
                   </tbody>
-                  <tbody>
-                    <td class="text-center"><%= f.check_box :reorganize, {}, "true", "false"%></td>
-                    <td>Reorganize</td>
-                    <td>We will pack all your separate parcels into one parcel to avoid expensive overcharge from volume metric </td>
-                  </tbody>
-                  <tbody>
-                    <td class="text-center"><%= f.check_box :repackaging, {}, "true", "false"%></td>
-                    <td>Repackaging</td>
-                    <td>Any parcels that are torn, bulky or unpacked properly will be repack back</td>
-                  </tbody>
+                  
                 </table>
                 <br>
 

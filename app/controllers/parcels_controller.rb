@@ -83,7 +83,7 @@ class ParcelsController < ApplicationController
   private
 
     def parcel_params
-      params.require(:parcel).permit(:awb, :description, :image, :remark, :parcel_good, :status, :volume, :weight, :photoshoot, :inspection, :reorganize, :repackaging)
+      params.require(:parcel).permit(:awb, :description, :image, :remark, :parcel_good, :status, :volume, :weight, :photoshoot, :inspection, :product_chinese, :product_quantity, :product_total_price, :price_per_unit)
     end
 
 end

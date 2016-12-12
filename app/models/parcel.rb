@@ -5,7 +5,7 @@ class Parcel < ApplicationRecord
   has_many :shipments, through: :ordered_parcels
 
   enum status: [:Pending, :Arrived, :"Ready To Ship", :Shipped]
-  enum parcel_good: [:Normal, :Sensitive]
+  enum parcel_good: [:Normal, :Sensitive, :"I Dont Know"]
 
   mount_uploader :image, ImageUploader
   paginates_per 10
