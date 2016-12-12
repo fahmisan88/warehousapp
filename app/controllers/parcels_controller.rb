@@ -33,9 +33,9 @@ class ParcelsController < ApplicationController
       @parcel= current_user.parcels.build(parcel_params)
       authorize @parcel
     if @parcel.save
-      @parcel.update_attributes(status: :Pending)
+      @parcel.update_attributes(status: 0)
       @parcel.create_activity :create, owner: current_user
-      flash[:success] = "You've created a parcel."
+      flash[:success] = "Thank you for your time. You've successfully created a parcel."
       redirect_to parcels_path
     else
       flash[:danger]
@@ -83,7 +83,7 @@ class ParcelsController < ApplicationController
   private
 
     def parcel_params
-      params.require(:parcel).permit(:awb, :description, :image, :remark, :parcel_good, :status, :volume, :weight, :photoshoot, :inspection, :product_chinese, :product_quantity, :product_total_price, :price_per_unit)
+      params.require(:parcel).permit(:awb,:new_awb, :description, :image, :remark, :parcel_good, :status, :volume, :weight, :photoshoot, :inspection, :product_chinese, :product_quantity, :product_total_price, :price_per_unit,:image5,:image4, :image3, :image2,:image1)
     end
 
 end

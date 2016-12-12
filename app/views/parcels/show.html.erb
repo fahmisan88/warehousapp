@@ -25,11 +25,37 @@
               <tbody>
                 <tr>
                   <th>AWB No.</th>
-                  <td><%=@parcel.awb%></td>
+                  <td>
+                    <% if @parcel.new_awb?%>
+                    <%= @parcel.new_awb%>
+                    <% else %>
+                    <%=@parcel.awb%>
+                    <% end%>
+                    <% if @parcel.status == "Waiting"%>
+                      <%= link_to "", edit_parcel_path(@parcel), class:"fa fa-pencil" %>
+                      <%else%>
+                      <%end%>
+                  </td>
                 </tr>
                 <tr>
                   <th>Product Description</th>
                   <td><%=@parcel.description%></td>
+                </tr>
+                <tr>
+                  <th>Quantity</th>
+                  <td><%=@parcel.product_quantity%></td>
+                </tr>
+                <tr>
+                  <th>Price Per Unit</th>
+                  <td>RMB <%=@parcel.price_per_unit%> /unit</td>
+                </tr>
+                <tr>
+                  <th>Total Price</th>
+                  <td>RMB <%=@parcel.product_total_price%></td>
+                </tr>
+                <tr>
+                  <th>Product Name (Chinese)</th>
+                  <td><%=@parcel.product_chinese%></td>
                 </tr>
                 <tr>
                   <th>Type of Parcel</th>
@@ -48,8 +74,6 @@
                   <td>
                   <% if @parcel.photoshoot == true%>| Photoshoot | <% else;end%>
                   <% if @parcel.inspection == true%>| Inspection | <% else;end%>
-                  <% if @parcel.reorganize == true%>| Reorganize | <% else;end%>
-                  <% if @parcel.repackaging == true%>| Repackaging |<% else;end%>
                   </td>
                 </tr>
                 <tr>
@@ -83,6 +107,23 @@
                   <div class="text-right">
                       <a href="#">View Full Image <i class="fa fa-arrow-circle-right"></i></a>
                   </div>
+              </div>
+          </div>
+      </div>
+      <div class="col-lg-4">
+          <div class="panel panel-default">
+              <div class="panel-heading">
+                  <h3 class="panel-title"><i class="fa fa-archive fa-fw"></i>Received Parcel Image</h3>
+              </div>
+              <div class="panel-body">
+                  <div class="table-responsive">
+                    <div class="list-group text-center">
+                        <a href="#" class="list-group-item">
+                          <%=image_tag @parcel.image1, class:"image-size-thumb"%>&nbsp;<%=image_tag @parcel.image2, class:"image-size-thumb"%>&nbsp;<%=image_tag @parcel.image3, class:"image-size-thumb"%>&nbsp;<%=image_tag @parcel.image4, class:"image-size-thumb"%>&nbsp;<%=image_tag @parcel.image5, class:"image-size-thumb"%>
+                        </a>
+                    </div>
+                  </div>
+
               </div>
           </div>
       </div>
