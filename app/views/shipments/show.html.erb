@@ -109,12 +109,44 @@
                   <td><%=@shipment.type%></td>
                 </tr>
                 <tr>
-                  <th>Final Weight/Volume Metric</th>
-                  <td><%=@shipment.weight%></td>
+                  <th>
+                    <% if @shipment.weight >= @shipment.volume %>
+                    Final Weight (kg)
+                    <% else %>
+                    Final Volume Metric (kg)
+                    <% end%>
+                  </th>
+                  <td>
+                    <% if @shipment.weight >= @shipment.volume %>
+                    <%=@shipment.weight%>
+                    <% else %>
+                    <%=@shipment.volume %>
+                    <% end%>
+                  </td>
                 </tr>
+                <% if @shipment.volume > @shipment.weight %>
+                <tr>
+                  <th>Chargeable (kg)</th>
+                  <td>
+                    <%=@shipment.chargeable%>
+                  </td>
+                </tr>
+                <% else %>
+                <% end%>
                 <tr>
                   <th>Status</th>
                   <td><%=@shipment.status%></td>
+                </tr>
+                <tr>
+                  <th>Extra Service</th>
+                  <td>
+                    <%if @shipment.reorganize? || @shipment.repackaging? %>
+                    <% if @shipment.reorganize == true%>| Reorganize | <% else;end%>
+                    <% if @shipment.repackaging == true%>| Repackaging | <% else;end%>
+                    <% else %>
+                    None
+                    <%end%>
+                  </td>
                 </tr>
                 <tr>
                   <th>Total Price</th>

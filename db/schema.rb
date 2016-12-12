@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161205125547) do
+ActiveRecord::Schema.define(version: 20161212132530) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -50,16 +50,30 @@ ActiveRecord::Schema.define(version: 20161205125547) do
     t.string   "remark"
     t.string   "image"
     t.integer  "user_id"
-    t.integer  "weight"
-    t.integer  "volume"
+    t.decimal  "weight"
+    t.decimal  "volume"
     t.integer  "status"
     t.integer  "parcel_good"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
     t.boolean  "photoshoot"
     t.boolean  "inspection"
-    t.boolean  "reorganize"
-    t.boolean  "repackaging"
+    t.integer  "product_quantity"
+    t.decimal  "price_per_unit"
+    t.decimal  "product_total_price"
+    t.string   "product_chinese"
+    t.string   "new_awb"
+    t.string   "image1"
+    t.string   "image2"
+    t.string   "image3"
+    t.string   "image4"
+    t.string   "image5"
+    t.decimal  "width"
+    t.decimal  "length"
+    t.decimal  "height"
+    t.decimal  "chargeable"
+    t.boolean  "refund"
+    t.string   "refund_explain"
   end
 
   create_table "shipments", force: :cascade do |t|
@@ -67,15 +81,18 @@ ActiveRecord::Schema.define(version: 20161205125547) do
     t.string   "remark"
     t.integer  "weight"
     t.integer  "volume"
-    t.integer  "status"
+    t.string   "status"
     t.integer  "type"
     t.decimal  "charge"
     t.string   "bill_id"
     t.datetime "due_at"
     t.datetime "paid_at"
     t.string   "bill_url"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.decimal  "chargeable"
+    t.boolean  "reorganize"
+    t.boolean  "repackaging"
   end
 
   create_table "users", force: :cascade do |t|

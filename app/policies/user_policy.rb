@@ -1,5 +1,9 @@
 class UserPolicy < ApplicationPolicy
 
+  def index?
+    user_has_power?
+  end
+
   def new?
     user.present? && record.id == user.id
   end

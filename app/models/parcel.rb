@@ -4,10 +4,15 @@ class Parcel < ApplicationRecord
   has_many :ordered_parcels
   has_many :shipments, through: :ordered_parcels
 
-  enum status: [:Pending, :Arrived, :"Ready To Ship", :Shipped]
-  enum parcel_good: [:Normal, :Sensitive]
+  enum status: [:Waiting, :Arrived, :"Ready To Ship", :Shipped, :"Request Refund", :Refunding, :Refunded]
+  enum parcel_good: [:Normal, :Sensitive, :"I Dont Know"]
 
   mount_uploader :image, ImageUploader
+  mount_uploader :image1, ImageUploader
+  mount_uploader :image2, ImageUploader
+  mount_uploader :image3, ImageUploader
+  mount_uploader :image4, ImageUploader
+  mount_uploader :image5, ImageUploader
   paginates_per 10
 
   def self.search(search)

@@ -17,6 +17,7 @@ class ShipmentsController < ApplicationController
     end
     else
     end
+
   end
 
   def show
@@ -32,6 +33,9 @@ class ShipmentsController < ApplicationController
   def create
     @parcels= Parcel.where(id: params[:parcel_id])
     @shipment= current_user.shipments.build(shipment_params)
+    valvolume = @parcels.sum(:volume)
+    valweight = @parcels.sum(:weight)
+    valchargeable = @parcels.sum(:chargeable)
     authorize @shipment
     if @shipment.save
       @shipment.create_activity :create, owner: current_user
@@ -39,9 +43,7 @@ class ShipmentsController < ApplicationController
       @shipment.ordered_parcels.create( {:parcel_id => parcel.id})
       parcel.update({:status => :"Ready To Ship"})
       end
-      valvolume = @parcels.sum(:volume)
-      valweight = @parcels.sum(:weight)
-      @shipment.update_attributes(status: :Processing, :volume => valvolume, :weigth => valweight)
+      @shipment.update_attributes(status: "Processing", :volume => valvolume, :weight => valweight, :chargeable => valchargeable )
       flash[:success] = "You've post a shipment."
       redirect_to shipments_path
     else
@@ -61,7 +63,7 @@ class ShipmentsController < ApplicationController
       if @shipment.update(shipment_params)
         if @shipment.charge != nil
         @bill = Billplz.create_bill_for(@shipment)
-        @shipment.update_attributes(bill_id: @bill.parsed_response['id'], bill_url: @bill.parsed_response['url'], status: :"Awaiting Payment")
+        @shipment.update_attributes(bill_id: @bill.parsed_response['id'], bill_url: @bill.parsed_response['url'], status: "Awaiting Payment")
         @shipment.create_activity :update, owner: current_user
         # redirect_to @bill.parsed_response['url']
         flash[:success] ="Payment Request has been sent"
@@ -89,9 +91,9 @@ class ShipmentsController < ApplicationController
 
     def statement
       if admin_user || staff_user
-      @shipments= Shipment.all.where(status: 2).order(updated_at: :desc).page params[:page]
+      @shipments= Shipment.all.where(status: 'Paid').order(updated_at: :desc).page params[:page]
       else
-      @shipments= current_user.shipments.where(status: 2).order(updated_at: :desc).page params[:page]
+      @shipments= current_user.shipments.where(status: 'Paid').order(updated_at: :desc).page params[:page]
       end
 
     end
@@ -99,7 +101,7 @@ class ShipmentsController < ApplicationController
   private
 
     def shipment_params
-      params.require(:shipment).permit(:status, :remark, :weight, :volume, :charge, :bill_id, :bill_url, :due_at, :paid_at)
+      params.require(:shipment).permit(:status, :remark, :weight, :volume, :charge, :bill_id, :bill_url, :due_at, :paid_at, :reorganize, :repackaging)
     end
 
 

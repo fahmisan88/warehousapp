@@ -2,6 +2,12 @@ class UsersController < ApplicationController
 
   before_action :authenticate!,  only: [:edit, :update]
 
+  def index
+
+    @users = User.all.order(updated_at: :desc).page params[:page]
+      authorize @users
+  end
+
   def show
     @user = User.find_by(id: params[:id])
   end
