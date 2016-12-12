@@ -17,6 +17,7 @@
 default: &default
   adapter: postgresql
   encoding: unicode
+  host: localhost
   # For details on connection pooling, see rails configuration guide
   # http://guides.rubyonrails.org/configuring.html#database-pooling
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
@@ -24,6 +25,8 @@ default: &default
 development:
   <<: *default
   database: ezcargo_development
+  username: <%= ENV['EZCARGO_DATABASE_USER'] %>
+  password: <%= ENV['EZCARGO_DATABASE_PASSWORD'] %>
 
   # The specified database role being used to connect to postgres.
   # To create additional roles in postgres see `$ createuser --help`.
@@ -81,5 +84,5 @@ test:
 production:
   <<: *default
   database: ezcargo_production
-  username: ezcargo
+  username: <%= ENV['EZCARGO_DATABASE_USER'] %>
   password: <%= ENV['EZCARGO_DATABASE_PASSWORD'] %>
