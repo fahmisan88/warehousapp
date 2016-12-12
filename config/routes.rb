@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   get '/dashboard' => 'dashboards#index'
   get '/statement' => 'shipments#statement'
   resources :sessions, only: [:new, :create, :destroy]
-  resources :users, only: [:show, :new, :create, :edit, :update]
+  resources :users
   resources :parcels
   resources :shipments
   resources :currencies, only: [:edit, :update]
