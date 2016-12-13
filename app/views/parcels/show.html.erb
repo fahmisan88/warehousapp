@@ -32,7 +32,7 @@
                     <%=@parcel.awb%>
                     <% end%>
                     <% if @parcel.status == "Waiting"%>
-                      <%= link_to "", edit_parcel_path(@parcel), class:"fa fa-pencil" %>
+                      <%= link_to "", edit_awb_path(@parcel), class:"fa fa-pencil" %>
                       <%else%>
                       <%end%>
                   </td>

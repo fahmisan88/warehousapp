@@ -48,6 +48,11 @@ class ParcelsController < ApplicationController
     authorize @parcel
   end
 
+  def edit_awb
+    @parcel = Parcel.find(params[:id])
+    authorize @parcel
+  end
+
   def update
       @parcel = Parcel.find(params[:id])
       authorize @parcel
@@ -75,6 +80,19 @@ class ParcelsController < ApplicationController
       end
     end
 
+    def update_awb
+        @parcel = Parcel.find(params[:id])
+        authorize @parcel
+
+        if @parcel.update(update_awb_params)
+          flash[:success] = "You've change your AWB No!"
+          redirect_to parcel_path(@parcel)
+        else
+          redirect_to parcels_path
+          flash[:danger]
+        end
+      end
+
     def destroy
       @parcel = Parcel.find(params[:id])
       authorize @parcel
@@ -96,6 +114,10 @@ class ParcelsController < ApplicationController
 
     def update_parcel_params
       params.require(:parcel).permit(:refund,:refund_explain,:new_awb,:image5,:image4, :image3, :image2,:image1,:length,:width,:height,:volume,:weight,:chargeable, :status)
+    end
+
+    def update_awb_params
+      params.require(:parcel).permit(:new_awb)
     end
 
 end
