@@ -13,6 +13,9 @@ class Parcel < ApplicationRecord
   mount_uploader :image3, ImageUploader
   mount_uploader :image4, ImageUploader
   mount_uploader :image5, ImageUploader
+
+  validates :image, file_size: { less_than_or_equal_to: 300.kilobytes,
+                                  message: "image should be less than or equal to 300kb" }
   paginates_per 10
 
   def self.search(search)
