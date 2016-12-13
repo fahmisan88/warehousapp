@@ -40,6 +40,7 @@ gem 'figaro'
 gem 'kaminari'
 gem 'httparty'
 gem 'public_activity'
+gem 'file_validators', '~> 2.1'
 
 group :production do
   gem 'rails_12factor'
