@@ -21,7 +21,7 @@
           <div class="panel-body">
 
             <div class="container">
-              <%= form_for(@parcel, url: update_awb_path(@parcel), html: { id: "parcel-update-form" }) do |f| %>
+              <%= form_for(@parcel, url: update_awb_parcel_path(@parcel), html: { id: "parcel-update-form" }) do |f| %>
               <form>
                 <% if admin_user||staff_user %>
                 <% elsif @parcel.status == 'Waiting'%>
@@ -43,7 +43,7 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <td class="text-center"><%= f.check_box :refund, {}, "true", "false"%></td>
+                    <td class="text-center"><%= f.check_box :refund, required: true%></td>
                     <td>
                       <% if @parcel.new_awb?%>
                       <%= @parcel.new_awb%>

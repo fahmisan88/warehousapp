@@ -63,10 +63,6 @@ class ParcelsController < ApplicationController
         if @parcel.weight && @parcel.volume != nil
           @parcel.update_attributes(status: 1, chargeable: ((@parcel.weight+@parcel.volume)/2.to_f).ceil)
           @parcel.create_activity :update, owner: current_user
-          if @parcel.refund == true
-            @parcel.update_attributes(status: :"Request Refund")
-          else
-          end
         else
         end
         else
@@ -85,7 +81,12 @@ class ParcelsController < ApplicationController
         authorize @parcel
 
         if @parcel.update(update_awb_params)
-          flash[:success] = "You've change your AWB No!"
+          if @parcel.refund == true
+            @parcel.update_attributes(status: :"Request Refund")
+            flash[:success] = "You've successfully request a refund!"
+          else
+            flash[:success] = "You've successfully change your AWB No!"
+          end
           redirect_to parcel_path(@parcel)
         else
           redirect_to parcels_path
@@ -113,11 +114,11 @@ class ParcelsController < ApplicationController
     end
 
     def update_parcel_params
-      params.require(:parcel).permit(:refund,:refund_explain,:new_awb,:image5,:image4, :image3, :image2,:image1,:length,:width,:height,:volume,:weight,:chargeable, :status)
+      params.require(:parcel).permit(:image5,:image4, :image3, :image2,:image1,:length,:width,:height,:volume,:weight,:chargeable, :status)
     end
 
     def update_awb_params
-      params.require(:parcel).permit(:new_awb)
+      params.require(:parcel).permit(:new_awb,:refund,:refund_explain)
     end
 
 end

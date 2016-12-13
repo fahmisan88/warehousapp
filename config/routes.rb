@@ -4,12 +4,15 @@ Rails.application.routes.draw do
   root to: 'landing#index'
   get '/dashboard' => 'dashboards#index'
   get '/statement' => 'shipments#statement'
-  get :edit_awb, to: "parcels#edit_awb", path: '/users/:id/edit_awb'
-  patch :update_awb, to: "parcels#update_awb", path: '/parcels/:id(.:format)'
-  put :update_awb, to: "parcels#update_awb", path: '/parcels/:id(.:format)'
   resources :sessions, only: [:new, :create, :destroy]
   resources :users
-  resources :parcels
+  resources :parcels do
+    member do
+    patch :update_awb
+    put :update_awb
+    get :edit_awb
+  end
+  end
   resources :shipments
   resources :currencies, only: [:edit, :update]
   resources :activities, only:[:index]
