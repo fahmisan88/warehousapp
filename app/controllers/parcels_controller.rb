@@ -67,7 +67,7 @@ class ParcelsController < ApplicationController
         @parcel.update_attributes(volume: ((@parcel.length * @parcel.width * @parcel.height)/6000.to_f).ceil, weight: (@parcel.weight.to_f).ceil)
         @parcel.update_attributes(chargeable: ((@parcel.weight+@parcel.volume)/2.to_f).ceil)
         if @parcel.status == "Waiting"
-          @parcel.update_attributes(status: 1)
+          @parcel.update_attributes(status: 1, free_storage: Time.now + 7.days)
           @parcel.create_activity :update, owner: current_user
         else
         end
@@ -123,11 +123,13 @@ class ParcelsController < ApplicationController
     end
 
     def update_parcel_params
-      params.require(:parcel).permit(:image5,:image4, :image3, :image2,:image1,:length,:width,:height,:volume,:weight,:chargeable, :status)
+      params.require(:parcel).permit(:image5,:image4, :image3, :image2,:image1,:length,:width,:height,:volume,:weight,:chargeable, :status, :free_storage)
     end
 
     def update_awb_params
       params.require(:parcel).permit(:new_awb,:refund,:refund_explain)
     end
+
+    
 
 end

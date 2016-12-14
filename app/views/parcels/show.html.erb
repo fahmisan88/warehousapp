@@ -70,6 +70,33 @@
                   <td><%=@parcel.status%></td>
                 </tr>
                 <tr>
+                  <th>Free Storage Days</th>
+                  <td>
+                    <% if @parcel.free_storage.nil? %>
+                    No data
+                    <% else %>
+                    <% if Time.now >= @parcel.free_storage %>
+                    0 day left
+                    <% elsif Time.now < @parcel.free_storage && Time.now > @parcel.free_storage - 1.days %>
+                    1 day left
+                    <% elsif Time.now < @parcel.free_storage - 1.days && Time.now > @parcel.free_storage - 2.days %>
+                    2 days left
+                    <% elsif Time.now < @parcel.free_storage - 2.days && Time.now > @parcel.free_storage - 3.days %>
+                    3 days left
+                    <% elsif Time.now < @parcel.free_storage - 3.days && Time.now > @parcel.free_storage - 4.days %>
+                    4 days left
+                    <% elsif Time.now < @parcel.free_storage - 4.days && Time.now > @parcel.free_storage - 5.days %>
+                    5 days left
+                    <% elsif Time.now < @parcel.free_storage - 5.days && Time.now > @parcel.free_storage - 6.days %>
+                    6 days left
+                    <% elsif Time.now < @parcel.free_storage - 6.days && Time.now > @parcel.free_storage - 7.days %>
+                    7 days left
+                    <% else %>
+                    <% end %>
+                    <% end %>
+                  </td>
+                </tr>
+                <tr>
                   <th>Extra Service</th>
                   <td>
                     <%if @parcel.photoshoot? || @parcel.inspection? %>
