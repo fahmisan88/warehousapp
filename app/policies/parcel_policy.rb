@@ -11,6 +11,12 @@ class ParcelPolicy < ApplicationPolicy
   def edit?
     show?
   end
+  def edit_awb?
+    show?
+  end
+  def update_awb?
+    show?
+  end
 
   def update?
     show?

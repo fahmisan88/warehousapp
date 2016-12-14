@@ -56,7 +56,7 @@
                   <%= f.text_field :remark, id: "type_field", class: 'form-control', placeholder:"Anything to note on your products", type:"text" %>
                 </div>
                 <div class="form-group">
-                  <%= f.label :"Upload Image" %>
+                  <%= f.label :"Upload Your Product's Image" %>
                   <%= f.file_field :image, accept:"image/png,image/gif,image/jpeg", onchange:"validateFiles(this);", data:{ max_file_size: 300.kilobytes }, class:"form-control" %>
                 </div>
                 <table class="table table-striped table-bordered">
@@ -80,7 +80,7 @@
                     <td>Inspection</td>
                     <td>Please inspect my goods quantity when my parcel arrive</td>
                   </tbody>
-                  
+
                 </table>
                 <br>
 

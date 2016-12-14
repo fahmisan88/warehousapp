@@ -6,7 +6,14 @@ Rails.application.routes.draw do
   get '/statement' => 'shipments#statement'
   resources :sessions, only: [:new, :create, :destroy]
   resources :users
-  resources :parcels
+  resources :parcels do
+    member do
+    patch :update_awb
+    put :update_awb
+    get :edit_awb
+    get :show_image
+  end
+  end
   resources :shipments
   resources :currencies, only: [:edit, :update]
   resources :activities, only:[:index]
