@@ -24,11 +24,11 @@
               <%= form_for(@parcel, url: update_awb_parcel_path(@parcel), html: { id: "parcel-update-form" }) do |f| %>
               <form>
                 <% if admin_user||staff_user %>
-                <% elsif @parcel.status == 'Waiting'%>
+                <% elsif @parcel.status == 'Waiting' %>
 
                 <div class="form-group">
                   <label for="AWB">Air Way Bill (AWB):</label>
-                  <%= f.text_field :new_awb, id: "type_field", class: 'form-control', placeholder:"AWB", type:"text" %>
+                  <%= f.text_field :new_awb, id: "type_field", class: 'form-control', placeholder:"AWB", type:"text", required: true %>
                 </div>
                 <% else %>
                 <table class="table table-striped table-bordered">
@@ -63,7 +63,7 @@
 
                 <div class="text-center">
                 <%= f.submit "Submit", class: "btn btn-success btn-lg", type:"submit" %>
-                <%= link_to 'Back', parcels_path, class:"btn btn-link" %>
+                <%= link_to 'Back', parcel_path, class:"btn btn-link" %>
                 </div>
               </form>
               <% end %>

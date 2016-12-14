@@ -25,6 +25,11 @@ class ParcelsController < ApplicationController
     authorize @parcel
   end
 
+  def show_image
+    @parcel = Parcel.find_by(id: params[:id])
+    # authorize @parcel
+  end
+
   def new
     @parcel= Parcel.new
   end
@@ -60,15 +65,16 @@ class ParcelsController < ApplicationController
       if @parcel.update(update_parcel_params)
         if @parcel.weight? && @parcel.length? && @parcel.width? && @parcel.height?
         @parcel.update_attributes(volume: ((@parcel.length * @parcel.width * @parcel.height)/6000.to_f).ceil, weight: (@parcel.weight.to_f).ceil)
-        if @parcel.weight && @parcel.volume != nil
-          @parcel.update_attributes(status: 1, chargeable: ((@parcel.weight+@parcel.volume)/2.to_f).ceil)
+        @parcel.update_attributes(chargeable: ((@parcel.weight+@parcel.volume)/2.to_f).ceil)
+        if @parcel.status == "Waiting"
+          @parcel.update_attributes(status: 1)
           @parcel.create_activity :update, owner: current_user
         else
         end
         else
         end
 
-        flash[:success] = "You've updated your parcel!"
+        flash[:success] = "You've successfully updated the parcel!"
         redirect_to parcel_path(@parcel)
       else
         redirect_to parcels_path
@@ -84,8 +90,11 @@ class ParcelsController < ApplicationController
           if @parcel.refund == true
             @parcel.update_attributes(status: :"Request Refund")
             flash[:success] = "You've successfully request a refund!"
+          elsif @parcel.refund == false
+            flash[:danger] = "Request refund fail"
+          elsif @parcel.new_awb?
+            flash[:success] = "You've successfully change your AWB number!"
           else
-            flash[:success] = "You've successfully change your AWB No!"
           end
           redirect_to parcel_path(@parcel)
         else

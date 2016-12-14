@@ -11,6 +11,7 @@ Rails.application.routes.draw do
     patch :update_awb
     put :update_awb
     get :edit_awb
+    get :show_image
   end
   end
   resources :shipments
