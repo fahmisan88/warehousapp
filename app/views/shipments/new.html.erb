@@ -48,7 +48,7 @@
                     <td class="text-center">
                       <%if parcel.status == "Pending"%>
                       <%else%>
-                      <%= check_box_tag 'parcel_id[]', parcel.id, required: true%>
+                      <%= check_box_tag 'parcel_id[]', parcel.id%>
                       <% end%>
                     </td>
                     <td><%= label_tag parcel.awb%></td>
