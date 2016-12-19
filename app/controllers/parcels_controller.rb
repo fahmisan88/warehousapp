@@ -41,6 +41,7 @@ class ParcelsController < ApplicationController
       @parcel.update_attributes(status: 0)
       @parcel.create_activity :create, owner: current_user
       flash[:success] = "Thank you for your time. You've successfully created a parcel."
+      deliver_mail(current_user.name, current_user.email, "parcels", "created")
       redirect_to parcels_path
     else
       flash[:danger]
@@ -69,6 +70,10 @@ class ParcelsController < ApplicationController
         if @parcel.status == "Waiting"
           @parcel.update_attributes(status: 1, free_storage: Time.now + 7.days)
           @parcel.create_activity :update, owner: current_user
+
+          @parcel_user = @parcel.user_id
+          @user_info = User.find(@parcel_user)
+          deliver_mail(@user_info.name, @user_info.email, "parcels", "arrived")
         else
         end
         else
@@ -129,7 +134,5 @@ class ParcelsController < ApplicationController
     def update_awb_params
       params.require(:parcel).permit(:new_awb,:refund,:refund_explain)
     end
-
-    
 
 end
