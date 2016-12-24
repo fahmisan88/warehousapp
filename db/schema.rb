@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161214140121) do
+ActiveRecord::Schema.define(version: 20161224061158) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -83,14 +83,14 @@ ActiveRecord::Schema.define(version: 20161214140121) do
     t.integer  "weight"
     t.integer  "volume"
     t.string   "status"
-    t.integer  "type"
+    t.integer  "shipment_type"
     t.decimal  "charge"
     t.string   "bill_id"
     t.datetime "due_at"
     t.datetime "paid_at"
     t.string   "bill_url"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
     t.decimal  "chargeable"
     t.boolean  "reorganize"
     t.boolean  "repackaging"

@@ -43,7 +43,11 @@ class ShipmentsController < ApplicationController
       @shipment.ordered_parcels.create( {:parcel_id => parcel.id})
       parcel.update({:status => :"Ready To Ship"})
       end
-      @shipment.update_attributes(status: "Processing", :volume => valvolume, :weight => valweight, :chargeable => valchargeable )
+      if @parcels.sum(:parcel_good) >= 1
+      @shipment.update_attributes(status: "Processing", :volume => valvolume, :weight => valweight, :chargeable => valchargeable, :shipment_type => 1 )
+      else
+        @shipment.update_attributes(status: "Processing", :volume => valvolume, :weight => valweight, :chargeable => valchargeable, :shipment_type => 0 )
+      end
       flash[:success] = "You've post a shipment."
       redirect_to shipments_path
     else

@@ -6,6 +6,8 @@ class Shipment < ApplicationRecord
   belongs_to :user
 
   # enum status: [:Processing, :"Awaiting Payment", :Paid]
+  enum shipment_type: [:Normal, :Sensitive]
+
 
   before_destroy :update_status, prepend: true
   paginates_per 10
