@@ -5,7 +5,7 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-Currency.create(change: 1.64)
+Currency.create(myr2rmb: 1.55, rmb2myr: 0.64)
 
 User.create(name: 'admin', email: 'admin@ezicargo.com', password: 'ezi654321', role: 'admin')
 User.create(name: 'user', email: 'user@ezicargo.com', password: 'user654321', role: 'user')
