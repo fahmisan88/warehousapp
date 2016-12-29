@@ -36,21 +36,39 @@
                   </thead>
                   <tbody>
                     <% if @shipment.reorganize == true%>
-                    <td class="text-center fa fa-check"></td>
+                    <td><span class="text-center fa fa-check"></span></td>
                     <% else %>
-                    <td class="text-center"></td>
+                    <td></td>
                     <% end %>
                     <td>Reorganize</td>
                     <td>Please reorganize my parcel for shipment</td>
                   </tbody>
                   <tbody>
                     <% if @shipment.repackaging == true%>
-                    <td class="fa fa-check"></td>
+                    <td><span class="text-center fa fa-check"></span></td>
                     <% else %>
-                    <td class="text-center"></td>
+                    <td></td>
                     <% end %>
                     <td>Repackaging</td>
                     <td>Please repackaging my parcel for shipment</td>
+                  </tbody>
+                  <tbody>
+                    <% if @shipment.parcels.where(photoshoot: true).size >= 1%>
+                    <td><span class="text-center fa fa-check"></span></td>
+                    <% else %>
+                    <td></td>
+                    <% end %>
+                    <td>Photoshoot</td>
+                    <td>Please snap picture for me when my parcel arrive (<%=@shipment.parcels.where(photoshoot: true).size%> parcels selected)</td>
+                  </tbody>
+                  <tbody>
+                    <% if @shipment.parcels.where(inspection: true).size >= 1%>
+                    <td><span class="text-center fa fa-check"></span></td>
+                    <% else %>
+                    <td></td>
+                    <% end %>
+                    <td>Inspection</td>
+                    <td>Please inspect my goods quantity when my parcel arrive (<%=@shipment.parcels.where(inspection: true).size%> parcels selected)</td>
                   </tbody>
 
                 </table>
@@ -67,7 +85,7 @@
                   <%= f.text_field :chargeable, class:"form-control" %>
                 </div>
                 <div>
-                  <%= f.label :"charge" %>
+                  <%= f.label :"charge (myr)" %>
                   <%= f.text_field :charge, class:"form-control" %>
                 </div>
                 <br>
