@@ -35,6 +35,58 @@ class ApplicationController < ActionController::Base
       redirect_to root_path
       flash[:danger] = "You need to login first"
     end
-
   end
+
+  protected
+
+# ================================================================================================
+  # email notification
+  # name: current_user.name
+  # email: current_user.email
+  # controller: currently only for "parcels" and "shipments" controller
+  # status: parcels - "created", "arrived" | shipments - "created", "waitpayment","readytoship"
+  def deliver_mail(name, email, controller, status)
+    @controller = controller
+    @status = status
+    @name =  name
+    @email = email
+
+    if @controller == "parcels"
+      deliver_mail_parcels(@name, @email, @status)
+    elsif @controller == "shipments"
+      deliver_mail_shipments(@name, @email, @status)
+    end
+  end
+
+  # use for parcels mail notification. strictly use for method deliver_mail
+  def deliver_mail_parcels(name, email, status)
+    @name = name
+    @email = email
+    @status = status
+
+    @mail = Sendinblue::Mailin.new(ENV['SENDINBLUE_API_URL'], ENV['SENDINBLUE_API_KEY'], 10)
+
+    @data = case @status
+      when "created" then {id: 7, to: @email, attr: {"NAME" => @name}}
+      when "arrived" then {id: 8, to: @email, attr: {"NAME" => @name}}
+    end
+    return @mail.send_transactional_template(@data)
+  end
+
+  # use for shipments mail notification. strictly use for method deliver_mail
+  def deliver_mail_shipments(name, email, status)
+    @name = name
+    @email = email
+    @status = status
+
+    @mail = Sendinblue::Mailin.new(ENV['SENDINBLUE_API_URL'], ENV['SENDINBLUE_API_KEY'], 10)
+    
+    @data = case status
+      when "created" then {id: 9, to: @email, attr: {"NAME" => @name}}
+      when "waitpayment" then {id: 11, to: @email, attr: {"NAME" => @name}}
+      when "readytoship" then {id: 10, to: @email, attr: {"NAME" => @name}}
+    end
+    return @mail.send_transactional_template(@data)
+  end
+# ========================================================================================================
 end

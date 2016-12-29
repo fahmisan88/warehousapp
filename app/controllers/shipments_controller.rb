@@ -49,6 +49,7 @@ class ShipmentsController < ApplicationController
         @shipment.update_attributes(status: "Processing", :volume => valvolume, :weight => valweight, :chargeable => valchargeable, :shipment_type => 0 )
       end
       flash[:success] = "You've post a shipment."
+      deliver_mail(current_user.name, current_user.email, "shipments", "created")
       redirect_to shipments_path
     else
       flash[:danger]
@@ -856,6 +857,9 @@ class ShipmentsController < ApplicationController
         @shipment.create_activity :update, owner: current_user
         # redirect_to @bill.parsed_response['url']
         flash[:success] ="Payment Request has been sent"
+        @shipment_user = @shipment.user_id
+        @user_info = User.find(@shipment_user)
+        deliver_mail(@user_info.name, @user_info.email, "shipments", "waitpayment")
         redirect_to shipments_path
         else
           redirect_to shipments_path
