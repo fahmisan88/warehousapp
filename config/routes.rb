@@ -14,7 +14,12 @@ Rails.application.routes.draw do
     get :show_image
   end
   end
-  resources :shipments
+  resources :shipments do
+    member do
+      patch :calculate
+      put :calculate
+    end
+  end
   resources :currencies, only: [:edit, :update]
   resources :activities, only:[:index]
 

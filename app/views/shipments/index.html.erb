@@ -80,23 +80,19 @@
                   </td>
                   <td><%= shipment.status%></td>
                   <td><span>
-                    <% if (admin_user||staff_user) && shipment.charge.nil?%>
+                    <% if admin_user||staff_user%>
                     <%= link_to "", edit_shipment_path(shipment), class:"fa fa-pencil" %>
                   </span>&nbsp;&nbsp;
+                  <span><%= link_to "", shipment_path(shipment), class:"fa fa-trash", data: { confirm: "Are you sure you want delete this shipment?"}, method: :delete %></span>&nbsp;&nbsp;
                   <% else %>
                   <% end %>
                   <span>
-                    <%if shipment.charge.nil? %>
+                    <%if shipment.bill_url.nil? %>
                     <%= link_to "", shipment_path(shipment), class:"fa fa-eye" %></span>&nbsp;&nbsp;
-                    <span><%= link_to "", shipment_path(shipment), class:"fa fa-trash", data: { confirm: "Are you sure you want delete this shipment?"}, method: :delete %></span>
-                    <% elsif shipment.status == "Paid"%>
-                    <%= link_to "", shipment_path(shipment), class:"fa fa-eye" %></span>&nbsp;&nbsp;
-                    <% else%>
+                    <% elsif shipment.bill_url? %>
                     <%= link_to "Pay Now", shipment_path(shipment) %></span>&nbsp;&nbsp;
-                    <% if admin_user || staff_user %>
-                    <span><%= link_to "", shipment_path(shipment), class:"fa fa-trash", data: { confirm: "Are you sure you want delete this shipment?"}, method: :delete %></span>
                     <% else %>
-                    <%end%>
+                    <%= link_to "", shipment_path(shipment), class:"fa fa-eye" %></span>&nbsp;&nbsp;
                     <% end%>
                   </td>
                   <%end%>
