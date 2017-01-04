@@ -14,6 +14,7 @@
 //= require jquery_ujs
 //= require bootstrap-sprockets
 //= require turbolinks
+//= require form-validator
 //= require_tree .
 
 function validateFiles(inputFile) {

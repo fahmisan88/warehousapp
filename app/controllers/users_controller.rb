@@ -21,18 +21,14 @@ class UsersController < ApplicationController
   end
 
   def create
-    if user_params[:password] == user_params[:password2]
-      @user = User.create(name: user_params[:name], email: user_params[:email], password: user_params[:password])
-      if @user.persisted?
-        flash[:success] = "You have register!"
-        redirect_to root_path
-      else
-        redirect_to '/register'
-        flash[:danger] = "You have registered!"
-      end
+    if @user = User.create(name: reg_user_params[:fullname], email: reg_user_params[:email], password: reg_user_params[:passwd]).valid?
+      flash[:success] = "You are registered. Please check your email."
+      redirect_to root_path
     else
-      flash[:danger] = "Your password does not match!"
+      flash[:danger] = "You are not successfully registered. Please contact admin."
+      redirect_to '/register'
     end
+
   end
 
   def edit
@@ -56,9 +52,29 @@ class UsersController < ApplicationController
     authorize @user
   end
 
+  def emailcheck
+    @user = User.find_by(email: reg_user_params[:email])
+
+    if @user.present?
+      respond_to do |format|
+        format.json {render json: { valid: false, message: "This email is already registered" }}
+      end
+    else
+      respond_to do |format|
+        format.json {render json: { valid: true}}
+      end
+    end
+
+  end
+
   private
 
   def user_params
-    params.require(:user).permit(:phone, :address, :postcode,:password)
+    params.require(:user).permit(:phone, :address, :postcode,:password,:email)
   end
+
+  def reg_user_params
+    params.require(:user).permit(:email, :passwd, :fullname)
+  end
+
 end
