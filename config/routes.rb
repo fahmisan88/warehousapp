@@ -4,6 +4,8 @@ Rails.application.routes.draw do
   root to: 'landing#index'
   get '/dashboard' => 'dashboards#index'
   get '/statement' => 'shipments#statement'
+  get '/register' => 'users#new'
+  post '/checkemail' => 'users#emailcheck'
   resources :sessions, only: [:new, :create, :destroy]
   resources :users
   resources :parcels do
