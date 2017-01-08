@@ -7,7 +7,13 @@ Rails.application.routes.draw do
   get '/register' => 'users#new'
   post '/checkemail' => 'users#emailcheck'
   resources :sessions, only: [:new, :create, :destroy]
-  resources :users
+  resources :users do
+    member do
+      get :pay
+      patch :billplz
+      put :billplz
+    end
+  end
   resources :parcels do
     member do
     patch :update_awb
