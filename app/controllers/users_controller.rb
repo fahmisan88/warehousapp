@@ -12,6 +12,20 @@ class UsersController < ApplicationController
     @user = User.find_by(id: params[:id])
   end
 
+  def pay
+    @user = User.find_by(id: params[:id])
+  end
+
+  def billplz
+    @user = User.find_by(id: params[:id])
+    if @bill = BillplzReg.create_bill_for(@user)
+      @user.update_attributes(bill_id: @bill.parsed_response['id'], bill_url: @bill.parsed_response['url'])
+      redirect_to @bill.parsed_response['url']
+    else
+      redirect_to pay_user_path
+    end
+  end
+
   def new
     if current_user
       redirect_to '/dashboard'
@@ -22,8 +36,8 @@ class UsersController < ApplicationController
 
   def create
     if @user = User.create(name: reg_user_params[:fullname], email: reg_user_params[:email], password: reg_user_params[:passwd]).valid?
-      flash[:success] = "You are registered. Please check your email."
-      redirect_to root_path
+      flash[:success] = "You are registered. Please login and pay the yearly fee to continue using our service."
+      redirect_to new_session_path
     else
       flash[:danger] = "You are not successfully registered. Please contact admin."
       redirect_to '/register'

@@ -7,10 +7,14 @@ end
 def create
   user = User.find_by(email: user_params[:email])
              &.authenticate(user_params[:password])
-  if user
+  if user && user.status == "Active"
     session[:id] = user.id
     flash[:success] = "Welcome back #{current_user.name}"
     redirect_to dashboard_path
+  elsif user && user.status == "Inactive"
+    session[:id] = user.id
+    flash[:success] = "Please pay our yearly fee to continue using our service"
+    redirect_to pay_user_path(user.id)
   else
     flash[:danger] = "Error logging in"
     render :new

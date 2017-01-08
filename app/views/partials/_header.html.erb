@@ -1,7 +1,11 @@
 <nav class="navbar navbar-default">
     <div class="container-fluid">
       <div class="navbar-header">
+        <%if current_user && current_user.status == "Active"%>
         <a class="navbar-brand" href="<%= root_path %>">EZICARGO</a>
+        <% else %>
+        <a class="navbar-brand" href="">EZICARGO</a>
+        <% end %>
         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-dropdown" aria-expanded="false">
           <span class="sr-only">Toggle navigation</span>
           <span class="icon-bar"></span>
@@ -14,7 +18,7 @@
         <ul class="nav navbar-nav navbar-right">
           <li><a href="#">How It Works<span class="sr-only">(current)</span></a></li>
           <li><a href="#">Pricing<span class="sr-only">(current)</span></a></li>
-          <%if current_user%>
+          <%if current_user && current_user.status == "Active"%>
           <li><a href="<%=dashboard_path%>">DASHBOARD<span class="sr-only">(current)</span></a></li>
           <li><%= link_to "Logout", session_path(current_user), method: :delete, class: 'white shadowed link-styling' %><span class="sr-only">(current)</span></li>
           <%else%>

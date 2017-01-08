@@ -1,0 +1,47 @@
+<div id="header">
+  <%= render partial: 'partials/header' %>
+</div>
+
+<div class="container">
+<div id="loginbox" style="margin-top:50px;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+            <div class="panel panel-info" >
+                    <div class="panel-heading">
+                        <div class="panel-title">Yearly Fee</div>
+                    </div>
+
+                    <div style="padding-top:30px" class="panel-body" >
+
+                        <div style="display:none" id="login-alert" class="alert alert-danger col-sm-12"></div>
+                        <div class="panel-body">
+                          <table class="table">
+                            <tbody>
+                              <tr>
+                                <th>Name</th>
+                                <td><%=@user.name%></td>
+                              </tr>
+                              <tr>
+                                <th>Email</th>
+                                <td><%=@user.email%></td>
+                              </tr>
+                              <tr>
+                                <th>Status</th>
+                                <td><%=@user.status%></td>
+                              </tr>
+                              <tr>
+                                <th>Yearly fee</th>
+                                <td>RM 150.00</td>
+                              </tr>
+                            </tbody>
+                          </table>
+
+                          <div class="button text-center">
+                            <%= link_to "Pay Now", billplz_user_path, method: :patch, class: "btn btn-success btn-lg" %>
+                          </div>
+
+                          <%= link_to "Back", session_path(current_user), method: :delete, class: 'white shadowed link-styling' %>
+                        </div>
+
+                        </div>
+                    </div>
+        </div>
+    </div>

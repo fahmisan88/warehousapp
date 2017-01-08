@@ -13,6 +13,7 @@ class User < ApplicationRecord
 
   validates :name, presence: true, length: { in: 5..40 }, format: { with: VALID_NAME_REGEX, message: "Only allows letters and space between 5 to 40 characters"}
   enum role: [:user, :staff, :admin]
+  enum status: [:Inactive, :Active, :Suspended, :Blocked]
 
 
 end
