@@ -18,17 +18,9 @@ class Billplz
       reference_2_label:  'Final Weight/Volume',
       reference_2:
       if shipment.weight > shipment.volume
-      "#{shipment.weight}kg",
+      "#{shipment.weight}kg"
       else
-       "#{shipment.volume}kg",
-      end
-      reference_3_label: 'Extra Charges',
-      reference_3:
-      if shipment.reorganize? || shipment.repackaging?
-      if shipment.reorganize == true 'Reorganize ' else;end
-      if shipment.repackaging == true 'Repackaging ' else;end
-      else
-      None
+       "#{shipment.volume}kg"
       end
     }.to_json,
     basic_auth: { username: ENV["BILLPLZ_KEY"]}
