@@ -6,10 +6,10 @@ class BillplzReg
     body: {
       collection_id:      ENV["BILLPLZ_REG_APPID"],
       email:              user.email,
-      name:               "test user",
+      name:               user.name,
       amount:             100,
       callback_url:       "http://localhost:3000/webhooks/user_payment_callback",
-      description:        'ezicargo',
+      description:        'Ezicargo Registration',
       redirect_url:       "http://localhost:3000/users/#{user.id}/pay",
       deliver:            'true',
       reference_1_label:  'User ID',
