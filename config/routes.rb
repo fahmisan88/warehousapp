@@ -12,6 +12,9 @@ Rails.application.routes.draw do
       get :pay
       patch :billplz
       put :billplz
+      get :edit_ewallet
+      patch :update_ewallet
+      put :update_ewallet
     end
   end
   resources :parcels do
@@ -32,6 +35,7 @@ Rails.application.routes.draw do
   resources :activities, only:[:index]
 
   scope '/webhooks', controller: :webhooks do
-  post 'payment-callback', to: 'webhooks#payment_callback', as: :payment_callback
-end
+  post :payment_callback
+  post :user_payment_callback
+  end
 end
