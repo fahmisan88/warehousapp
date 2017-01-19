@@ -19,10 +19,26 @@ class UsersController < ApplicationController
   def billplz
     @user = User.find_by(id: params[:id])
     if @bill = BillplzReg.create_bill_for(@user)
-      @user.update_attributes(bill_id: @bill.parsed_response['id'], bill_url: @bill.parsed_response['url'])
+      @user.update_attribute(:bill_id, @bill.parsed_response['id'])
+      @user.update_attribute(:bill_url, @bill.parsed_response['url'])
       redirect_to @bill.parsed_response['url']
     else
       redirect_to pay_user_path
+    end
+  end
+
+  def edit_ewallet
+    @user = User.find_by(id: params[:id])
+  end
+
+  def update_ewallet
+    @user = User.find_by(id: params[:id])
+    if @user.update(:ewallet)
+      flash[:success] = "You have updated the user's balance e-wallet"
+      redirect_to user_path
+    else
+      flash[:danger] = "Update balance failed"
+      render new_ewallet_user_path
     end
   end
 

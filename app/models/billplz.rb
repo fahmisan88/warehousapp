@@ -8,7 +8,7 @@ class Billplz
       email:              shipment.user.email,
       name:               "test user",
       amount:             shipment.charge*100,
-      callback_url:       "http://localhost:3000/webhooks/payment-callback",
+      callback_url:       "http://localhost:3000/webhooks/payment_callback",
       description:        'ezicargo',
       due_at:             shipment.due_at,
       redirect_url:       "http://localhost:3000/shipments/#{shipment.id}",
@@ -18,9 +18,17 @@ class Billplz
       reference_2_label:  'Final Weight/Volume',
       reference_2:
       if shipment.weight > shipment.volume
-      "#{shipment.weight}kg"
+      "#{shipment.weight}kg",
       else
-       "#{shipment.volume}kg"
+       "#{shipment.volume}kg",
+      end
+      reference_3_label: 'Extra Charges',
+      reference_3:
+      if shipment.reorganize? || shipment.repackaging?
+      if shipment.reorganize == true 'Reorganize ' else;end
+      if shipment.repackaging == true 'Repackaging ' else;end
+      else
+      None
       end
     }.to_json,
     basic_auth: { username: ENV["BILLPLZ_KEY"]}

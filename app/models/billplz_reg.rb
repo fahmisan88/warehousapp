@@ -7,7 +7,7 @@ class BillplzReg
       collection_id:      ENV["BILLPLZ_REG_APPID"],
       email:              user.email,
       name:               "test user",
-      amount:             15000,
+      amount:             100,
       callback_url:       "http://localhost:3000/webhooks/user_payment_callback",
       description:        'ezicargo',
       redirect_url:       "http://localhost:3000/users/#{user.id}/pay",
