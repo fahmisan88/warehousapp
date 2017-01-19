@@ -6,10 +6,10 @@ class Billplz
     body: {
       collection_id:      ENV["BILLPLZ_APPID"],
       email:              shipment.user.email,
-      name:               "test user",
+      name:               shipment.user.name,
       amount:             shipment.charge*100,
       callback_url:       "http://localhost:3000/webhooks/payment_callback",
-      description:        'ezicargo',
+      description:        'Ezicargo Shipping Fee',
       due_at:             shipment.due_at,
       redirect_url:       "http://localhost:3000/shipments/#{shipment.id}",
       deliver:            'true',
