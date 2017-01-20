@@ -26,3 +26,7 @@
 
 # Ignore rbenv-vars
 .rbenv-vars
+
+# Ignore Mac cache files
+*.DS_Store
+.DS_Store
