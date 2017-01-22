@@ -21,7 +21,7 @@ class BillplzReg
   end
 
   def self.check_status(user_id)
-    user = user_id
+    user = User.find(user_id)
     url = "https://www.billplz.com/api/v3/bills/" + user.bill_id
     arguments = { headers: {'Content-Type' => 'application/json', 'Accept' => 'application/json'},
                   basic_auth: { username: ENV["BILLPLZ_REG_KEY"]}
