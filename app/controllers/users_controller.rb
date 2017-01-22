@@ -43,8 +43,8 @@ class UsersController < ApplicationController
   end
 
   def new
-    if current_user
-      redirect_to '/dashboard'
+    if current_user && current_user.status == "active"
+      redirect_to root_path
     else
       @user = User.new
     end
