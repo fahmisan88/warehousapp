@@ -8,7 +8,7 @@ class BillplzReg
       email:              user.email,
       name:               user.name,
       amount:             100,
-      callback_url:       "http://localhost:3000/webhooks/user_payment_callback",
+      callback_url:       "http://localhost:3000/sessions/new",
       description:        'Ezicargo Registration',
       redirect_url:       "http://localhost:3000/users/#{user.id}/pay",
       deliver:            'true',
@@ -21,7 +21,7 @@ class BillplzReg
   end
 
   def self.check_status(user_id)
-    user = user.find(user_id)
+    user = User.find(user_id)
     url = "https://www.billplz.com/api/v3/bills/" + user.bill_id
     arguments = { headers: {'Content-Type' => 'application/json', 'Accept' => 'application/json'},
                   basic_auth: { username: ENV["BILLPLZ_REG_KEY"]}
