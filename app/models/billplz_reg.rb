@@ -10,7 +10,7 @@ class BillplzReg
       amount:             100,
       callback_url:       "http://localhost:3000/sessions/new",
       description:        'Ezicargo Registration',
-      redirect_url:       "http://localhost:3000/users/#{user.id}/pay",
+      redirect_url:       ENV['URL'] + "/users/#{user.id}/pay",
       deliver:            'true',
       reference_1_label:  'User ID',
       reference_1:        user.id,
