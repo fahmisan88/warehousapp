@@ -8,7 +8,7 @@ class BillplzReg
       email:              user.email,
       name:               user.name,
       amount:             100,
-      callback_url:       "http://localhost:3000/sessions/new",
+      callback_url:       ENV['URL'] + "/sessions/new",
       description:        'Ezicargo Registration',
       redirect_url:       ENV['URL'] + "/users/#{user.id}/pay",
       deliver:            'true',
