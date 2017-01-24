@@ -1,0 +1,31 @@
+.panel-info > .panel-heading
+{
+	background: linear-gradient(91deg, #84c6ec, #1d87c5, #e48f4a, #ea2f2f);
+	background-size: 500% 500%;
+
+-webkit-animation: gradient01 26s ease infinite;
+-moz-animation: gradient01 26s ease infinite;
+-o-animation: gradient01 26s ease infinite;
+animation: gradient01 26s ease infinite;
+}
+
+@-webkit-keyframes gradient01 {
+    0%{background-position:0% 48%}
+    50%{background-position:100% 53%}
+    100%{background-position:0% 48%}
+}
+@-moz-keyframes gradient01 {
+    0%{background-position:0% 48%}
+    50%{background-position:100% 53%}
+    100%{background-position:0% 48%}
+}
+@-o-keyframes gradient01 {
+    0%{background-position:0% 48%}
+    50%{background-position:100% 53%}
+    100%{background-position:0% 48%}
+}
+@keyframes gradient01 { 
+    0%{background-position:0% 48%}
+    50%{background-position:100% 53%}
+    100%{background-position:0% 48%}
+}

@@ -47,7 +47,7 @@
             <div class="col-sm-offset-3 col-sm-9">
                 <div class="checkbox" data-pg-collapsed> 
                     <label class="control-label"> 
-                        <input type="checkbox" value="" data-validation="required" data-validation-error-msg="You have to agree to our terms"> I accept the <a id="tnc" href="#tncModal">Terms and Conditions of Service</a>        
+                        <input type="checkbox" value="" data-validation="required" data-validation-error-msg="You have to agree to our terms"> I accept the <a id="tnc" href="tnc.html">Terms and Conditions of Service</a>        
                     </label>                                         
                 </div>
             </div>
@@ -65,22 +65,11 @@
   </div>
 </div>
 
-<div id="tncModal">
-  <div class="close-tncModal"> 
-      CLOSE MODAL
-  </div>
-  <div class="modal-content">
-      Test Modal
-  </div>
-</div>
-
 <script>
 $.validate({
   modules : 'sanitize, html5, security'
 });
 
-$("#tnc").animatedModal();
-$("#tnc").click();
 
 swal({
 	title: "Warning",
