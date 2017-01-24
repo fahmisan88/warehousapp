@@ -16,6 +16,7 @@
 //= require turbolinks
 //= require sweetalert
 //= require form-validator
+//= require animatedModal
 //= require_tree .
 
 function validateFiles(inputFile) {
