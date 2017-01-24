@@ -11,13 +11,6 @@
       <div class="panel-body" >
         <%= form_for(@user, url: {action: "create"}, method: :post, html: {id: "form-validation", class: "form-horizontal"} ) do %>
 
-        <div id="signupalert" style="display:none" class="alert alert-danger">
-          <p>Error:</p>
-          <span></span>
-        </div>
-
-
-
         <div class="form-group">
           <label for="email" class="col-md-3 control-label">Email</label>
           <div class="col-md-9">
@@ -44,10 +37,20 @@
           </div>
         </div>
         <div class="form-group">
+          <label class="col-md-3 control-label">Choose Promo Package</label>
+          <div class="col-md-9">
+              <select name="user[package]" size="3" class="form-control" data-validation="required,server" data-validation-url="/checkpackage">
+                <option value="1">1 Year subscription = RM150</option>
+                <option value="2">2 Years subscription = RM250 (save RM50)</option>
+                <option value="3">3 Years subscription = RM300 (save RM150)</option>
+              </select>
+          </div>
+        </div>
+        <div class="form-group">
             <div class="col-sm-offset-3 col-sm-9">
                 <div class="checkbox" data-pg-collapsed> 
                     <label class="control-label"> 
-                        <input type="checkbox" value="" data-validation="required" data-validation-error-msg="You have to agree to our terms"> I accept the <a id="tnc" href="tnc.html">Terms and Conditions of Service</a>        
+                        <input type="checkbox" value="" data-validation="required" data-validation-error-msg="You have to agree to our terms"> I accept the <a id="tnc" href="<%= ENV['URL'] + '/tnc.html' %>" target="_blank">Terms and Conditions of Service</a>        
                     </label>                                         
                 </div>
             </div>

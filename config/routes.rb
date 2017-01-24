@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   get '/statement' => 'shipments#statement'
   get '/register' => 'users#new'
   post '/checkemail' => 'users#emailcheck'
+  post '/checkpackage' => 'users#packagecheck'
   resources :sessions, only: [:new, :create, :destroy]
   resources :users do
     member do
