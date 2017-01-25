@@ -3,15 +3,12 @@ class BillplzReg
     user = user
 
     package = user.package
-    price = 0
     
-    case price
-      when package == 1
-        price == 15000
-      when package == 2
-        price == 25000
-      when package == 3
-        price == 30000
+    price = case package
+      when 1 then 15000
+      when 2 then 25000
+      when 3 then 30000
+      else 30000
     end
 
     HTTParty.post("https://www.billplz.com/api/v3/bills/".to_str,
