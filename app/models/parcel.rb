@@ -1,5 +1,4 @@
 class Parcel < ApplicationRecord
-  include PublicActivity::Common
   strip_attributes only: [:awb, :new_awb]
   belongs_to :user
   has_many :ordered_parcels

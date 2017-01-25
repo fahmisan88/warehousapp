@@ -39,7 +39,6 @@ class ParcelsController < ApplicationController
       authorize @parcel
     if @parcel.save
       @parcel.update_attributes(status: 0)
-      @parcel.create_activity :create, owner: current_user
       flash[:success] = "Thank you for your time. You've successfully created a parcel."
       deliver_mail(current_user.name, current_user.email, "parcels", "created")
       redirect_to parcels_path
@@ -68,9 +67,7 @@ class ParcelsController < ApplicationController
         @parcel.update_attributes(volume: ((@parcel.length * @parcel.width * @parcel.height)/6000.to_f).ceil, weight: (@parcel.weight.to_f).ceil)
         @parcel.update_attributes(chargeable: ((@parcel.weight+@parcel.volume)/2.to_f).ceil)
         if @parcel.status == "Waiting"
-          @parcel.update_attributes(status: 1, free_storage: Time.now + 7.days)
-          @parcel.create_activity :update, owner: current_user
-
+          @parcel.update_attributes(status: 1, free_storage: Time.now + 15.days)
           @parcel_user = @parcel.user_id
           @user_info = User.find(@parcel_user)
           deliver_mail(@user_info.name, @user_info.email, "parcels", "arrived")

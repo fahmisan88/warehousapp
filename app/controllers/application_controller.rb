@@ -1,6 +1,5 @@
 class ApplicationController < ActionController::Base
   include Pundit
-  include PublicActivity::StoreController
   protect_from_forgery with: :exception
 
   rescue_from Pundit::NotAuthorizedError do |exception|
@@ -80,7 +79,7 @@ class ApplicationController < ActionController::Base
     @status = status
 
     @mail = Sendinblue::Mailin.new(ENV['SENDINBLUE_API_URL'], ENV['SENDINBLUE_API_KEY'], 10)
-    
+
     @data = case status
       when "created" then {id: 9, to: @email, attr: {"NAME" => @name}}
       when "waitpayment" then {id: 11, to: @email, attr: {"NAME" => @name}}
