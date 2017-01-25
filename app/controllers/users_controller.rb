@@ -51,7 +51,7 @@ class UsersController < ApplicationController
   end
 
   def create
-    if @user = User.create(name: reg_user_params[:fullname], email: reg_user_params[:email], password: reg_user_params[:passwd]).valid?
+    if @user = User.create(name: reg_user_params[:fullname], email: reg_user_params[:email], password: reg_user_params[:passwd], package: reg_user_params[:package].to_i).valid?
       flash[:success] = "You are registered. Please login and pay the yearly fee to continue using our service."
       redirect_to new_session_path
     else
@@ -84,8 +84,8 @@ class UsersController < ApplicationController
 
   def emailcheck
     @user = User.find_by(email: reg_user_params[:email])
-
     if @user.present?
+      flash[:danger] = "Package is not available"
       respond_to do |format|
         format.json {render json: { valid: false, message: "This email is already registered" }}
       end
@@ -94,7 +94,22 @@ class UsersController < ApplicationController
         format.json {render json: { valid: true}}
       end
     end
+  end
 
+
+# check validation choosen package at registration form
+  def packagecheck
+    @package = reg_user_params[:package]
+    if (1..3).include? @package.to_i
+      respond_to do |format|
+        format.json { render json: { valid: true } }
+      end
+    else
+      flash[:danger] = "Package is not available"
+      respond_to do |format|
+        format.json { render json: { valid: false, message: "Package is not available" } }
+      end
+    end
   end
 
   private
@@ -104,7 +119,7 @@ class UsersController < ApplicationController
   end
 
   def reg_user_params
-    params.require(:user).permit(:email, :passwd, :fullname)
+    params.require(:user).permit(:email, :passwd, :fullname, :package)
   end
 
 end
