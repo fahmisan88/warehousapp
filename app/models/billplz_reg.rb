@@ -3,6 +3,7 @@ class BillplzReg
     user = user
 
     package = user.package
+    price = 0
     
     case price
       when package == 1
@@ -20,7 +21,7 @@ class BillplzReg
       email:              user.email,
       name:               user.name,
       amount:             price,
-      callback_url:       ENV['URL'] + "/sessions/new",
+      callback_url:       ENV['URL'] + "/webhooks/user_payment_callback",
       description:        'Ezicargo Registration',
       redirect_url:       ENV['URL'] + "/users/#{user.id}/pay",
       deliver:            'true',
