@@ -20,7 +20,7 @@ class BillplzReg
       amount:             price,
       callback_url:       ENV['URL'] + "/webhooks/user_payment_callback",
       description:        'Ezicargo Registration',
-      redirect_url:       ENV['URL'] + "/users/#{user.id}/pay",
+      redirect_url:       ENV['URL'] + "/users/#{user.id}/edit",
       deliver:            'true',
       reference_1_label:  'User ID',
       reference_1:        user.id,

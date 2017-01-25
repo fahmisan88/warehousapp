@@ -30,3 +30,6 @@
 # Ignore Mac cache files
 *.DS_Store
 .DS_Store
+
+# Ignore Visual Studio Code setting folder
+/.vscode/
