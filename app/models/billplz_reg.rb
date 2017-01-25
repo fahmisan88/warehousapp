@@ -1,13 +1,25 @@
 class BillplzReg
   def self.create_bill_for(user)
     user = user
+
+    package = user.package
+    
+    case price
+      when package == 1
+        price == 15000
+      when package == 2
+        price == 25000
+      when package == 3
+        price == 30000
+    end
+
     HTTParty.post("https://www.billplz.com/api/v3/bills/".to_str,
     headers: {'Content-Type' => 'application/json','Accept '=> 'application/json' },
     body: {
       collection_id:      ENV["BILLPLZ_REG_APPID"],
       email:              user.email,
       name:               user.name,
-      amount:             15000,
+      amount:             price,
       callback_url:       ENV['URL'] + "/sessions/new",
       description:        'Ezicargo Registration',
       redirect_url:       ENV['URL'] + "/users/#{user.id}/pay",
