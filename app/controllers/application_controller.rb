@@ -21,6 +21,11 @@ class ApplicationController < ActionController::Base
   end
   helper_method :staff_user
 
+  def member_user
+    return unless session[:id]
+    @member_user ||= User.find_by(id: session[:id], role: 0)
+  end
+  helper_method :member_user
 
   def current_user
     return unless session[:id]
