@@ -189,7 +189,7 @@
                   <tbody>
                     <%@todaysales.each do |sales|%>
                     <tr>
-                      <td>Q0<%=sales.user.ezi_id%></td>
+                      <td>Q0<%=current_user.ezi_id%></td>
                       <td><%=sales.bill_id%></td>
                       <td><%=sales.updated_at.strftime("%d-%m-%Y")%></td>
                       <td><%=sales.charge%></td>
