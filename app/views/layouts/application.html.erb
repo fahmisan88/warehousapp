@@ -11,7 +11,7 @@
     <div>
       <% if admin_user || staff_user %>
         <%= render partial: 'partials/sidebar-admin' %>
-      <% elsif current_user && current_user.status == "Active" %>
+      <% elsif current_user && current_user.status == "Active" && current_user.address? %>
         <%= render partial: 'partials/sidebar' %>
       <%end%>
     </div>
@@ -21,7 +21,7 @@
       <%= render partial: 'partials/footer' %>
     </div>
 
-    
+
     <!-- for temporary announcement -->
     <% if member_user && member_user.status == "Active" %>
     <script>

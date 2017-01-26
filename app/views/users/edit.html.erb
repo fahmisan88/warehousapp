@@ -4,7 +4,7 @@
     <br>
     <br>
     <div class="row">
-        <div class="col-lg-12">
+        <div class="col-lg-10">
             <ol class="breadcrumb">
                 <li class="active">
                     <i class="fa fa-user"></i> User
@@ -13,38 +13,45 @@
         </div>
     </div>
     <div class="row">
-      <div class="col-lg-12">
+      <div class="col-lg-10">
         <div class="panel panel-default">
           <div class="panel-heading">
-            <h3 class="panel-title"><i class="fa fa-user fa-fw"></i> Update Account</h3>
+            <h3 class="panel-title"><i class="fa fa-user fa-fw"></i> Add Address </h3>
           </div>
           <div class="panel-body">
 
             <div class="container">
               <%= form_for(@user, url: user_path(@user), html: { id: "parcel-update-form" }) do |f| %>
               <form>
-                <div class="form-group">
-                  <label for="Password">Password</label>
-                  <%= f.text_field :password, id: "type_field", class: 'form-control', placeholder:"******", type:"password" %>
-                </div>
-                <div class="form-group">
+                <div class="form-group col-xs-10">
                   <label for="address">Address:</label>
-                  <%= f.text_field :address, id: "type_field", class: 'form-control', type:"text" %>
+                  <%= f.text_field :address, id: "type_field", class: 'form-control', type:"text", required: true %>
                 </div>
-                <div class="form-group">
+                <div class="form-group col-xs-10">
+                  <label for="type">State:</label>
+                  <%= f.select :address2, [ 'Selangor', 'Kuala Lumpur', 'Kedah', 'P.Pinang', 'Perlis', 'Terengganu', 'Kelantan', 'Pahang', 'Johor', 'Perak', 'N.Sembilan', 'Melaka', 'Sabah', 'Sarawak'],{ :include_blank => '-- Select One --' },
+                   class:"form-control", required: true %>
+                </div>
+                <div class="form-group col-xs-10">
                   <label for="address">Postcode:</label>
-                  <%= f.text_field :postcode, id: "type_field", class: 'form-control', type:"text" %>
+                  <%= f.text_field :postcode, id: "type_field", class: 'form-control', type:"text", required: true %>
                 </div>
-                <div class="form-group">
+                <div class="form-group col-xs-10">
                   <label for="phone">Mobile Phone:</label>
-                  <%= f.text_field :phone, id: "type_field", class: 'form-control', type:"text" %>
+                  <%= f.text_field :phone, id: "type_field", class: 'form-control', type:"text", required: true %>
                 </div>
-
-                <%= f.submit "Update Account", class: "btn btn-success btn-lg", type:"submit" %>
-                <%= link_to 'Back', dashboard_path, class:"btn btn-link" %>
-
+                <div class="form-group col-xs-4">
+                  <label for="Password">Please Re-enter Your Password for validation</label>
+                  <%= f.text_field :password, id: "type_field", class: 'form-control', type:"password", required: true %>
+                  <%= f.submit "Add Address", class: "btn btn-success btn-lg", type:"submit" %>
+                </div>
               </form>
               <% end %>
+            </div>
+            <div class="text-center">
+              <h2>
+                Please make sure your address is complete, this step cannot be modified later.
+              </h2>
             </div>
           </div>
         </div>
