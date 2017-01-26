@@ -78,8 +78,16 @@ class UsersController < ApplicationController
     end
   end
 
-  def destroy
+  def suspend
+    @user= User.find_by(id: params[:id])
     authorize @user
+    if @user.update_attribute(:status, 2)
+      redirect_to users_path
+      flash[:success] = "You've suspend a user."
+    else
+      flash[:danger]
+      redirect_to users_path
+    end
   end
 
   def emailcheck

@@ -22,12 +22,11 @@
             <div class="table-responsive">
               <div class="list-group">
                 <%= form_tag(parcels_path, method: "get", id: "search-form") do %>
-                <b class="list-group-item text-center">
+                <b class="text-center">
                   <%= text_field_tag :search, params[:search], class: "form-control text", placeholder:"AWB" %>
-                  <%= submit_tag "Search", :name => nil%>
                 </b>
+                <div class="text-center"><%= submit_tag "Search", :name => nil, class:"btn btn-success btn-sm"%></div>
                 <%end%>
-
               </div>
             </div>
             <div class="text-right">
@@ -44,8 +43,8 @@
           <div class="panel-body">
             <div class = "parcels">
               <% if @parcels.empty? %>
-              <h3 class="text-center">No parcels available or match the AWB <%= params[:search] %>. Please create parcel first.</h3>
-              <div class="text-center"><%= link_to "Create Parcel", new_parcel_path, class: "btn btn-success" %></div>
+              <h3 class="text-center">NO PARCELS AVAILABLE</h3>
+              <div class="text-center"><%= link_to "Create Parcel", new_parcel_path, class: "btn btn-success btn-lg" %></div>
               <%else%>
 
               <div>
@@ -84,7 +83,7 @@
                         5 days left
                         <% elsif Time.now < parcel.free_storage - 5.days && Time.now > parcel.free_storage - 6.days %>
                         6 days left
-                        <% elsif Time.now < parcel.free_storage - 6.days && Time.now > parcel.free_storage - 7.days %>
+                        <% elsif Time.now < parcel.free_storage - 6.days || Time.now > parcel.free_storage - 7.days %>
                         7 days left
                         <% else %>
                         <% end %>
@@ -99,7 +98,7 @@
                       </td>
                       <td><%= parcel.description%> </td>
                       <td><%= parcel.status%></td>
-                      <td><%= parcel.user_id%></td>
+                      <td>Q0<%= parcel.user.ezi_id%></td>
                       <td>
                       <% if (admin_user||staff_user)%>
                       <span><%= link_to "", edit_parcel_path(parcel), class:"fa fa-pencil" %></span>&nbsp;&nbsp;

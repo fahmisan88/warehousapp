@@ -16,6 +16,7 @@ Rails.application.routes.draw do
       get :edit_ewallet
       patch :update_ewallet
       put :update_ewallet
+      post :suspend
     end
   end
   resources :parcels do
