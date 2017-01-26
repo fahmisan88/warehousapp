@@ -18,7 +18,7 @@ Bundler.require(*Rails.groups)
 
 module Ezcargo
   class Application < Rails::Application
-    config.time_zone = 'Kuala_Lumpur'
+    config.time_zone = 'Asia/Kuala_Lumpur'
     config.active_record.default_timezone = :local
   end
 end
