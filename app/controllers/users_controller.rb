@@ -70,7 +70,7 @@ class UsersController < ApplicationController
     @user = User.find_by(id: params[:id])
     authorize @user
     if @user.update(user_params)
-      flash[:success] = "You have update your account!"
+      flash[:success] = "You have added your address!"
       redirect_to dashboard_path
     else
       flash[:danger] = "Your update failed!"
