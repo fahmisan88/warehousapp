@@ -58,6 +58,7 @@
                       <th>Email</th>
                       <th>Date Joined</th>
                       <th>Expiry Date</th>
+                      <th>Status</th>
                       <th>Action</th>
                     </tr>
                   </th
@@ -69,9 +70,10 @@
                       <td><%= user.email%> </td>
                       <td><%= user.updated_at.strftime("%d-%m-%Y")%></td>
                       <td><%= user.updated_at.strftime("%d-%m-%Y").to_date + 365.days%></td>
+                      <td><%= user.status%></td>
                       <td><span><%= link_to "", edit_user_path(user), class:"fa fa-pencil" %>
                       </span>&nbsp;&nbsp;
-                      <span><%= link_to "", user_path(user), class:"fa fa-eye" %></span>&nbsp;&nbsp;<span><%= link_to "", user_path(user), class:"fa fa-trash", data: { confirm: "Are you sure you want delete this parcel?"}, method: :delete %></span></td>
+                      <span><%= link_to "", user_path(user), class:"fa fa-eye" %></span>&nbsp;&nbsp;<span><%= link_to "", suspend_user_path(user), class:"fa fa-ban", data: { confirm: "Are you sure you want to suspend this user?"}, method: :post %></span></td>
                       <%end%>
                       <%end%>
                     </tr>

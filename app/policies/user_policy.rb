@@ -20,7 +20,7 @@ class UserPolicy < ApplicationPolicy
     new? || user.admin?
   end
 
-  def destroy?
+  def suspend?
     user.present? && user.admin?
   end
 
