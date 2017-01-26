@@ -38,7 +38,6 @@ class ShipmentsController < ApplicationController
     valchargeable = @parcels.sum(:chargeable)
     authorize @shipment
     if @shipment.save
-      @shipment.create_activity :create, owner: current_user
       @parcels.each do |parcel|
       @shipment.ordered_parcels.create( {:parcel_id => parcel.id})
       parcel.update({:status => :"Ready To Ship"})
@@ -854,7 +853,6 @@ class ShipmentsController < ApplicationController
         if @shipment.charge != nil
         @bill = Billplz.create_bill_for(@shipment)
         @shipment.update_attributes(bill_id: @bill.parsed_response['id'], bill_url: @bill.parsed_response['url'], status: "Awaiting Payment")
-        @shipment.create_activity :update, owner: current_user
         # redirect_to @bill.parsed_response['url']
         flash[:success] ="Payment Request has been sent"
         @shipment_user = @shipment.user_id

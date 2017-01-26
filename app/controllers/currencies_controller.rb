@@ -1,5 +1,5 @@
 class CurrenciesController < ApplicationController
-  
+
   def edit
     @currency = Currency.find(params[:id])
   end
@@ -18,6 +18,6 @@ class CurrenciesController < ApplicationController
   private
 
     def currency_params
-      params.require(:currency).permit(:change)
+      params.require(:currency).permit(:myr2rmb, :rmb2myr)
     end
 end
