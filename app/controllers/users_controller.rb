@@ -71,7 +71,7 @@ class UsersController < ApplicationController
     authorize @user
     if @user.update(user_params)
       flash[:success] = "You have update your account!"
-      redirect_to user_path
+      redirect_to dashboard_path
     else
       flash[:danger] = "Your update failed!"
       render :edit
@@ -123,7 +123,7 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:phone, :address, :postcode,:password,:email)
+    params.require(:user).permit(:phone, :address, :address2, :postcode, :password)
   end
 
   def reg_user_params

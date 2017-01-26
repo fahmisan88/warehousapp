@@ -13,7 +13,7 @@
         </div>
     </div>
     <div class="row">
-      <div class="col-lg-8">
+      <div class="col-lg-12">
         <div class="panel panel-default">
           <div class="panel-heading">
             <h3 class="panel-title"><i class="fa fa-ship fa-fw"></i> Create Shipment</h3>
@@ -118,40 +118,6 @@
           </div>
         </div>
 
-      </div>
-      <div class="col-lg-4">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h3 class="panel-title"><i class="fa fa-home fa-fw"></i> Shipping Address</h3>
-          </div>
-          <div class="panel-body">
-            <div class="table-responsive">
-              <div class="list-group">
-                <b href="#" class="list-group-item">
-
-                  <b>Name: </b>
-                  <%=current_user.name %>
-                  <br>
-                  <b>Address: </b>
-                  <%=current_user.address%>
-                  <br>
-                  <b>Postcode:</b>
-                  <%=current_user.postcode%>
-                  <br>
-                  <b>Phone No.:</b>
-                  <%=current_user.phone%>
-                </b>
-
-              </div>
-            </div>
-            <%if current_user.address.nil?%>
-            <div class="text-right">
-              <a href="<%=edit_user_path(current_user)%>">Update Shipping Address <i class="fa fa-arrow-circle-right"></i></a>
-            </div>
-            <%else%>
-            <%end%>
-          </div>
-        </div>
       </div>
     </div>
   </div>

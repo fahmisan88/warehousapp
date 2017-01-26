@@ -15,7 +15,7 @@
         <ul class="nav navbar-right top-nav">
             <li>
               <a>Membership expired on <%= member_user.expiry %></a>
-            </li>    
+            </li>
             <li>
               <a href="">Tutorial</a>
             </li>
@@ -24,9 +24,6 @@
                 <ul class="dropdown-menu">
                     <li>
                         <a href="<%=user_path(current_user)%>"><i class="fa fa-fw fa-user"></i> View Profile</a>
-                    </li>
-                    <li>
-                        <a href="<%=edit_user_path(current_user)%>"><i class="fa fa-fw fa-pencil"></i> Edit Profile</a>
                     </li>
                     <li>
                         <a href="<%=statement_path%>"><i class="fa fa-fw fa-book"></i> Statement</a>
