@@ -14,7 +14,8 @@
 //= require jquery_ujs
 //= require bootstrap-sprockets
 //= require turbolinks
-//= require sweetalert
+//= require es6-promise.auto
+//= require sweetalert2
 //= require form-validator
 //= require_tree .
 
