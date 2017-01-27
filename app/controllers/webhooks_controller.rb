@@ -20,7 +20,8 @@ class WebhooksController < ApplicationController
   def user_payment_callback
     @user = User.find_by(bill_id: params[:id])
     @ezi_id = @user.ezi_id + @user.id + 399
-    @expiry = @user.package * 350
+    @user.ezi_id = 0
+    @expiry = @user.package * 365
     response = BillplzReg.check_status(@user.id)
     if (response['paid'] == true) && (response['state']=='paid')
         @user.update_attribute(:status, 1)
