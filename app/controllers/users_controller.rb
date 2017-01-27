@@ -123,7 +123,7 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:phone, :address, :address2, :postcode, :password)
+    params.require(:user).permit(:phone, :address, :address2, :postcode)
   end
 
   def reg_user_params
