@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170127124530) do
+ActiveRecord::Schema.define(version: 20170127182601) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -114,7 +114,7 @@ ActiveRecord::Schema.define(version: 20170127124530) do
     t.decimal  "ewallet"
     t.integer  "package"
     t.datetime "expiry"
-    t.integer  "ezi_id"
+    t.string   "ezi_id"
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["ezi_id"], name: "index_users_on_ezi_id", using: :btree
   end
