@@ -4,7 +4,7 @@
     <br>
     <br>
     <div class="row">
-        <div class="col-lg-10">
+        <div class="col-xs-10">
             <ol class="breadcrumb">
                 <li class="active">
                     <i class="fa fa-user"></i> User
@@ -13,7 +13,7 @@
         </div>
     </div>
     <div class="row">
-      <div class="col-lg-10">
+      <div class="col-xs-10">
         <div class="panel panel-default">
           <div class="panel-heading">
             <h3 class="panel-title"><i class="fa fa-user fa-fw"></i> Add Address </h3>
@@ -40,9 +40,7 @@
                   <label for="phone">Mobile Phone:</label>
                   <%= f.text_field :phone, id: "type_field", class: 'form-control', type:"text", required: true %>
                 </div>
-                <div class="form-group col-xs-4">
-                  <label for="Password">Please Re-enter Your Password for validation</label>
-                  <%= f.text_field :password, id: "type_field", class: 'form-control', type:"password", required: true %>
+                <div class="col-xs-10">
                   <%= f.submit "Add Address", class: "btn btn-success btn-lg", type:"submit" %>
                 </div>
               </form>
