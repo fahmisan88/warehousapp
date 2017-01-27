@@ -11,7 +11,7 @@ class WebhooksController < ApplicationController
 
         @shipment.update_attributes(status: "Shipped", paid_at: params[:paid_at])
         @shipment.ordered_parcels.each do |x|
-          x.parcel.update_attribute(:status => :"Shipped")
+          x.parcel.update_attribute(:status, "Shipped")
         end
       render body: nil
     end
@@ -24,9 +24,7 @@ class WebhooksController < ApplicationController
     @expiry = @user.package * 365
     response = BillplzReg.check_status(@user.id)
     if (response['paid'] == true) && (response['state']=='paid')
-        @user.update_attribute(:status, 1)
-        @user.update_attribute(:ezi_id, @ezi_id)
-        @user.update_attribute(:expiry, @expiry.days.from_now)
+        @user.update_attributes(status: 1, :ezi_id => @ezi_id, :expiry => @expiry.days.from_now)
       render body: nil
     end
   end
