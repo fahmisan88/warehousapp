@@ -65,7 +65,7 @@
                   <tbody>
                     <%@users.each do |user|%>
                     <tr>
-                      <td>Q0<%= user.ezi_id%></td>
+                      <td><%= user.ezi_id%></td>
                       <td><%= user.name%> </td>
                       <td><%= user.email%> </td>
                       <td><%= user.updated_at.strftime("%d-%m-%Y")%></td>
