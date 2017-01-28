@@ -9,7 +9,7 @@
       <div class="row">
         <div class="col-lg-12">
           <h1 class="page-header">
-            My Dashboard <small>Q0<%=current_user.ezi_id%></small>
+            My Dashboard <small><%=current_user.ezi_id%></small>
           </h1>
           <ol class="breadcrumb">
             <li class="active">
@@ -189,7 +189,7 @@
                   <tbody>
                     <%@todaysales.each do |sales|%>
                     <tr>
-                      <td>Q0<%=current_user.ezi_id%></td>
+                      <td><%=current_user.ezi_id%></td>
                       <td><%=sales.bill_id%></td>
                       <td><%=sales.updated_at.strftime("%d-%m-%Y")%></td>
                       <td><%=sales.charge%></td>

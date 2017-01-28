@@ -98,7 +98,7 @@
                       </td>
                       <td><%= parcel.description%> </td>
                       <td><%= parcel.status%></td>
-                      <td>Q0<%= parcel.user.ezi_id%></td>
+                      <td><%= parcel.user.ezi_id%></td>
                       <td>
                       <% if (admin_user||staff_user)%>
                       <span><%= link_to "", edit_parcel_path(parcel), class:"fa fa-pencil" %></span>&nbsp;&nbsp;
