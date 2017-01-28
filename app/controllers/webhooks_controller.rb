@@ -20,7 +20,7 @@ class WebhooksController < ApplicationController
 #fungsi untuk replace ezi_id dalam string eg. Q0500 kepada integer dengan buang Q kat depan untuk calculate tambah 1 bagi increment of ezi_id dan concantenate dgn string Q semula.
   def user_payment_callback
     @user = User.find_by(bill_id: params[:id])
-    @last_ezi = User.all.where.not(:ezi_id => nil).last.ezi_id.gsub(/[^0-9]/, '').to_i
+    @last_ezi = User.all.where.not(:ezi_id => nil).order(:ezi_id).last.ezi_id.gsub(/[^0-9]/, '').to_i
     @ezi_id = @last_ezi + 1
     @ezi_id_string = "Q" + @ezi_id.to_s.rjust(4,'0')
     @expiry = @user.package * 365
