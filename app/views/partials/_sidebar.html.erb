@@ -14,9 +14,12 @@
         <!-- Top Menu Items -->
         <ul class="nav navbar-right top-nav">
             <li>
+            <a>Member Code Id: <%= "Q" + member_user.ezi_id.to_s.rjust(4,'0') %></a>
+            </li>
+            <li>
               <a>Membership expired on: 
               <% t =  member_user.expiry %>
-              <%= t.strftime('%b') %></a>
+              <%= t.strftime('%a, %d %b %G') %></a>
             </li>
             <li>
               <a href="">Tutorial</a>
