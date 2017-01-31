@@ -11,7 +11,7 @@
           <h1 class="page-header">
             My Dashboard <small>
             <% if member_user %>
-            <%= "Q" + member_user.ezi_id.to_s.rjust(4,'0') %>
+            <%= member_user.ezi_id.to_s %>
             <% end %>
             </small>
           </h1>
