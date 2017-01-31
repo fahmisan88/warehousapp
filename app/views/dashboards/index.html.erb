@@ -9,7 +9,7 @@
       <div class="row">
         <div class="col-lg-12">
           <h1 class="page-header">
-            My Dashboard <small><%=current_user.ezi_id%></small>
+            My Dashboard <small><%= "Q" + member_user.ezi_id.to_s.rjust(4,'0') %></small>
           </h1>
           <ol class="breadcrumb">
             <li class="active">
