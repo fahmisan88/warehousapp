@@ -71,9 +71,13 @@
                       <td><%= user.updated_at.strftime("%d-%m-%Y")%></td>
                       <td><%= user.updated_at.strftime("%d-%m-%Y").to_date + 365.days%></td>
                       <td><%= user.status%></td>
-                      <td><span><%= link_to "", edit_user_path(user), class:"fa fa-pencil" %>
-                      </span>&nbsp;&nbsp;
-                      <span><%= link_to "", user_path(user), class:"fa fa-eye" %></span>&nbsp;&nbsp;<span><%= link_to "", suspend_user_path(user), class:"fa fa-ban", data: { confirm: "Are you sure you want to suspend this user?"}, method: :post %></span></td>
+                      <td><span><%= link_to "", edit_user_path(user), class:"fa fa-pencil" %></span>&nbsp;&nbsp;
+                      <span><%= link_to "", user_path(user), class:"fa fa-eye" %></span>&nbsp;&nbsp;
+                      <span><%= link_to "", edit_id_user_path(user), class:"fa fa-id-card" %></span>&nbsp;&nbsp;
+                      <span><%= link_to "", activate_user_path(user), class:"fa fa-unlock", data: { confirm: "Are you sure you want to activate this user?"}, method: :post %></span>&nbsp;&nbsp;
+                      <span><%= link_to "", suspend_user_path(user), class:"fa fa-lock", data: { confirm: "Are you sure you want to suspend this user?"}, method: :post %></span>&nbsp;&nbsp;
+                      <span><%= link_to "", block_user_path(user), class:"fa fa-ban", data: { confirm: "Are you sure you want to block this user?"}, method: :post %></span>&nbsp;&nbsp;
+                    </td>
                       <%end%>
                       <%end%>
                     </tr>

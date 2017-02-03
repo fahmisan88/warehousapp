@@ -104,7 +104,10 @@
               <div class="form-group">
                 <label> <%= f.label :type_field, "Remarks" %> </label>
                 <%= f.text_field :remark, id: "type_field", class: 'form-control', type:"text" %>
-
+              </div>
+              <div class="form-group">
+                <label> <%= f.label :type_field, "Sea Freight?" %> </label>&nbsp;&nbsp;
+                <%= f.check_box :sea_freight, {}, "true", "false"%>
               </div>
 
               <div class="form-group">

@@ -61,6 +61,7 @@ class UsersController < ApplicationController
 
   end
 
+#edit and update method is for adding address for user
   def edit
     @user = User.find_by(id: params[:id])
     authorize @user
@@ -78,12 +79,48 @@ class UsersController < ApplicationController
     end
   end
 
+  def edit_id
+    @user = User.find_by(id: params[:id])
+  end
+
+  def update_id
+    @user = User.find_by(id: params[:id])
+    if @user.update(edit_params)
+      flash[:success] = "You have updated the user information!"
+      redirect_to users_path
+    else
+      flash[:danger] = "Your update failed!"
+      render :edit
+    end
+  end
+
   def suspend
     @user= User.find_by(id: params[:id])
-    authorize @user
     if @user.update_attribute(:status, 2)
       redirect_to users_path
       flash[:success] = "You've suspend a user."
+    else
+      flash[:danger]
+      redirect_to users_path
+    end
+  end
+
+  def block
+    @user= User.find_by(id: params[:id])
+    if @user.update_attribute(:status, 3)
+      redirect_to users_path
+      flash[:success] = "You've block a user."
+    else
+      flash[:danger]
+      redirect_to users_path
+    end
+  end
+
+  def activate
+    @user= User.find_by(id: params[:id])
+    if @user.update_attribute(:status, 1)
+      redirect_to users_path
+      flash[:success] = "You've activate a user."
     else
       flash[:danger]
       redirect_to users_path
@@ -128,6 +165,10 @@ class UsersController < ApplicationController
 
   def reg_user_params
     params.require(:user).permit(:email, :passwd, :fullname, :package)
+  end
+
+  def edit_params
+    params.require(:user).permit(:ezi_id, :expiry)
   end
 
 end
