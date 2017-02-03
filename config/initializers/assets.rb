@@ -11,4 +11,4 @@ Rails.application.config.assets.version = '1.5'
 # Rails.application.config.assets.precompile += %w( search.js )
 
 Rails.application.config.assets.precompile += %w( footermanifest.js )
-Rails.application.config.assets.precompile += %w( landingmanifest.css )
+Rails.application.config.assets.precompile += %w( landingmanifest.scss )
