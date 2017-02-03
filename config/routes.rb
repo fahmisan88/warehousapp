@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   get '/dashboard' => 'dashboards#index'
   get '/statement' => 'shipments#statement'
   get '/register' => 'users#new'
+  get '/login' => 'sessions#new'
   post '/checkemail' => 'users#emailcheck'
   post '/checkpackage' => 'users#packagecheck'
   resources :sessions, only: [:new, :create, :destroy]
