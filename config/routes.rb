@@ -17,6 +17,11 @@ Rails.application.routes.draw do
       patch :update_ewallet
       put :update_ewallet
       post :suspend
+      post :block
+      post :activate
+      get :edit_id
+      patch :update_id
+      put :update_id
     end
   end
   resources :parcels do
@@ -31,6 +36,8 @@ Rails.application.routes.draw do
     member do
       patch :calculate
       put :calculate
+      patch :add_charge
+      put :add_charge
     end
   end
   resources :currencies, only: [:edit, :update]

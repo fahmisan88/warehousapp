@@ -97,6 +97,16 @@
                   </td>
                 </tr>
                 <tr>
+                  <th>Type Of Freight</th>
+                  <td>
+                    <% if @shipment.sea_freight == true%>
+                    Sea Freight
+                    <%else%>
+                    Air Freight
+                    <%end%>
+                  </td>
+                </tr>
+                <tr>
                   <th>Total Price</th>
                   <td>RM <%=@shipment.charge%></td>
                 </tr>

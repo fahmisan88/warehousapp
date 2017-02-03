@@ -67,7 +67,7 @@ class ShipmentsController < ApplicationController
     @ringgit = @currency.rmb2myr
 
     chargeReorganize = @shipment.parcels.size * 2 * @ringgit
-    chargeRepackaging = @shipment.parcels.size * 5 * @ringgit
+    chargeRepackaging = @shipment.parcels.size * 10 * @ringgit
     chargePhotoshoot = @shipment.parcels.where(photoshoot: true).size * 10
     chargeInspection = @shipment.parcels.where(inspection: true).size * 30
 
@@ -846,27 +846,37 @@ class ShipmentsController < ApplicationController
 
   end
 
-  def update
-      @shipment = Shipment.find(params[:id])
-      authorize @shipment
-      if @shipment.update(shipment_params)
-        if @shipment.charge != nil
-        @bill = Billplz.create_bill_for(@shipment)
-        @shipment.update_attributes(bill_id: @bill.parsed_response['id'], bill_url: @bill.parsed_response['url'], status: "Awaiting Payment")
-        # redirect_to @bill.parsed_response['url']
-        flash[:success] ="Payment Request has been sent"
-        @shipment_user = @shipment.user_id
-        @user_info = User.find(@shipment_user)
-        deliver_mail(@user_info.name, @user_info.email, "shipments", "waitpayment")
-        redirect_to shipments_path
+    def update
+        @shipment = Shipment.find(params[:id])
+        authorize @shipment
+        if @shipment.update(shipment_params)
+          if @shipment.charge != nil
+          @bill = Billplz.create_bill_for(@shipment)
+          @shipment.update_attributes(bill_id: @bill.parsed_response['id'], bill_url: @bill.parsed_response['url'], status: "Awaiting Payment")
+          # redirect_to @bill.parsed_response['url']
+          flash[:success] ="Payment Request has been sent"
+          @shipment_user = @shipment.user_id
+          @user_info = User.find(@shipment_user)
+          deliver_mail(@user_info.name, @user_info.email, "shipments", "waitpayment")
+          redirect_to shipments_path
+          else
+            redirect_to shipments_path
+          end
         else
           redirect_to shipments_path
+          # flash[:danger]
         end
+    end
+
+    def add_charge
+      @shipment = Shipment.find(params[:id])
+      if @shipment.update(add_charge_params)
+      flash[:success] ="Successfully added extra charge!"
       else
-        redirect_to shipments_path
-        # flash[:danger]
+      flash[:danger] = "Failed to add charge"
       end
-  end
+      redirect_to edit_shipment_path(@shipment)
+    end
 
     def destroy
       @shipment = Shipment.find(params[:id])
@@ -892,11 +902,15 @@ class ShipmentsController < ApplicationController
   private
 
     def shipment_params
-      params.require(:shipment).permit(:status, :remark, :weight, :volume, :charge, :bill_id, :bill_url, :due_at, :paid_at, :reorganize, :repackaging)
+      params.require(:shipment).permit(:status, :remark, :weight, :volume, :charge, :bill_id, :bill_url, :due_at, :paid_at, :reorganize, :repackaging, :sea_freight)
     end
 
     def calculate_params
       params.require(:shipment).permit(:charge)
+    end
+
+    def add_charge_params
+      params.require(:shipment).permit(:repackaging, :reorganize)
     end
 
 
