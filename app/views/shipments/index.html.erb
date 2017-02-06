@@ -59,7 +59,7 @@
               <thead>
                 <tr>
                   <th>Date</th>
-                  <th>Shipment ID</th>
+                  <th>Ship ID</th>
                   <th>Charges</th>
                   <th>Status</th>
                   <th>Action</th>
@@ -89,7 +89,7 @@
                     <%if shipment.bill_url.nil? %>
                     <%= link_to "", shipment_path(shipment), class:"fa fa-eye" %></span>&nbsp;&nbsp;
                     <% elsif shipment.bill_url? %>
-                    <%= link_to "Pay Now", shipment_path(shipment) %></span>&nbsp;&nbsp;
+                    <%= link_to "Pay", shipment_path(shipment) %></span>&nbsp;&nbsp;
                     <% else %>
                     <%= link_to "", shipment_path(shipment), class:"fa fa-eye" %></span>&nbsp;&nbsp;
                     <% end%>

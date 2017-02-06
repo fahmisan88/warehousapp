@@ -57,7 +57,9 @@
                       <th>AWB</th>
                       <th>Description</th>
                       <th>Status</th>
+                      <%if admin_user || staff_user %>
                       <th>User ID</th>
+                      <% end %>
                       <th>Action</th>
                     </tr>
                   </thead>
@@ -70,21 +72,21 @@
                         No data
                         <% else %>
                         <% if Time.now >= parcel.free_storage %>
-                        0 day left
+                        0 day
                         <% elsif Time.now < parcel.free_storage && Time.now > parcel.free_storage - 1.days %>
-                        1 day left
+                        1 day
                         <% elsif Time.now < parcel.free_storage - 1.days && Time.now > parcel.free_storage - 2.days %>
-                        2 days left
+                        2 days
                         <% elsif Time.now < parcel.free_storage - 2.days && Time.now > parcel.free_storage - 3.days %>
-                        3 days left
+                        3 days
                         <% elsif Time.now < parcel.free_storage - 3.days && Time.now > parcel.free_storage - 4.days %>
-                        4 days left
+                        4 days
                         <% elsif Time.now < parcel.free_storage - 4.days && Time.now > parcel.free_storage - 5.days %>
-                        5 days left
+                        5 days
                         <% elsif Time.now < parcel.free_storage - 5.days && Time.now > parcel.free_storage - 6.days %>
-                        6 days left
+                        6 days
                         <% elsif Time.now < parcel.free_storage - 6.days || Time.now > parcel.free_storage - 7.days %>
-                        7 days left
+                        7 days
                         <% else %>
                         <% end %>
                         <% end %>
@@ -98,7 +100,9 @@
                       </td>
                       <td><%= parcel.description%> </td>
                       <td><%= parcel.status%></td>
+                      <%if admin_user || staff_user %>
                       <td><%= parcel.user.ezi_id%></td>
+                      <% end %>
                       <td>
                       <% if (admin_user||staff_user)%>
                       <span><%= link_to "", edit_parcel_path(parcel), class:"fa fa-pencil" %></span>&nbsp;&nbsp;

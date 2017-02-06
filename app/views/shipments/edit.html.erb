@@ -29,6 +29,12 @@
                     <label> <%= f.label :type_field, "Reorganize" %> </label>
                     <%= f.check_box :reorganize, {}, "true", "false"%>
                   </div>
+                  <div class="form-group">
+                    <label> <%= f.label :type_field, "Additional Charges Details" %> </label>
+                    <%= f.text_field :extra_remark, id: "type_field", class: 'form-control', type:"text" %>
+                    <label> <%= f.label :type_field, "Extra Charge" %> </label>
+                    <%= f.text_field :extra_charge, id: "type_field", class: 'form-control', type:"text", required: true %>
+                  </div>
                   <%= f.submit "Add Charge", class: "btn btn-info", type:"submit" %>
                   <% end %>
                 </div>
@@ -83,18 +89,6 @@
                   </tbody>
 
                 </table>
-                <div>
-                  <%= f.label :weight %>
-                  <%= f.text_field :weight, class:"form-control" %>
-                </div>
-                <div>
-                  <%= f.label :"volume metric" %>
-                  <%= f.text_field :volume, class:"form-control" %>
-                </div>
-                <div>
-                  <%= f.label :"chargeable volume metric" %>
-                  <%= f.text_field :chargeable, class:"form-control" %>
-                </div>
                 <div>
                   <%= f.label :"charge (myr)" %>
                   <%= f.text_field :charge, class:"form-control" %>

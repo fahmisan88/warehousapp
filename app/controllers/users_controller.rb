@@ -97,8 +97,8 @@ class UsersController < ApplicationController
   def suspend
     @user= User.find_by(id: params[:id])
     if @user.update_attribute(:status, 2)
-      redirect_to users_path
       flash[:success] = "You've suspend a user."
+      redirect_to users_path
     else
       flash[:danger]
       redirect_to users_path

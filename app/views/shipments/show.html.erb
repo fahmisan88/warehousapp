@@ -13,37 +13,10 @@
         </div>
     </div>
     <div class="row">
-      <div class="col-lg-6">
+      <div class="col-lg-8">
         <div class="panel panel-default">
           <div class="panel-heading">
-            <h3 class="panel-title"><i class="fa fa-home fa-fw"></i> Shipping Address</h3>
-          </div>
-          <div class="panel-body">
-            <div class="table-responsive">
-              <div class="list-group">
-                <b href="#" class="list-group-item">
-
-                  <b>Name: </b>
-                  <%=@shipment.user.name %>
-                  <br>
-                  <b>Address: </b>
-                  <%=@shipment.user.address%>
-                  <br>
-                  <b>Postcode:</b>
-                  <%=@shipment.user.postcode%>
-                  <br>
-                  <b>Phone No.:</b>
-                  <%=@shipment.user.phone%>
-                </b>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-6">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h3 class="panel-title"><i class="fa fa-ship fa-fw"></i>Shipment ID <%=@shipment.id%> </h3>
+            <h3 class="panel-title"><i class="fa fa-ship fa-fw"></i>Shipment Details </h3>
           </div>
           <div class="panel-body">
             <table class="table">
@@ -57,30 +30,11 @@
                   <td><%=@shipment.shipment_type%></td>
                 </tr>
                 <tr>
-                  <th>
-                    <% if @shipment.weight >= @shipment.volume %>
-                    Final Weight (kg)
-                    <% else %>
-                    Final Volume Metric (kg)
-                    <% end%>
-                  </th>
+                  <th>Final Weight (kg)</th>
                   <td>
-                    <% if @shipment.weight >= @shipment.volume %>
-                    <%=@shipment.weight%>
-                    <% else %>
-                    <%=@shipment.volume %>
-                    <% end%>
+                    <%=@shipment.final_kg%>
                   </td>
                 </tr>
-                <% if @shipment.volume > @shipment.weight %>
-                <tr>
-                  <th>Chargeable (kg)</th>
-                  <td>
-                    <%=@shipment.chargeable%>
-                  </td>
-                </tr>
-                <% else %>
-                <% end%>
                 <tr>
                   <th>Status</th>
                   <td><%=@shipment.status%></td>
@@ -91,6 +45,8 @@
                     <%if @shipment.reorganize? || @shipment.repackaging? %>
                     <% if @shipment.reorganize == true%>| Reorganize | <% else;end%>
                     <% if @shipment.repackaging == true%>| Repackaging | <% else;end%>
+                    <% if @shipment.parcels.where(photoshoot: true).size >= 1%>| Photoshoot (<%=@shipment.parcels.where(photoshoot: true).size%> parcels) | <% else; end%>
+                    <% if @shipment.parcels.where(inspection: true).size >= 1%>| Inspection (<%=@shipment.parcels.where(inspection: true).size%> parcels) | <% else; end%>
                     <% else %>
                     None
                     <%end%>
@@ -126,6 +82,37 @@
           </div>
         </div>
       </div>
+      <div class="col-lg-4">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title"><i class="fa fa-home fa-fw"></i> Shipping Address</h3>
+          </div>
+          <div class="panel-body">
+            <div class="table-responsive">
+              <div class="list-group">
+                <b href="#" class="list-group-item">
+
+                  <b>Name: </b>
+                  <%=@shipment.user.name %>
+                  <br>
+                  <b>Address: </b>
+                  <%=@shipment.user.address%>
+                  <br>
+                  <b>Postcode:</b>
+                  <%=@shipment.user.postcode%>
+                  <br>
+                  <b>State: </b>
+                  <%=@shipment.user.address2%>
+                  <br>
+                  <b>Phone No.:</b>
+                  <%=@shipment.user.phone%>
+                </b>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
     <div class="row">
       <div class="col-lg-12">
@@ -141,8 +128,7 @@
                   <th>AWB</th>
                   <th>Description</th>
                   <th>Type</th>
-                  <th>Weight(kg)</th>
-                  <th>Volume Metric</th>
+                  <th>Final Weight(kg)</th>
                 </tr>
               </thead>
 
@@ -152,16 +138,14 @@
                   <td><%= ordered_parcel.parcel.awb%> </td>
                   <td><%= ordered_parcel.parcel.description%></td>
                   <td><%= ordered_parcel.parcel.parcel_good%></td>
-                  <td><%= ordered_parcel.parcel.weight%></td>
-                  <td><%= ordered_parcel.parcel.volume%></td>
+                  <td><%= ordered_parcel.parcel.final_kg%></td>
                 </tr>
                 <% end %>
                 <tr>
                   <td></td>
                   <td></td>
                   <td>Total: </td>
-                  <td><%=@shipment.weight%></td>
-                  <td><%=@shipment.volume%></td>
+                  <td><%=@shipment.final_kg%></td>
                 </tr>
               </tbody>
 

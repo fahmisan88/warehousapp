@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170203102547) do
+ActiveRecord::Schema.define(version: 20170206154341) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -76,13 +76,12 @@ ActiveRecord::Schema.define(version: 20170203102547) do
     t.boolean  "refund"
     t.string   "refund_explain"
     t.datetime "free_storage"
+    t.decimal  "final_kg"
   end
 
   create_table "shipments", force: :cascade do |t|
     t.integer  "user_id"
     t.string   "remark"
-    t.integer  "weight"
-    t.integer  "volume"
     t.string   "status"
     t.integer  "shipment_type"
     t.decimal  "charge"
@@ -92,10 +91,12 @@ ActiveRecord::Schema.define(version: 20170203102547) do
     t.string   "bill_url"
     t.datetime "created_at",                    null: false
     t.datetime "updated_at",                    null: false
-    t.decimal  "chargeable"
     t.boolean  "reorganize"
     t.boolean  "repackaging"
     t.boolean  "sea_freight",   default: false
+    t.integer  "final_kg"
+    t.integer  "extra_charge",  default: 0
+    t.string   "extra_remark"
   end
 
   create_table "users", force: :cascade do |t|
