@@ -3,7 +3,7 @@ class Shipment < ApplicationRecord
   has_many :ordered_parcels, dependent: :destroy
   belongs_to :user
 
-  # enum status: [:Processing, :"Awaiting Payment", :Paid]
+  enum status: [:Processing, :"Awaiting Payment", :Paid]
   enum shipment_type: [:Normal, :Sensitive]
 
 
@@ -12,8 +12,20 @@ class Shipment < ApplicationRecord
 
 
 
+  def self.search0(search0)
+    where(status: 0)
+  end
+
+  def self.search1(search1)
+    where(status: 1)
+  end
+
+  def self.search2(search2)
+    where(status: 2)
+  end
+
   def self.search(search)
-    where("status ILIKE ?", "%#{search}%")
+    where("id ILIKE ?", "%#{search}%")
   end
 
 end

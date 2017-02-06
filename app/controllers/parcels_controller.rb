@@ -9,15 +9,56 @@ class ParcelsController < ApplicationController
     @parcels= current_user.parcels.order(updated_at: :desc).page params[:page]
     end
 
-    if params[:search]
+    if params[:search0]
       if admin_user || staff_user
-      @parcels = Parcel.search(params[:search]).order("updated_at DESC").page params[:page]
+        @parcels = Parcel.search0(params[:search0]).order("updated_at DESC").page params[:page]
       else
-      @parcels = current_user.parcels.search(params[:search]).order("updated_at DESC").page params[:page]
-    end
+        @parcels = current_user.parcels.search0(params[:search0]).order("updated_at DESC").page params[:page]
+      end
+    elsif params[:search1]
+      if admin_user || staff_user
+        @parcels = Parcel.search1(params[:search1]).order("updated_at DESC").page params[:page]
+      else
+        @parcels = current_user.parcels.search1(params[:search1]).order("updated_at DESC").page params[:page]
+      end
+    elsif params[:search2]
+      if admin_user || staff_user
+        @parcels = Parcel.search2(params[:search2]).order("updated_at DESC").page params[:page]
+      else
+        @parcels = current_user.parcels.search2(params[:search2]).order("updated_at DESC").page params[:page]
+      end
+    elsif params[:search3]
+      if admin_user || staff_user
+        @parcels = Parcel.search3(params[:search3]).order("updated_at DESC").page params[:page]
+      else
+        @parcels = current_user.parcels.search3(params[:search3]).order("updated_at DESC").page params[:page]
+      end
+    elsif params[:search4]
+      if admin_user || staff_user
+        @parcels = Parcel.search4(params[:search4]).order("updated_at DESC").page params[:page]
+      else
+        @parcels = current_user.parcels.search4(params[:search4]).order("updated_at DESC").page params[:page]
+      end
+    elsif params[:search5]
+      if admin_user || staff_user
+        @parcels = Parcel.search5(params[:search5]).order("updated_at DESC").page params[:page]
+      else
+        @parcels = current_user.parcels.search5(params[:search5]).order("updated_at DESC").page params[:page]
+      end
+    elsif params[:search6]
+      if admin_user || staff_user
+        @parcels = Parcel.search6(params[:search6]).order("updated_at DESC").page params[:page]
+      else
+        @parcels = current_user.parcels.search6(params[:search6]).order("updated_at DESC").page params[:page]
+      end
+    elsif params[:search]
+      if admin_user || staff_user
+        @parcels = Parcel.search(params[:search]).order("updated_at DESC").page params[:page]
+      else
+        @parcels = current_user.parcels.search(params[:search]).order("updated_at DESC").page params[:page]
+      end
     else
     end
-
   end
 
   def show
@@ -90,7 +131,7 @@ class ParcelsController < ApplicationController
 
         if @parcel.update(update_awb_params)
           if @parcel.refund == true
-            @parcel.update_attributes(status: :"Request Refund")
+            @parcel.update_attributes(status: 4)
             flash[:success] = "You've successfully request a refund!"
           elsif @parcel.refund == false
             flash[:danger] = "Request refund fail"

@@ -6,6 +6,10 @@ class UsersController < ApplicationController
 
     @users = User.all.order(updated_at: :desc).page params[:page]
       authorize @users
+      if params[:search]
+        @users = User.search(params[:search]).order("updated_at DESC").page params[:page]
+      else
+      end
   end
 
   def show
@@ -43,7 +47,7 @@ class UsersController < ApplicationController
   end
 
   def new
-    if current_user && current_user.status == "active"
+    if current_user && current_user.status == "Active"
       redirect_to root_path
     else
       @user = User.new

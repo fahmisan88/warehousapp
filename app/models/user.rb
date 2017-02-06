@@ -15,5 +15,8 @@ class User < ApplicationRecord
   enum role: [:user, :staff, :admin]
   enum status: [:Inactive, :Active, :Suspended, :Blocked]
 
+  def self.search(search)
+    where("ezi_id ILIKE ?", "%#{search}%")
+  end
 
 end
