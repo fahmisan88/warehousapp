@@ -35,7 +35,7 @@ class ApplicationController < ActionController::Base
 
 
   def authenticate!
-    unless current_user
+    unless current_user && current_user.status == "Active"
       redirect_to root_path
       flash[:danger] = "You need to login first"
     end

@@ -66,21 +66,21 @@ class ParcelsController < ApplicationController
         if @parcel.weight? && @parcel.length? && @parcel.width? && @parcel.height?
         @parcel.update_attributes(volume: ((@parcel.length * @parcel.width * @parcel.height)/6000.to_f).ceil, weight: (@parcel.weight.to_f).ceil)
         @parcel.update_attributes(chargeable: ((@parcel.weight+@parcel.volume)/2.to_f).ceil)
-        if @parcel.status == "Waiting"
-          @parcel.update_attributes(status: 1, free_storage: Time.now + 15.days)
+        if @parcel.weight >= @parcel.chargeable
+          @parcel.update_attributes(final_kg: @parcel.weight, status: 1, free_storage: Time.now + 15.days)
+        else
+          @parcel.update_attributes(final_kg: @parcel.chargeable, status: 1, free_storage: Time.now + 15.days)
+        end
           @parcel_user = @parcel.user_id
           @user_info = User.find(@parcel_user)
           deliver_mail(@user_info.name, @user_info.email, "parcels", "arrived")
         else
         end
-        else
-        end
-
         flash[:success] = "You've successfully updated the parcel!"
         redirect_to parcel_path(@parcel)
       else
         redirect_to parcels_path
-        flash[:danger]
+        flash[:danger] = "Update parcel fail"
       end
     end
 
