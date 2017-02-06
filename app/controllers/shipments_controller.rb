@@ -9,7 +9,25 @@ class ShipmentsController < ApplicationController
       @shipments= current_user.shipments.order(updated_at: :desc).page params[:page]
     end
 
-    if params[:search]
+    if params[:search0]
+      if admin_user || staff_user
+        @shipments = Shipment.search0(params[:search0]).order("updated_at DESC").page params[:page]
+      else
+        @shipments = current_user.shipments.search0(params[:search0]).order("updated_at DESC").page params[:page]
+      end
+    elsif params[:search1]
+      if admin_user || staff_user
+        @shipments = Shipment.search1(params[:search1]).order("updated_at DESC").page params[:page]
+      else
+        @shipments = current_user.shipments.search1(params[:search1]).order("updated_at DESC").page params[:page]
+      end
+    elsif params[:search2]
+      if admin_user || staff_user
+        @shipments = Shipment.search2(params[:search2]).order("updated_at DESC").page params[:page]
+      else
+        @shipments = current_user.shipments.search2(params[:search2]).order("updated_at DESC").page params[:page]
+      end
+    elsif params[:search]
       if admin_user || staff_user
         @shipments = Shipment.search(params[:search]).order("updated_at DESC").page params[:page]
       else
@@ -519,9 +537,9 @@ class ShipmentsController < ApplicationController
 
   def statement
     if admin_user || staff_user
-      @shipments= Shipment.all.where(status: 'Paid').order(updated_at: :desc).page params[:page]
+      @shipments= Shipment.all.where(status: 2).order(updated_at: :desc).page params[:page]
     else
-      @shipments= current_user.shipments.where(status: 'Paid').order(updated_at: :desc).page params[:page]
+      @shipments= current_user.shipments.where(status: 2).order(updated_at: :desc).page params[:page]
     end
 
   end

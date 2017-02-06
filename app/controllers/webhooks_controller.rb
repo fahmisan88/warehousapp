@@ -9,9 +9,9 @@ class WebhooksController < ApplicationController
         @user_info = User.find(@shipment_user)
         deliver_mail(@user_info.name, @user_info.email, "shipments", "readytoship")
 
-        @shipment.update_attributes(status: "Shipped", paid_at: params[:paid_at])
+        @shipment.update_attributes(status: 2, paid_at: params[:paid_at])
         @shipment.ordered_parcels.each do |x|
-          x.parcel.update_attribute(:status, "Shipped")
+          x.parcel.update_attribute(:status, 3)
         end
       render body: nil
     end
