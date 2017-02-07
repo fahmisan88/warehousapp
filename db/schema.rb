@@ -106,19 +106,22 @@ ActiveRecord::Schema.define(version: 20170206180658) do
     t.text     "address"
     t.string   "postcode"
     t.string   "phone"
-    t.integer  "role",            default: 0
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
+    t.integer  "role",                 default: 0
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
     t.string   "address2"
-    t.integer  "status",          default: 0
+    t.integer  "status",               default: 0
     t.string   "bill_id"
     t.string   "bill_url"
+    t.string   "password_reset_token"
+    t.datetime "reset_sent_at"
     t.decimal  "ewallet"
     t.integer  "package"
     t.datetime "expiry"
     t.string   "ezi_id"
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["ezi_id"], name: "index_users_on_ezi_id", using: :btree
+    t.index ["password_reset_token"], name: "index_users_on_password_reset_token", unique: true, using: :btree
   end
 
 end
