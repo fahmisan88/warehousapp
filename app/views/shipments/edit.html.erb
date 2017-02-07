@@ -30,12 +30,14 @@
                     <%= f.check_box :reorganize, {}, "true", "false"%>
                   </div>
                   <div class="form-group">
-                    <label> <%= f.label :type_field, "Additional Charges Details" %> </label>
+                    <label> <%= f.label :type_field, "Charges Details" %> </label>
                     <%= f.text_field :extra_remark, id: "type_field", class: 'form-control', type:"text" %>
-                    <label> <%= f.label :type_field, "Extra Charge" %> </label>
+                    <label> <%= f.label :type_field, "Add Charge" %> </label>
                     <%= f.text_field :extra_charge, id: "type_field", class: 'form-control', type:"text", required: true %>
+                    <label> <%= f.label :type_field, "Minus Charge" %> </label>
+                    <%= f.text_field :minus_charge, id: "type_field", class: 'form-control', type:"text", required: true %>
                   </div>
-                  <%= f.submit "Add Charge", class: "btn btn-info", type:"submit" %>
+                  <%= f.submit "Add / Minus Charge", class: "btn btn-info", type:"submit" %>
                   <% end %>
                 </div>
                 <br>
@@ -49,6 +51,7 @@
                       <th><b>Select</b></th>
                       <th><b>Service</b></th>
                       <th><b>Description</b></th>
+                      <th><b>Charge (RMB)</b></th>
                     </tr>
                   </thead>
                   <tbody>
@@ -58,7 +61,14 @@
                     <td></td>
                     <% end %>
                     <td>Reorganize</td>
-                    <td>Please reorganize my parcel for shipment</td>
+                    <td>Please reorganize my parcel for shipment (<%=@shipment.parcels.size%> parcels)</td>
+                    <td>
+                      <% if @shipment.reorganize == true%>
+                      <%=@shipment.parcels.size * 2%>
+                      <% else %>
+                      0
+                      <% end%>
+                    </td>
                   </tbody>
                   <tbody>
                     <% if @shipment.repackaging == true%>
@@ -68,6 +78,13 @@
                     <% end %>
                     <td>Repackaging</td>
                     <td>Please repackaging my parcel for shipment</td>
+                    <td>
+                      <% if @shipment.repackaging == true%>
+                      10
+                      <% else %>
+                      0
+                      <% end%>
+                    </td>
                   </tbody>
                   <tbody>
                     <% if @shipment.parcels.where(photoshoot: true).size >= 1%>
@@ -76,7 +93,14 @@
                     <td></td>
                     <% end %>
                     <td>Photoshoot</td>
-                    <td>Please snap picture for me when my parcel arrive (<%=@shipment.parcels.where(photoshoot: true).size%> parcels selected)</td>
+                    <td>Please snap picture for me when my parcel arrive (<%=@shipment.parcels.where(photoshoot: true).size%> parcels)</td>
+                    <td>
+                      <% if @shipment.parcels.where(photoshoot: true).size >= 1%>
+                      <%=@shipment.parcels.where(photoshoot: true).size * 10%>
+                      <% else %>
+                      0
+                      <% end %>
+                    </td>
                   </tbody>
                   <tbody>
                     <% if @shipment.parcels.where(inspection: true).size >= 1%>
@@ -85,12 +109,19 @@
                     <td></td>
                     <% end %>
                     <td>Inspection</td>
-                    <td>Please inspect my goods quantity when my parcel arrive (<%=@shipment.parcels.where(inspection: true).size%> parcels selected)</td>
+                    <td>Please inspect my goods quantity when my parcel arrive (<%=@shipment.parcels.where(inspection: true).size%> parcels)</td>
+                    <td>
+                      <% if @shipment.parcels.where(inspection: true).size >= 1%>
+                      <%=@shipment.parcels.where(inspection: true).size * 30%>
+                      <% else %>
+                      0
+                      <% end %>
+                    </td>
                   </tbody>
 
                 </table>
                 <div>
-                  <%= f.label :"charge (myr)" %>
+                  <label> <%= f.label :type_field, "Charge (MYR)" %> </label>
                   <%= f.text_field :charge, class:"form-control" %>
                 </div>
                 <br>
@@ -104,8 +135,20 @@
                   <% end %>
                   <br>
                   <div>
+                    <% if @shipment.sea_freight? %>
+                    <div>
+                      <%= form_for(@shipment, url: sea_calculate_shipment_path(@shipment), html: { id: "calculate-form" }) do |f| %>
+                      <div class="form-group">
+                        <label> <%= f.label :type_field, "Sea Freight Charge (MYR)" %> </label>
+                        <%= f.text_field :sea_charge, id: "type_field", class: 'form-control', type:"text", required: true %>
+                      </div>
+                      <%= f.submit "Calculate Sea Freight", class: "btn btn-info btn-lg", type:"submit" %>
+                      <% end %>
+                    </div>
+                    <% else %>
                   <%= form_for(@shipment, url: calculate_shipment_path(@shipment), html: { id: "calculate-form" }) do |f| %>
-                  <%= f.submit "Calculate", class: "btn btn-success", type:"submit" %>
+                  <%= f.submit "Calculate Air Freight", class: "btn btn-info btn-lg", type:"submit" %>
+                  <% end %>
                   <% end %>
                   </div>
                   <%= link_to 'Back', shipments_path, class:"btn btn-link" %>

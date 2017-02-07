@@ -73,6 +73,7 @@
                   <th>Ship ID</th>
                   <th>Charges</th>
                   <th>Status</th>
+                  <th>Freight</th>
                   <%if admin_user || staff_user %>
                   <th>User ID</th>
                   <% end%>
@@ -92,6 +93,12 @@
                     <% end%>
                   </td>
                   <td><%= shipment.status%></td>
+                  <td><%if shipment.sea_freight? %>
+                  Sea
+                  <%else%>
+                  Air
+                  <% end %>
+                  </td>
                   <%if admin_user || staff_user %>
                   <td><%= shipment.user.ezi_id%></td>
                   <% end%>

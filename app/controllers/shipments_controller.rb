@@ -83,33 +83,34 @@ class ShipmentsController < ApplicationController
     @ringgit = @currency.rmb2myr
 
     extraCharge = @shipment.extra_charge
+    minusCharge = @shipment.minus_charge
     chargeReorganize = @shipment.parcels.size * 2 * @ringgit
-    chargeRepackaging = @shipment.parcels.size * 10 * @ringgit
+    chargeRepackaging = 10 * @ringgit
     chargePhotoshoot = @shipment.parcels.where(photoshoot: true).size * 10
     chargeInspection = @shipment.parcels.where(inspection: true).size * 30
 
-    chargeByWeight0To3 = (@shipment.final_kg * 30 + chargePhotoshoot + chargeInspection + extraCharge ) * @ringgit
-    chargeByWeight3To10 = (@shipment.final_kg * 26 + chargePhotoshoot + chargeInspection + extraCharge ) * @ringgit
-    chargeByWeight10above = (@shipment.final_kg * 23 + chargePhotoshoot + chargeInspection + extraCharge ) * @ringgit
-    chargeByWeight0To11ToSS = (@shipment.final_kg * 41 + chargePhotoshoot + chargeInspection + extraCharge ) * @ringgit
-    chargeByWeight11aboveToSS = (@shipment.final_kg * 38 + chargePhotoshoot + chargeInspection + extraCharge ) * @ringgit
-    sensitiveChargeByWeight0To2 = (@shipment.final_kg * 56 + chargePhotoshoot + chargeInspection + extraCharge ) * @ringgit
-    sensitiveChargeByWeight2To3 = (@shipment.final_kg * 44 + chargePhotoshoot + chargeInspection + extraCharge ) * @ringgit
-    sensitiveChargeByWeight3To4 = (@shipment.final_kg * 36 + chargePhotoshoot + chargeInspection + extraCharge ) * @ringgit
-    sensitiveChargeByWeight4To5 = (@shipment.final_kg * 34 + chargePhotoshoot + chargeInspection + extraCharge ) * @ringgit
-    sensitiveChargeByWeight5To7 = (@shipment.final_kg * 32 + chargePhotoshoot + chargeInspection + extraCharge ) * @ringgit
-    sensitiveChargeByWeight7To9 = (@shipment.final_kg * 31 + chargePhotoshoot + chargeInspection + extraCharge ) * @ringgit
-    sensitiveChargeByWeight9To11 = (@shipment.final_kg * 30 + chargePhotoshoot + chargeInspection + extraCharge ) * @ringgit
-    sensitiveChargeByWeight11Above = (@shipment.final_kg * 27 + chargePhotoshoot + chargeInspection + extraCharge ) * @ringgit
-    sensitiveChargeByWeight0To2ToSS = (@shipment.final_kg * 72 + chargePhotoshoot + chargeInspection + extraCharge ) * @ringgit
-    sensitiveChargeByWeight2To3ToSS = (@shipment.final_kg * 57 + chargePhotoshoot + chargeInspection + extraCharge ) * @ringgit
-    sensitiveChargeByWeight3To4ToSS = (@shipment.final_kg * 52 + chargePhotoshoot + chargeInspection + extraCharge ) * @ringgit
-    sensitiveChargeByWeight4To5ToSS = (@shipment.final_kg * 50 + chargePhotoshoot + chargeInspection + extraCharge ) * @ringgit
-    sensitiveChargeByWeight5To6ToSS = (@shipment.final_kg * 48 + chargePhotoshoot + chargeInspection + extraCharge ) * @ringgit
-    sensitiveChargeByWeight6To8ToSS = (@shipment.final_kg * 47 + chargePhotoshoot + chargeInspection + extraCharge ) * @ringgit
-    sensitiveChargeByWeight8To10ToSS = (@shipment.final_kg * 46 + chargePhotoshoot + chargeInspection + extraCharge ) * @ringgit
-    sensitiveChargeByWeight10To11ToSS = (@shipment.final_kg * 45 + chargePhotoshoot + chargeInspection + extraCharge ) * @ringgit
-    sensitiveChargeByWeight11AboveToSS = (@shipment.final_kg * 42 + chargePhotoshoot + chargeInspection + extraCharge ) * @ringgit
+    chargeByWeight0To3 = (@shipment.final_kg * 30 + chargePhotoshoot + chargeInspection + extraCharge - minusCharge ) * @ringgit
+    chargeByWeight3To10 = (@shipment.final_kg * 26 + chargePhotoshoot + chargeInspection + extraCharge - minusCharge ) * @ringgit
+    chargeByWeight10above = (@shipment.final_kg * 23 + chargePhotoshoot + chargeInspection + extraCharge - minusCharge ) * @ringgit
+    chargeByWeight0To11ToSS = (@shipment.final_kg * 41 + chargePhotoshoot + chargeInspection + extraCharge - minusCharge ) * @ringgit
+    chargeByWeight11aboveToSS = (@shipment.final_kg * 38 + chargePhotoshoot + chargeInspection + extraCharge - minusCharge ) * @ringgit
+    sensitiveChargeByWeight0To2 = (@shipment.final_kg * 56 + chargePhotoshoot + chargeInspection + extraCharge - minusCharge ) * @ringgit
+    sensitiveChargeByWeight2To3 = (@shipment.final_kg * 44 + chargePhotoshoot + chargeInspection + extraCharge - minusCharge ) * @ringgit
+    sensitiveChargeByWeight3To4 = (@shipment.final_kg * 36 + chargePhotoshoot + chargeInspection + extraCharge - minusCharge ) * @ringgit
+    sensitiveChargeByWeight4To5 = (@shipment.final_kg * 34 + chargePhotoshoot + chargeInspection + extraCharge - minusCharge ) * @ringgit
+    sensitiveChargeByWeight5To7 = (@shipment.final_kg * 32 + chargePhotoshoot + chargeInspection + extraCharge - minusCharge ) * @ringgit
+    sensitiveChargeByWeight7To9 = (@shipment.final_kg * 31 + chargePhotoshoot + chargeInspection + extraCharge - minusCharge ) * @ringgit
+    sensitiveChargeByWeight9To11 = (@shipment.final_kg * 30 + chargePhotoshoot + chargeInspection + extraCharge - minusCharge ) * @ringgit
+    sensitiveChargeByWeight11Above = (@shipment.final_kg * 27 + chargePhotoshoot + chargeInspection + extraCharge - minusCharge ) * @ringgit
+    sensitiveChargeByWeight0To2ToSS = (@shipment.final_kg * 72 + chargePhotoshoot + chargeInspection + extraCharge - minusCharge ) * @ringgit
+    sensitiveChargeByWeight2To3ToSS = (@shipment.final_kg * 57 + chargePhotoshoot + chargeInspection + extraCharge - minusCharge ) * @ringgit
+    sensitiveChargeByWeight3To4ToSS = (@shipment.final_kg * 52 + chargePhotoshoot + chargeInspection + extraCharge - minusCharge ) * @ringgit
+    sensitiveChargeByWeight4To5ToSS = (@shipment.final_kg * 50 + chargePhotoshoot + chargeInspection + extraCharge - minusCharge ) * @ringgit
+    sensitiveChargeByWeight5To6ToSS = (@shipment.final_kg * 48 + chargePhotoshoot + chargeInspection + extraCharge - minusCharge ) * @ringgit
+    sensitiveChargeByWeight6To8ToSS = (@shipment.final_kg * 47 + chargePhotoshoot + chargeInspection + extraCharge - minusCharge ) * @ringgit
+    sensitiveChargeByWeight8To10ToSS = (@shipment.final_kg * 46 + chargePhotoshoot + chargeInspection + extraCharge - minusCharge ) * @ringgit
+    sensitiveChargeByWeight10To11ToSS = (@shipment.final_kg * 45 + chargePhotoshoot + chargeInspection + extraCharge - minusCharge ) * @ringgit
+    sensitiveChargeByWeight11AboveToSS = (@shipment.final_kg * 42 + chargePhotoshoot + chargeInspection + extraCharge - minusCharge ) * @ringgit
 
     if @shipment.repackaging == false && @shipment.reorganize == false
       if @shipment.user.address2 != ("Sabah" || "Sarawak") && @shipment.shipment_type == "Normal" && @shipment.final_kg < 3
@@ -490,6 +491,19 @@ class ShipmentsController < ApplicationController
     end
   end
 
+  def sea_calculate
+    @shipment = Shipment.find(params[:id])
+    if @shipment.sea_freight?
+      @shipment.update(sea_calculate_params)
+      chargeMYR = @shipment.sea_charge
+      @shipment.update_attributes(charge: chargeMYR)
+      flash[:success] ="Sea Freight Charge calculated successfully"
+    else
+      flash[:danger] = "Sea Freight Calculation Fail"
+    end
+    redirect_to edit_shipment_path(@shipment)
+  end
+
 
   def update
     @shipment = Shipment.find(params[:id])
@@ -555,7 +569,11 @@ class ShipmentsController < ApplicationController
   end
 
   def add_charge_params
-    params.require(:shipment).permit(:repackaging, :reorganize, :extra_charge, :extra_remark)
+    params.require(:shipment).permit(:repackaging, :reorganize, :extra_charge, :extra_remark, :minus_charge)
+  end
+
+  def sea_calculate_params
+    params.require(:shipment).permit(:sea_charge)
   end
 
 
