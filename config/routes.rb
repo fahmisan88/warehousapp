@@ -37,6 +37,8 @@ Rails.application.routes.draw do
     member do
       patch :calculate
       put :calculate
+      patch :sea_calculate
+      put :sea_calculate
       patch :add_charge
       put :add_charge
     end
