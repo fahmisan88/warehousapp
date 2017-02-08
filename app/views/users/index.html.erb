@@ -35,6 +35,28 @@
         </table>
           </div>
         </div>
+        <div class="col-lg-4">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title"><i class="fa fa-search fa-fw"></i>Search User Email</h3>
+            </div>
+            <table class="table table-bordered">
+              <tbody>
+                <tr>
+                  <td>
+                    <%= form_tag(users_path, method: "get", id: "search-form") do %>
+                    <div class="col-lg-6"><%= text_field_tag :search1, params[:search1], class: "form-control text", placeholder:"user@email.com" %></div>
+                    <div class="col-lg-2"><%= submit_tag "Search", :name => nil, class:"btn btn-success btn-sm"%></div>
+                    <%end%>
+                    <div class="text-right">
+                      <a href="<%=users_path%>">View All</a>
+                    </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+            </div>
+          </div>
       </div>
     <div class="row">
       <div class="col-lg-12">

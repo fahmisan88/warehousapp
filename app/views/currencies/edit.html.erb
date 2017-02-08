@@ -23,15 +23,14 @@
             <div class="container">
               <%= form_for(@currency, url: currency_path(@currency), html: { id: "currency-update-form" }) do |f| %>
               <form>
-
-
-
                 <div class="form-group">
-                  <label for="pwd">Currency Exchange:</label>
-                  <%= f.text_field :myr2rmb, id: "type_field", class: 'form-control', placeholder:"1 RMB to 1 MYR", type:"text" %>
+                  <label for="pwd">Currency Exchange (RMB to MYR):</label>
+                  <%= f.text_field :rmb2myr, id: "type_field", class: 'form-control', placeholder:"eg. 0.64", type:"text" %>
                 </div>
-
-
+                <div class="form-group">
+                  <label for="pwd">Currency Exchange (MYR to RMB):</label>
+                  <%= f.text_field :myr2rmb, id: "type_field", class: 'form-control', placeholder:"eg. 1.65", type:"text" %>
+                </div>
                 <%= f.submit "Update Currency", class: "btn btn-success btn-lg", type:"submit" %>
 
               </form>

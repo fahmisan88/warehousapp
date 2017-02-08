@@ -9,17 +9,27 @@ class ParcelPolicy < ApplicationPolicy
   end
 
   def edit?
-    show?
+    user_has_power?
   end
+
   def edit_awb?
     show?
   end
+
+  def request_refund?
+    show?
+  end
+
+  def update_request_refund?
+    show?
+  end
+
   def update_awb?
     show?
   end
 
   def update?
-    show?
+    user_has_power?
   end
 
   def destroy?

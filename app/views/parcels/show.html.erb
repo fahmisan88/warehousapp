@@ -70,27 +70,43 @@
                   <td><%=@parcel.status%></td>
                 </tr>
                 <tr>
-                  <th>Free Storage Days</th>
+                  <th>Free Storage Days Left</th>
                   <td>
                     <% if @parcel.free_storage.nil? %>
                     No data
                     <% else %>
                     <% if Time.now >= @parcel.free_storage %>
-                    0 day left
+                    0 day
                     <% elsif Time.now < @parcel.free_storage && Time.now > @parcel.free_storage - 1.days %>
-                    1 day left
+                    1 day
                     <% elsif Time.now < @parcel.free_storage - 1.days && Time.now > @parcel.free_storage - 2.days %>
-                    2 days left
+                    2 days
                     <% elsif Time.now < @parcel.free_storage - 2.days && Time.now > @parcel.free_storage - 3.days %>
-                    3 days left
+                    3 days
                     <% elsif Time.now < @parcel.free_storage - 3.days && Time.now > @parcel.free_storage - 4.days %>
-                    4 days left
+                    4 days
                     <% elsif Time.now < @parcel.free_storage - 4.days && Time.now > @parcel.free_storage - 5.days %>
-                    5 days left
+                    5 days
                     <% elsif Time.now < @parcel.free_storage - 5.days && Time.now > @parcel.free_storage - 6.days %>
-                    6 days left
+                    6 days
                     <% elsif Time.now < @parcel.free_storage - 6.days && Time.now > @parcel.free_storage - 7.days %>
-                    7 days left
+                    7 days
+                    <% elsif Time.now < @parcel.free_storage - 7.days && Time.now > @parcel.free_storage - 8.days %>
+                    8 days
+                    <% elsif Time.now < @parcel.free_storage - 8.days && Time.now > @parcel.free_storage - 9.days %>
+                    9 days
+                    <% elsif Time.now < @parcel.free_storage - 9.days && Time.now > @parcel.free_storage - 10.days %>
+                    10 days
+                    <% elsif Time.now < @parcel.free_storage - 10.days && Time.now > @parcel.free_storage - 11.days %>
+                    11 days
+                    <% elsif Time.now < @parcel.free_storage - 11.days && Time.now > @parcel.free_storage - 12.days %>
+                    12 days
+                    <% elsif Time.now < @parcel.free_storage - 12.days && Time.now > @parcel.free_storage - 13.days %>
+                    13 days
+                    <% elsif Time.now < @parcel.free_storage - 13.days && Time.now > @parcel.free_storage - 14.days %>
+                    14 days
+                    <% elsif Time.now < @parcel.free_storage - 14.days || Time.now > @parcel.free_storage - 15.days %>
+                    15 days
                     <% else %>
                     <% end %>
                     <% end %>
@@ -172,7 +188,7 @@
                   </div>
                   <%if @parcel.status == "Arrived"%>
                   <div class="text-right">
-                      <a href="<%=edit_awb_parcel_path%>">Not Your Ordered Product? Apply for Refund! <i class="fa fa-arrow-circle-right"></i></a>
+                      <a href="<%=request_refund_parcel_path%>">Not Your Ordered Product? Apply for Refund! <i class="fa fa-arrow-circle-right"></i></a>
                   </div>
                   <%else%>
                   <%end%>

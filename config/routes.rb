@@ -27,10 +27,15 @@ Rails.application.routes.draw do
   end
   resources :parcels do
     member do
-    patch :update_awb
-    put :update_awb
     get :edit_awb
     get :show_image
+    get :request_refund
+    patch :update_awb
+    put :update_awb
+    patch :update_refund
+    put :update_refund
+    patch :update_request_refund
+    put :update_request_refund
   end
   end
   resources :shipments do

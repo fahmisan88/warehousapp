@@ -24,8 +24,5 @@ class Shipment < ApplicationRecord
     where(status: 2)
   end
 
-  def self.search(search)
-    where("id ILIKE ?", "%#{search}%")
-  end
 
 end

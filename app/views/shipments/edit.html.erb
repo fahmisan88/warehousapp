@@ -31,10 +31,10 @@
                   </div>
                   <div class="form-group">
                     <label> <%= f.label :type_field, "Charges Details" %> </label>
-                    <%= f.text_field :extra_remark, id: "type_field", class: 'form-control', type:"text" %>
-                    <label> <%= f.label :type_field, "Add Charge" %> </label>
+                    <%= f.text_field :extra_remark, id: "type_field", class: 'form-control', type:"text", placeholder:"eg. Extra Box (quantity 1)"%>
+                    <label> <%= f.label :type_field, "Add Charge (RMB)" %> </label>
                     <%= f.text_field :extra_charge, id: "type_field", class: 'form-control', type:"text", required: true %>
-                    <label> <%= f.label :type_field, "Minus Charge" %> </label>
+                    <label> <%= f.label :type_field, "Minus Charge (RMB)" %> </label>
                     <%= f.text_field :minus_charge, id: "type_field", class: 'form-control', type:"text", required: true %>
                   </div>
                   <%= f.submit "Add / Minus Charge", class: "btn btn-info", type:"submit" %>
@@ -129,8 +129,6 @@
                 <div>
                     <%= f.submit "Post Payment Request", class:"btn btn-success btn-lg" %>
                   </div>
-
-                  <% else %>
                   <% end %>
                   <% end %>
                   <br>
