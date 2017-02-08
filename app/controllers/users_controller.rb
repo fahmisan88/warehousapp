@@ -8,6 +8,8 @@ class UsersController < ApplicationController
       authorize @users
       if params[:search]
         @users = User.search(params[:search]).order("updated_at DESC").page params[:page]
+      elsif params[:search1]
+        @users = User.search1(params[:search1]).order("updated_at DESC").page params[:page]
       else
       end
   end

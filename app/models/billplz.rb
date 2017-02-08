@@ -16,12 +16,7 @@ class Billplz
       reference_1_label:  'Shipment ID',
       reference_1:        shipment.id,
       reference_2_label:  'Final Weight/Volume',
-      reference_2:
-      if shipment.weight > shipment.volume
-      "#{shipment.weight}kg"
-      else
-       "#{shipment.volume}kg"
-      end
+      reference_2:        "#{shipment.final_kg}kg"
     }.to_json,
     basic_auth: { username: ENV["BILLPLZ_KEY"]}
     )

@@ -19,4 +19,8 @@ class User < ApplicationRecord
     where("ezi_id ILIKE ?", "%#{search}%")
   end
 
+  def self.search1(search1)
+    where("email ILIKE ?", "%#{search1}%")
+  end
+
 end

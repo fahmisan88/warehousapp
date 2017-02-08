@@ -62,7 +62,9 @@
 
               </tbody>
             </table>
+            <%if admin_user || staff_user%>
             <%= link_to 'Back', users_path, class:"btn btn-link" %>
+            <% end %>
           </div>
         </div>
       </div>

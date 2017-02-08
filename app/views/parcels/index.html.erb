@@ -101,7 +101,6 @@
             <div class = "parcels">
               <% if @parcels.empty? %>
               <h3 class="text-center">NO PARCELS AVAILABLE</h3>
-              <div class="text-center"><%= link_to "Create Parcel", new_parcel_path, class: "btn btn-success btn-lg" %></div>
               <%else%>
 
               <div>
@@ -110,7 +109,7 @@
                   <thead>
                     <tr>
                       <th>Date</th>
-                      <th>Free Storage Days</th>
+                      <th>Free Storage Days </th>
                       <th>AWB</th>
                       <th>Description</th>
                       <th>Status</th>
@@ -142,8 +141,24 @@
                         5 days
                         <% elsif Time.now < parcel.free_storage - 5.days && Time.now > parcel.free_storage - 6.days %>
                         6 days
-                        <% elsif Time.now < parcel.free_storage - 6.days || Time.now > parcel.free_storage - 7.days %>
+                        <% elsif Time.now < parcel.free_storage - 6.days && Time.now > parcel.free_storage - 7.days %>
                         7 days
+                        <% elsif Time.now < parcel.free_storage - 7.days && Time.now > parcel.free_storage - 8.days %>
+                        8 days
+                        <% elsif Time.now < parcel.free_storage - 8.days && Time.now > parcel.free_storage - 9.days %>
+                        9 days
+                        <% elsif Time.now < parcel.free_storage - 9.days && Time.now > parcel.free_storage - 10.days %>
+                        10 days
+                        <% elsif Time.now < parcel.free_storage - 10.days && Time.now > parcel.free_storage - 11.days %>
+                        11 days
+                        <% elsif Time.now < parcel.free_storage - 11.days && Time.now > parcel.free_storage - 12.days %>
+                        12 days
+                        <% elsif Time.now < parcel.free_storage - 12.days && Time.now > parcel.free_storage - 13.days %>
+                        13 days
+                        <% elsif Time.now < parcel.free_storage - 13.days && Time.now > parcel.free_storage - 14.days %>
+                        14 days
+                        <% elsif Time.now < parcel.free_storage - 14.days || Time.now > parcel.free_storage - 15.days %>
+                        15 days
                         <% else %>
                         <% end %>
                         <% end %>

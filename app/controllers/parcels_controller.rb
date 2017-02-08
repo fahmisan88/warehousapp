@@ -97,6 +97,17 @@ class ParcelsController < ApplicationController
   def edit_awb
     @parcel = Parcel.find(params[:id])
     authorize @parcel
+    if @parcel.status != "Waiting"
+      redirect_to parcel_path(@parcel)
+    end
+  end
+
+  def request_refund
+    @parcel = Parcel.find(params[:id])
+    authorize @parcel
+    if @parcel.status != "Arrived"
+      redirect_to parcel_path(@parcel)
+    end
   end
 
   def update
@@ -128,22 +139,34 @@ class ParcelsController < ApplicationController
     def update_awb
         @parcel = Parcel.find(params[:id])
         authorize @parcel
-
         if @parcel.update(update_awb_params)
-          if @parcel.refund == true
+          flash[:success] = "You've successfully change your AWB number!"
+        else
+          flash[:danger] = "Failed to update AWB number"
+        end
+          redirect_to parcel_path(@parcel)
+      end
+
+      def update_request_refund
+        @parcel = Parcel.find(params[:id])
+        authorize @parcel
+          if @parcel.update(request_refund_params)
             @parcel.update_attributes(status: 4)
             flash[:success] = "You've successfully request a refund!"
-          elsif @parcel.refund == false
-            flash[:danger] = "Request refund fail"
-          elsif @parcel.new_awb?
-            flash[:success] = "You've successfully change your AWB number!"
           else
+            flash[:danger] = "Request refund fail"
           end
           redirect_to parcel_path(@parcel)
+      end
+
+      def update_refund
+        @parcel = Parcel.find(params[:id])
+        if @parcel.update(update_refund_params)
+          flash[:success] = "You 've updated the request status of this parcel"
         else
-          redirect_to parcels_path
-          flash[:danger]
+          flash[:danger] = "Fail to update"
         end
+        redirect_to parcels_path
       end
 
     def destroy
@@ -170,7 +193,15 @@ class ParcelsController < ApplicationController
     end
 
     def update_awb_params
-      params.require(:parcel).permit(:new_awb,:refund,:refund_explain)
+      params.require(:parcel).permit(:new_awb)
+    end
+
+    def request_refund_params
+      params.require(:parcel).permit(:refund,:refund_explain)
+    end
+
+    def update_refund_params
+      params.require(:parcel).permit(:status)
     end
 
 end
