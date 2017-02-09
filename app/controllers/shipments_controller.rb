@@ -80,7 +80,7 @@ class ShipmentsController < ApplicationController
   def calculate
     @shipment = Shipment.find(params[:id])
     @currency = Currency.find_by(id: 1)
-    @ringgit = @currency.rmb2myr
+    @ringgit = @currency.myr2rmb
 
     extraCharge = @shipment.extra_charge
     minusCharge = @shipment.minus_charge
@@ -97,116 +97,116 @@ class ShipmentsController < ApplicationController
     chargeRepackaging = 0
     end
 
-    chargeByWeight0To3 = (@shipment.final_kg * 30 + chargeRepackaging + chargeReorganize + chargePhotoshoot + chargeInspection + extraCharge - minusCharge ) * @ringgit
-    chargeByWeight3To10 = (@shipment.final_kg * 26 + chargeRepackaging + chargeReorganize + chargePhotoshoot + chargeInspection + extraCharge - minusCharge ) * @ringgit
-    chargeByWeight10above = (@shipment.final_kg * 23 + chargeRepackaging + chargeReorganize + chargePhotoshoot + chargeInspection + extraCharge - minusCharge ) * @ringgit
-    chargeByWeight0To11ToSS = (@shipment.final_kg * 41 + chargeRepackaging + chargeReorganize + chargePhotoshoot + chargeInspection + extraCharge - minusCharge ) * @ringgit
-    chargeByWeight11aboveToSS = (@shipment.final_kg * 38 + chargeRepackaging + chargeReorganize + chargePhotoshoot + chargeInspection + extraCharge - minusCharge ) * @ringgit
-    sensitiveChargeByWeight0To2 = (@shipment.final_kg * 56 + chargeRepackaging + chargeReorganize + chargePhotoshoot + chargeInspection + extraCharge - minusCharge ) * @ringgit
-    sensitiveChargeByWeight2To3 = (@shipment.final_kg * 44 + chargeRepackaging + chargeReorganize + chargePhotoshoot + chargeInspection + extraCharge - minusCharge ) * @ringgit
-    sensitiveChargeByWeight3To4 = (@shipment.final_kg * 36 + chargeRepackaging + chargeReorganize + chargePhotoshoot + chargeInspection + extraCharge - minusCharge ) * @ringgit
-    sensitiveChargeByWeight4To5 = (@shipment.final_kg * 34 + chargeRepackaging + chargeReorganize + chargePhotoshoot + chargeInspection + extraCharge - minusCharge ) * @ringgit
-    sensitiveChargeByWeight5To7 = (@shipment.final_kg * 32 + chargeRepackaging + chargeReorganize + chargePhotoshoot + chargeInspection + extraCharge - minusCharge ) * @ringgit
-    sensitiveChargeByWeight7To9 = (@shipment.final_kg * 31 + chargeRepackaging + chargeReorganize + chargePhotoshoot + chargeInspection + extraCharge - minusCharge ) * @ringgit
-    sensitiveChargeByWeight9To11 = (@shipment.final_kg * 30 + chargeRepackaging + chargeReorganize + chargePhotoshoot + chargeInspection + extraCharge - minusCharge ) * @ringgit
-    sensitiveChargeByWeight11Above = (@shipment.final_kg * 27 + chargeRepackaging + chargeReorganize + chargePhotoshoot + chargeInspection + extraCharge - minusCharge ) * @ringgit
-    sensitiveChargeByWeight0To2ToSS = (@shipment.final_kg * 72 + chargeRepackaging + chargeReorganize + chargePhotoshoot + chargeInspection + extraCharge - minusCharge ) * @ringgit
-    sensitiveChargeByWeight2To3ToSS = (@shipment.final_kg * 57 + chargeRepackaging + chargeReorganize + chargePhotoshoot + chargeInspection + extraCharge - minusCharge ) * @ringgit
-    sensitiveChargeByWeight3To4ToSS = (@shipment.final_kg * 52 + chargeRepackaging + chargeReorganize + chargePhotoshoot + chargeInspection + extraCharge - minusCharge ) * @ringgit
-    sensitiveChargeByWeight4To5ToSS = (@shipment.final_kg * 50 + chargeRepackaging + chargeReorganize + chargePhotoshoot + chargeInspection + extraCharge - minusCharge ) * @ringgit
-    sensitiveChargeByWeight5To6ToSS = (@shipment.final_kg * 48 + chargeRepackaging + chargeReorganize + chargePhotoshoot + chargeInspection + extraCharge - minusCharge ) * @ringgit
-    sensitiveChargeByWeight6To8ToSS = (@shipment.final_kg * 47 + chargeRepackaging + chargeReorganize + chargePhotoshoot + chargeInspection + extraCharge - minusCharge ) * @ringgit
-    sensitiveChargeByWeight8To10ToSS = (@shipment.final_kg * 46 + chargeRepackaging + chargeReorganize + chargePhotoshoot + chargeInspection + extraCharge - minusCharge ) * @ringgit
-    sensitiveChargeByWeight10To11ToSS = (@shipment.final_kg * 45 + chargeRepackaging + chargeReorganize + chargePhotoshoot + chargeInspection + extraCharge - minusCharge ) * @ringgit
-    sensitiveChargeByWeight11AboveToSS = (@shipment.final_kg * 42 + chargeRepackaging + chargeReorganize + chargePhotoshoot + chargeInspection + extraCharge - minusCharge ) * @ringgit
+    chargeByWeight0To3 = (@shipment.final_kg * 30 + chargeRepackaging + chargeReorganize + chargePhotoshoot + chargeInspection + extraCharge - minusCharge ) / @ringgit
+    chargeByWeight3To10 = (@shipment.final_kg * 26 + chargeRepackaging + chargeReorganize + chargePhotoshoot + chargeInspection + extraCharge - minusCharge ) / @ringgit
+    chargeByWeight10above = (@shipment.final_kg * 23 + chargeRepackaging + chargeReorganize + chargePhotoshoot + chargeInspection + extraCharge - minusCharge ) / @ringgit
+    chargeByWeight0To11ToSS = (@shipment.final_kg * 41 + chargeRepackaging + chargeReorganize + chargePhotoshoot + chargeInspection + extraCharge - minusCharge ) / @ringgit
+    chargeByWeight11aboveToSS = (@shipment.final_kg * 38 + chargeRepackaging + chargeReorganize + chargePhotoshoot + chargeInspection + extraCharge - minusCharge ) / @ringgit
+    sensitiveChargeByWeight0To2 = (@shipment.final_kg * 56 + chargeRepackaging + chargeReorganize + chargePhotoshoot + chargeInspection + extraCharge - minusCharge ) / @ringgit
+    sensitiveChargeByWeight2To3 = (@shipment.final_kg * 44 + chargeRepackaging + chargeReorganize + chargePhotoshoot + chargeInspection + extraCharge - minusCharge ) / @ringgit
+    sensitiveChargeByWeight3To4 = (@shipment.final_kg * 36 + chargeRepackaging + chargeReorganize + chargePhotoshoot + chargeInspection + extraCharge - minusCharge ) / @ringgit
+    sensitiveChargeByWeight4To5 = (@shipment.final_kg * 34 + chargeRepackaging + chargeReorganize + chargePhotoshoot + chargeInspection + extraCharge - minusCharge ) / @ringgit
+    sensitiveChargeByWeight5To7 = (@shipment.final_kg * 32 + chargeRepackaging + chargeReorganize + chargePhotoshoot + chargeInspection + extraCharge - minusCharge ) / @ringgit
+    sensitiveChargeByWeight7To9 = (@shipment.final_kg * 31 + chargeRepackaging + chargeReorganize + chargePhotoshoot + chargeInspection + extraCharge - minusCharge ) / @ringgit
+    sensitiveChargeByWeight9To11 = (@shipment.final_kg * 30 + chargeRepackaging + chargeReorganize + chargePhotoshoot + chargeInspection + extraCharge - minusCharge ) / @ringgit
+    sensitiveChargeByWeight11Above = (@shipment.final_kg * 27 + chargeRepackaging + chargeReorganize + chargePhotoshoot + chargeInspection + extraCharge - minusCharge ) / @ringgit
+    sensitiveChargeByWeight0To2ToSS = (@shipment.final_kg * 72 + chargeRepackaging + chargeReorganize + chargePhotoshoot + chargeInspection + extraCharge - minusCharge ) / @ringgit
+    sensitiveChargeByWeight2To3ToSS = (@shipment.final_kg * 57 + chargeRepackaging + chargeReorganize + chargePhotoshoot + chargeInspection + extraCharge - minusCharge ) / @ringgit
+    sensitiveChargeByWeight3To4ToSS = (@shipment.final_kg * 52 + chargeRepackaging + chargeReorganize + chargePhotoshoot + chargeInspection + extraCharge - minusCharge ) / @ringgit
+    sensitiveChargeByWeight4To5ToSS = (@shipment.final_kg * 50 + chargeRepackaging + chargeReorganize + chargePhotoshoot + chargeInspection + extraCharge - minusCharge ) / @ringgit
+    sensitiveChargeByWeight5To6ToSS = (@shipment.final_kg * 48 + chargeRepackaging + chargeReorganize + chargePhotoshoot + chargeInspection + extraCharge - minusCharge ) / @ringgit
+    sensitiveChargeByWeight6To8ToSS = (@shipment.final_kg * 47 + chargeRepackaging + chargeReorganize + chargePhotoshoot + chargeInspection + extraCharge - minusCharge ) / @ringgit
+    sensitiveChargeByWeight8To10ToSS = (@shipment.final_kg * 46 + chargeRepackaging + chargeReorganize + chargePhotoshoot + chargeInspection + extraCharge - minusCharge ) / @ringgit
+    sensitiveChargeByWeight10To11ToSS = (@shipment.final_kg * 45 + chargeRepackaging + chargeReorganize + chargePhotoshoot + chargeInspection + extraCharge - minusCharge ) / @ringgit
+    sensitiveChargeByWeight11AboveToSS = (@shipment.final_kg * 42 + chargeRepackaging + chargeReorganize + chargePhotoshoot + chargeInspection + extraCharge - minusCharge ) / @ringgit
 
 
     if @shipment.user.address2 != ("Sabah" || "Sarawak") && @shipment.shipment_type == "Normal" && @shipment.final_kg < 3
-      @shipment.update(charge: chargeByWeight0To3)
+      @shipment.update(charge: chargeByWeight0To3.ceil(1))
       flash[:success] ="Auto Calculated!"
       redirect_to edit_shipment_path(@shipment)
     elsif @shipment.user.address2 != ("Sabah" || "Sarawak") && @shipment.shipment_type == "Normal" && (@shipment.final_kg >= 3 && @shipment.final_kg < 10)
-      @shipment.update(charge: chargeByWeight3To10)
+      @shipment.update(charge: chargeByWeight3To10.ceil(1))
       flash[:success] ="Auto Calculated!"
       redirect_to edit_shipment_path(@shipment)
     elsif @shipment.user.address2 != ("Sabah" || "Sarawak") && @shipment.shipment_type == "Normal" && @shipment.final_kg >= 10
-      @shipment.update(charge: chargeByWeight10above)
+      @shipment.update(charge: chargeByWeight10above.ceil(1))
       flash[:success] ="Auto Calculated!"
       redirect_to edit_shipment_path(@shipment)
     elsif @shipment.user.address2 == ("Sabah" || "Sarawak") && @shipment.shipment_type == "Normal" && @shipment.final_kg < 11
-      @shipment.update(charge: chargeByWeight0To11ToSS)
+      @shipment.update(charge: chargeByWeight0To11ToSS.ceil(1))
       flash[:success] ="Auto Calculated!"
       redirect_to edit_shipment_path(@shipment)
     elsif @shipment.user.address2 == ("Sabah" || "Sarawak") && @shipment.shipment_type == "Normal" && @shipment.final_kg >= 11
-      @shipment.update(charge: chargeByWeight11aboveToSS)
+      @shipment.update(charge: chargeByWeight11aboveToSS.ceil(1))
       flash[:success] ="Auto Calculated!"
       redirect_to edit_shipment_path(@shipment)
     elsif @shipment.user.address2 != ("Sabah" || "Sarawak") && @shipment.shipment_type == "Sensitive" && @shipment.final_kg < 2
-      @shipment.update(charge: sensitiveChargeByWeight0To2)
+      @shipment.update(charge: sensitiveChargeByWeight0To2.ceil(1))
       flash[:success] ="Auto Calculated!"
       redirect_to edit_shipment_path(@shipment)
     elsif @shipment.user.address2 != ("Sabah" || "Sarawak") && @shipment.shipment_type == "Sensitive" && (@shipment.final_kg >= 2 && @shipment.final_kg < 3)
-      @shipment.update(charge: sensitiveChargeByWeight2To3)
+      @shipment.update(charge: sensitiveChargeByWeight2To3.ceil(1))
       flash[:success] ="Auto Calculated!"
       redirect_to edit_shipment_path(@shipment)
     elsif @shipment.user.address2 != ("Sabah" || "Sarawak") && @shipment.shipment_type == "Sensitive" && (@shipment.final_kg >= 3 && @shipment.final_kg < 4)
-      @shipment.update(charge: sensitiveChargeByWeight3To4)
+      @shipment.update(charge: sensitiveChargeByWeight3To4.ceil(1))
       flash[:success] ="Auto Calculated!"
       redirect_to edit_shipment_path(@shipment)
     elsif @shipment.user.address2 != ("Sabah" || "Sarawak") && @shipment.shipment_type == "Sensitive" && (@shipment.final_kg >= 4 && @shipment.final_kg < 5)
-      @shipment.update(charge: sensitiveChargeByWeight4To5)
+      @shipment.update(charge: sensitiveChargeByWeight4To5.ceil(1))
       flash[:success] ="Auto Calculated!"
       redirect_to edit_shipment_path(@shipment)
     elsif @shipment.user.address2 != ("Sabah" || "Sarawak") && @shipment.shipment_type == "Sensitive" && (@shipment.final_kg >= 5 && @shipment.final_kg < 7)
-      @shipment.update(charge: sensitiveChargeByWeight5To7)
+      @shipment.update(charge: sensitiveChargeByWeight5To7.ceil(1))
       flash[:success] ="Auto Calculated!"
       redirect_to edit_shipment_path(@shipment)
     elsif @shipment.user.address2 != ("Sabah" || "Sarawak") && @shipment.shipment_type == "Sensitive" && (@shipment.final_kg >= 7 && @shipment.final_kg < 9)
-      @shipment.update(charge: sensitiveChargeByWeight7To9)
+      @shipment.update(charge: sensitiveChargeByWeight7To9.ceil(1))
       flash[:success] ="Auto Calculated!"
       redirect_to edit_shipment_path(@shipment)
     elsif @shipment.user.address2 != ("Sabah" || "Sarawak") && @shipment.shipment_type == "Sensitive" && (@shipment.final_kg >= 9 && @shipment.final_kg < 11)
-      @shipment.update(charge: sensitiveChargeByWeight9To11)
+      @shipment.update(charge: sensitiveChargeByWeight9To11.ceil(1))
       flash[:success] ="Auto Calculated!"
       redirect_to edit_shipment_path(@shipment)
     elsif @shipment.user.address2 != ("Sabah" || "Sarawak") && @shipment.shipment_type == "Sensitive" && @shipment.final_kg >= 11
-      @shipment.update(charge: sensitiveChargeByWeight11Above)
+      @shipment.update(charge: sensitiveChargeByWeight11Above.ceil(1))
       flash[:success] ="Auto Calculated!"
       redirect_to edit_shipment_path(@shipment)
     elsif @shipment.user.address2 == ("Sabah" || "Sarawak") && @shipment.shipment_type == "Sensitive" && @shipment.final_kg < 2
-      @shipment.update(charge: sensitiveChargeByWeight0To2ToSS)
+      @shipment.update(charge: sensitiveChargeByWeight0To2ToSS.ceil(1))
       flash[:success] ="Auto Calculated!"
       redirect_to edit_shipment_path(@shipment)
     elsif @shipment.user.address2 == ("Sabah" || "Sarawak") && @shipment.shipment_type == "Sensitive" && (@shipment.final_kg >= 2 && @shipment.final_kg < 3)
-      @shipment.update(charge: sensitiveChargeByWeight2To3ToSS)
+      @shipment.update(charge: sensitiveChargeByWeight2To3ToSS.ceil(1))
       flash[:success] ="Auto Calculated!"
       redirect_to edit_shipment_path(@shipment)
     elsif @shipment.user.address2 == ("Sabah" || "Sarawak") && @shipment.shipment_type == "Sensitive" && (@shipment.final_kg >= 3 && @shipment.final_kg < 4)
-      @shipment.update(charge: sensitiveChargeByWeight3To4ToSS)
+      @shipment.update(charge: sensitiveChargeByWeight3To4ToSS.ceil(1))
       flash[:success] ="Auto Calculated!"
       redirect_to edit_shipment_path(@shipment)
     elsif @shipment.user.address2 == ("Sabah" || "Sarawak") && @shipment.shipment_type == "Sensitive" && (@shipment.final_kg >= 4 && @shipment.final_kg < 5)
-      @shipment.update(charge: sensitiveChargeByWeight4To5ToSS)
+      @shipment.update(charge: sensitiveChargeByWeight4To5ToSS.ceil(1))
       flash[:success] ="Auto Calculated!"
       redirect_to edit_shipment_path(@shipment)
     elsif @shipment.user.address2 == ("Sabah" || "Sarawak") && @shipment.shipment_type == "Sensitive" && (@shipment.final_kg >= 5 && @shipment.final_kg < 6)
-      @shipment.update(charge: sensitiveChargeByWeight5To6ToSS)
+      @shipment.update(charge: sensitiveChargeByWeight5To6ToSS.ceil(1))
       flash[:success] ="Auto Calculated!"
       redirect_to edit_shipment_path(@shipment)
     elsif @shipment.user.address2 == ("Sabah" || "Sarawak") && @shipment.shipment_type == "Sensitive" && (@shipment.final_kg >= 6 && @shipment.final_kg < 8)
-      @shipment.update(charge: sensitiveChargeByWeight6To8ToSS)
+      @shipment.update(charge: sensitiveChargeByWeight6To8ToSS.ceil(1))
       flash[:success] ="Auto Calculated!"
       redirect_to edit_shipment_path(@shipment)
     elsif @shipment.user.address2 == ("Sabah" || "Sarawak") && @shipment.shipment_type == "Sensitive" && (@shipment.final_kg >= 8 && @shipment.final_kg < 10)
-      @shipment.update(charge: sensitiveChargeByWeight8To10ToSS)
+      @shipment.update(charge: sensitiveChargeByWeight8To10ToSS.ceil(1))
       flash[:success] ="Auto Calculated!"
       redirect_to edit_shipment_path(@shipment)
     elsif @shipment.user.address2 == ("Sabah" || "Sarawak") && @shipment.shipment_type == "Sensitive" && (@shipment.final_kg >= 10 && @shipment.final_kg < 11)
-      @shipment.update(charge: sensitiveChargeByWeight10To11ToSS)
+      @shipment.update(charge: sensitiveChargeByWeight10To11ToSS.ceil(1))
       flash[:success] ="Auto Calculated!"
       redirect_to edit_shipment_path(@shipment)
     elsif @shipment.user.address2 == ("Sabah" || "Sarawak") && @shipment.shipment_type == "Sensitive" && @shipment.final_kg >= 11
-      @shipment.update(charge: sensitiveChargeByWeight11AboveToSS)
+      @shipment.update(charge: sensitiveChargeByWeight11AboveToSS.ceil(1))
       flash[:success] ="Auto Calculated!"
       redirect_to edit_shipment_path(@shipment)
     else

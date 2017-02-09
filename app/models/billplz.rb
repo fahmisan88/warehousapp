@@ -23,7 +23,7 @@ class Billplz
   end
 
   def self.check_status(shipment_id)
-    shipment = shipment.find(shipment_id)
+    shipment = Shipment.find(shipment_id)
     url = "https://www.billplz.com/api/v3/bills/" + shipment.bill_id
     arguments = { headers: {'Content-Type' => 'application/json', 'Accept' => 'application/json'},
                   basic_auth: { username: ENV["BILLPLZ_KEY"]}
