@@ -218,14 +218,14 @@ class ShipmentsController < ApplicationController
   def sea_calculate
     @shipment = Shipment.find(params[:id])
     @currency = Currency.find_by(id: 1)
-    @ringgit = @currency.rmb2myr
+    @ringgit = @currency.myr2rmb
 
-    extraCharge = @shipment.extra_charge * @ringgit
-    minusCharge = @shipment.minus_charge * @ringgit
+    extraCharge = @shipment.extra_charge / @ringgit
+    minusCharge = @shipment.minus_charge / @ringgit
     if @shipment.sea_freight?
       @shipment.update(sea_calculate_params)
       chargeMYR = @shipment.sea_charge + extraCharge - minusCharge
-      @shipment.update_attributes(charge: chargeMYR)
+      @shipment.update_attributes(charge: chargeMYR.ceil(1))
       flash[:success] ="Sea Freight Charge calculated successfully"
     else
       flash[:danger] = "Sea Freight Calculation Fail"
