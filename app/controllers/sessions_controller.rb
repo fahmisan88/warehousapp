@@ -5,7 +5,7 @@ def new
 end
 
 def create
-  user = User.find_by(email: user_params[:email])
+  user = User.find_by(email: user_params[:email].downcase)
              &.authenticate(user_params[:password])
   if user && user.status == "Active" && user.address?
     session[:id] = user.id
