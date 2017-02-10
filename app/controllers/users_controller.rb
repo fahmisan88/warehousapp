@@ -134,7 +134,7 @@ class UsersController < ApplicationController
   end
 
   def emailcheck
-    @user = User.find_by(email: reg_user_params[:email])
+    @user = User.find_by(email: reg_user_params[:email].downcase)
     if @user.present?
       flash[:danger] = "Package is not available"
       respond_to do |format|
