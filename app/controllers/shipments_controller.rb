@@ -64,7 +64,7 @@ class ShipmentsController < ApplicationController
         @shipment.update_attributes(status: "Processing", :final_kg => finalKg, :shipment_type => 0 )
       end
       flash[:success] = "You've post a shipment."
-      deliver_mail(current_user.name, current_user.email, "shipments", "created")
+      # deliver_mail(current_user.name, current_user.email, "shipments", "created")
       redirect_to shipments_path
     else
       flash[:danger]
