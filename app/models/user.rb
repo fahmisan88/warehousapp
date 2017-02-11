@@ -10,7 +10,7 @@ class User < ApplicationRecord
   VALID_PASSWORD_REGEX = /\A[\w]+\z/
   validates :email, presence: true, uniqueness: true, format: { with: VALID_EMAIL_REGEX, message: "Not a valid email address" }
   validates :password, presence: true, on: :create, length: { in: 6..20 }, format: { with: VALID_PASSWORD_REGEX, message: "Only allows alphanumeric and underscore between 6 to 20 characters"}
-  validates :package, presence: true, inclusion: { in: [1,2,3] }
+  validates :package, presence: true, inclusion: { in: [1,2,3] }, on: :user
   validates :name, presence: true, length: { in: 5..40 }, format: { with: VALID_NAME_REGEX, message: "Only allows letters and space between 5 to 40 characters"}
   enum role: [:user, :staff, :admin]
   enum status: [:Inactive, :Active, :Suspended, :Blocked]
@@ -21,6 +21,19 @@ class User < ApplicationRecord
 
   def self.search1(search1)
     where("email ILIKE ?", "%#{search1}%")
+  end
+
+  # token for password reset
+  def generate_password_token!
+    self.reset_password_token = generate_token
+    self.reset_password_sent_at = Time.now
+    save!
+  end
+
+  private
+
+  def generate_token
+    SecureRandom.hex(10)
   end
 
 end

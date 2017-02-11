@@ -4,12 +4,18 @@ Rails.application.routes.draw do
   root to: 'landing#index'
   get '/dashboard' => 'dashboards#index'
   get '/statement' => 'shipments#statement'
+
   get '/register' => 'users#new'
   get '/login' => 'sessions#new'
-  post 'password/forgot' => 'password#forgot'
-  post 'password/reset' => 'password#reset'
+
+  get '/password' => 'password#index'
+  get '/password/resetpass' => 'password#resetpass'
+  post '/password/forgot' => 'password#forgot'
+  get '/password/reset/:token' => 'password#reset'
+
   post '/checkemail' => 'users#emailcheck'
   post '/checkpackage' => 'users#packagecheck'
+
   resources :sessions, only: [:new, :create, :destroy]
   resources :users do
     member do
