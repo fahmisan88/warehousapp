@@ -7,7 +7,7 @@ class WebhooksController < ApplicationController
     if (response['paid'] == true) && (response['state']=='paid')
         @shipment_user = @shipment.user_id
         @user_info = User.find(@shipment_user)
-        deliver_mail(@user_info.name, @user_info.email, "shipments", "paid")
+        # deliver_mail(@user_info.name, @user_info.email, "shipments", "paid")
 
         @shipment.update_attributes(status: 2, paid_at: params[:paid_at])
         @shipment.ordered_parcels.each do |x|

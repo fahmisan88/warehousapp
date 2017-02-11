@@ -81,7 +81,7 @@ class ParcelsController < ApplicationController
     if @parcel.save
       @parcel.update_attributes(status: 0)
       flash[:success] = "Thank you for your time. You've successfully created a parcel."
-      deliver_mail(current_user.name, current_user.email, "parcels", "created")
+      # deliver_mail(current_user.name, current_user.email, "parcels", "created")
       redirect_to parcels_path
     else
       flash[:danger]
