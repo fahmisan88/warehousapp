@@ -30,6 +30,17 @@ class User < ApplicationRecord
     save!
   end
 
+  # check token validation time. valid if current time is below 4 hrs
+  def password_token_valid?
+    (self.reset_password_sent_at + 4.hours) > Time.now.utc
+  end
+
+  def reset_password!(password)
+    self.reset_password_token = nil
+    self.password = password
+    save!
+  end
+
   private
 
   def generate_token

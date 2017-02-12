@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   get '/password/resetpass' => 'password#resetpass'
   post '/password/forgot' => 'password#forgot'
   get '/password/reset/:token' => 'password#reset'
+  post '/password/update' => 'password#update'
 
   post '/checkemail' => 'users#emailcheck'
   post '/checkpackage' => 'users#packagecheck'
