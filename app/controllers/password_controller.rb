@@ -4,6 +4,7 @@ class PasswordController < ApplicationController
         redirect_to '/password/resetpass'
     end
 
+    # supply token reset in email
     def forgot
         if pass_reset_params[:email].blank?
             redirect_to 'password/resetpass'
@@ -15,9 +16,7 @@ class PasswordController < ApplicationController
         if @user.present?
             @user.generate_password_token!
             # send email here
-            @mail = Sendinblue::Mailin.new(ENV['SENDINBLUE_API_URL'], ENV['SENDINBLUE_API_KEY'], 10)
-            @data = {"id" => 13, "to" => @user.email, "attr" => {"NAME" => @user.name, "PASS_RESET_URL_NO_PROTO" => "localhost/password/reset/" + @user.reset_password_token, "PASS_RESET_URL" => "http://localhost/password/reset/" + @user.reset_password_token}}
-            puts @mail.send_transactional_template(@data)
+            puts HTTParty.put("https://api.sendinblue.com/v2.0/template/13",:body =>{"id":13, "to":@user.email,"attr":{"NAME":@user.name,"PASS_RESET_URL_NO_PROTO": ENV['URL_NO_PROTO'] + "/password/reset/" + @user.reset_password_token,"PASS_RESET_URL": ENV['URL'] + "/password/reset/" + @user.reset_password_token}}, :default_timeout => 10, :headers => {"api-key"=>ENV['SENDINBLUE_API_KEY'],"content-type"=>"application/json"})
             # --------------------------------------------
             redirect_to '/'
             flash[:info] = "Check email for reset password instruction"
@@ -27,36 +26,59 @@ class PasswordController < ApplicationController
         end
     end
 
+    # must use 'get' method with 1 parameter 'token'.
     def reset
+        @user = User.new
+
         if params[:token].blank?
             redirect_to 'password/resetpass'
-            flash[:danger] = 'Token reset not present'
+            flash[:danger] = 'Token password reset not present'
         end
 
         token = params[:token].to_s
 
-        @user = User.find_by(reset_password_token: token)
-
-        if @user.present? && @user.password_token_valid?
-            if @user.reset_password!(params[:password])
-                redirect_to '/login'
-                flash[:success] = "You password is successfully reset"
-            else
-                redirect_to 'password/resetpass'
-                flash[:danger] = @user.errors.full_messages
+        if User.exists?(reset_password_token: token)
+            @user = User.find_by(reset_password_token: token)
+            if @user.password_token_valid? == false
+                redirect_to '/password/resetpass'
+                flash[:danger] = "Token password reset expired"
             end
+        else
+            redirect_to '/password/resetpass'
+            flash[:danger] = "Invalid token password reset"
         end
     end
 
+    # update new password
     def update
+        @email = pass_reset_params[:email].downcase
+        @token = pass_reset_params[:token]
+        @password = pass_reset_params[:password]
+
+        if User.exists?(reset_password_token: @token)
+            @user = User.find_by(reset_password_token: @token)
+            if @user.email == @email
+                    if @user.reset_password!(@password)
+                        redirect_to '/login'
+                        flash[:success] = "Success reset new paasword"
+                    end
+            else
+                redirect_to '/password/resetpass'
+                flash[:danger] = "Email not valid with token"
+            end
+        else
+            redirect_to '/password/resetpass'
+            flash[:danger] = "Token password reset not exist"
+        end
     end
 
+    # First page to open for request new password
     def resetpass
         @user = User.new
     end
 
     private
     def pass_reset_params
-        params.require(:user).permit(:email, :token)
+        params.require(:user).permit(:email, :token, :password)
     end
 end
