@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170207050659) do
+ActiveRecord::Schema.define(version: 20170210043635) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -108,22 +108,22 @@ ActiveRecord::Schema.define(version: 20170207050659) do
     t.text     "address"
     t.string   "postcode"
     t.string   "phone"
-    t.integer  "role",                 default: 0
-    t.datetime "created_at",                       null: false
-    t.datetime "updated_at",                       null: false
+    t.integer  "role",                   default: 0
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
     t.string   "address2"
-    t.integer  "status",               default: 0
+    t.integer  "status",                 default: 0
     t.string   "bill_id"
     t.string   "bill_url"
-    t.string   "password_reset_token"
     t.datetime "reset_sent_at"
     t.decimal  "ewallet"
     t.integer  "package"
     t.datetime "expiry"
     t.string   "ezi_id"
+    t.string   "reset_password_token"
+    t.datetime "reset_password_sent_at"
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["ezi_id"], name: "index_users_on_ezi_id", using: :btree
-    t.index ["password_reset_token"], name: "index_users_on_password_reset_token", unique: true, using: :btree
   end
 
 end
