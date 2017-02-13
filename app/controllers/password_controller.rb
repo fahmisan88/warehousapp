@@ -51,9 +51,9 @@ class PasswordController < ApplicationController
 
     # update new password
     def update
-        @email = pass_reset_params[:email].downcase
-        @token = pass_reset_params[:token]
-        @password = pass_reset_params[:password]
+        @email = pass_reset_update_params[:email].downcase
+        @token = pass_reset_update_params[:token]
+        @password = pass_reset_update_params[:password]
 
         if User.exists?(reset_password_token: @token)
             @user = User.find_by(reset_password_token: @token)
@@ -79,6 +79,10 @@ class PasswordController < ApplicationController
 
     private
     def pass_reset_params
+        params.require(:user).permit(:email)
+    end
+
+    def pass_reset_update_params
         params.require(:user).permit(:email, :token, :password)
     end
 end
