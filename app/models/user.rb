@@ -8,12 +8,10 @@ class User < ApplicationRecord
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   VALID_NAME_REGEX = /\A[a-zA-Z ]+\z/
   VALID_PASSWORD_REGEX = /\A[\w]+\z/
-  validates :email, presence: true, uniqueness: true, format: { with: VALID_EMAIL_REGEX, message: "Not a valid email address" }, unless: :skip_email_validation
-  validates :password, presence: true, on: :create, length: { in: 6..20 }, format: { with: VALID_PASSWORD_REGEX, message: "Only allows alphanumeric and underscore between 6 to 20 characters"}, unless: :skip_password_validation
-  validates :package, presence: true, inclusion: { in: [1,2,3] }, unless: :skip_package_validation
-  validates :name, presence: true, length: { in: 5..40 }, format: { with: VALID_NAME_REGEX, message: "Only allows letters and space between 5 to 40 characters"}, unless: :skip_name_validation
-
-  attr_accessor :skip_name_validation, :skip_email_validation, :skip_password_validation, :skip_package_validation
+  validates :email, presence: true, uniqueness: true, format: { with: VALID_EMAIL_REGEX, message: "Not a valid email address" }
+  validates :password, presence: true, on: :create, length: { in: 6..20 }, format: { with: VALID_PASSWORD_REGEX, message: "Only allows alphanumeric and underscore between 6 to 20 characters"}
+  validates :package, presence: true, inclusion: { in: [1,2,3] }
+  validates :name, presence: true, length: { in: 5..40 }, format: { with: VALID_NAME_REGEX, message: "Only allows letters and space between 5 to 40 characters"}
 
   enum role: [:user, :staff, :admin]
   enum status: [:Inactive, :Active, :Suspended, :Blocked]
