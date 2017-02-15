@@ -189,7 +189,7 @@ class ParcelsController < ApplicationController
     end
 
     def update_parcel_params
-      params.require(:parcel).permit(:image5,:image4, :image3, :image2,:image1,:length,:width,:height,:volume,:weight,:chargeable, :status, :free_storage)
+      params.require(:parcel).permit(:image5,:image4, :image3, :image2,:image1,:length,:width,:height,:volume,:weight,:chargeable, :status, :free_storage, :remark_admin)
     end
 
     def update_awb_params
