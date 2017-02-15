@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170212145301) do
+ActiveRecord::Schema.define(version: 20170214030803) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -77,6 +77,7 @@ ActiveRecord::Schema.define(version: 20170212145301) do
     t.string   "refund_explain"
     t.datetime "free_storage"
     t.decimal  "final_kg"
+    t.string   "remark_admin"
   end
 
   create_table "shipments", force: :cascade do |t|
@@ -115,7 +116,6 @@ ActiveRecord::Schema.define(version: 20170212145301) do
     t.integer  "status",                 default: 0
     t.string   "bill_id"
     t.string   "bill_url"
-    t.datetime "reset_sent_at"
     t.decimal  "ewallet"
     t.integer  "package"
     t.datetime "expiry"
