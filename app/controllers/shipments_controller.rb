@@ -74,7 +74,7 @@ class ShipmentsController < ApplicationController
 
   def edit
     @shipment = Shipment.find(params[:id])
-    @parcels = current_user.parcels.where(status: 2)
+    @parcels = @shipment.parcels.where(status: 2)
     authorize @shipment
   end
 
