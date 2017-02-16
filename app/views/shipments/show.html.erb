@@ -68,7 +68,7 @@
                 </tr>
               </tbody>
             </table>
-            <%if @shipment.bill_url?%>
+            <%if @shipment.bill_url? && @shipment.status != "Paid" %>
             <div class="button text-center">
               <%= link_to "Pay Now", @shipment.bill_url, class: "btn btn-success btn-lg" %>
             </div>
