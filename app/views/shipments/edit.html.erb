@@ -16,7 +16,7 @@
       <div class="col-lg-12">
         <div class="panel panel-default">
           <div class="panel-heading">
-            <h3 class="panel-title"><i class="fa fa-ship fa-fw"></i> Shipment Bill </h3>
+            <h3 class="panel-title"><i class="fa fa-ship fa-fw"></i> Shipment Bill (EZI ID: <%=@shipment.user.ezi_id%>)</h3>
           </div>
           <div class="panel-body">
             <div class="section top-padding">
@@ -48,6 +48,7 @@
                     </tr>
                     <tr>
                       <th>AWB No.</th>
+                      <th>Remark Admin</th>
                       <th>Type</th>
                       <th>Final Weight/Volume (kg)</th>
                     </tr>
@@ -56,12 +57,13 @@
                   <tbody>
                     <tr>
                       <td><%= parcel.awb%></td>
+                      <td><%= parcel.remark_admin%></td>
                       <td><%= parcel.parcel_good %></td>
                       <td><%= parcel.final_kg %></td>
                     </tr>
                     <%end%>
                     <tr>
-                      <td colspan="2" align="right"><b>Total Kg</b></td>
+                      <td colspan="3" align="right"><b>Total Kg</b></td>
                       <td> <span id="totalweight"><b><%=@parcels.sum(:final_kg)%></span> (kg)</b></td>
                     </tr>
                   </tbody>
