@@ -13,8 +13,7 @@
                     <div style="padding-top:30px" class="panel-body" >
 
                         <div style="display:none" id="login-alert" class="alert alert-danger col-sm-12"></div>
-                    <%= form_for(:user, url: sessions_path, html: { id: "user-login-form" }) do |f| %>
-                        <form id="loginform" class="form-horizontal" role="form">
+                    <%= form_for(:user, url: sessions_path, html: { id: "user-login-form", class: "form-horizontal" }) do |f| %>
                                     
                             <div style="margin-bottom: 25px" class="input-group">
                                         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
@@ -54,8 +53,7 @@
                                         <a><%= link_to 'Sign Up Here', new_user_path %></a>
                                         </div>
                                     </div>
-                                </div>    
-                            </form>    
+                                </div>      
                             <% end %> 
                         </div>                     
                     </div>  

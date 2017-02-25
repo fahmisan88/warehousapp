@@ -116,6 +116,7 @@ ActiveRecord::Schema.define(version: 20170214030803) do
     t.integer  "status",                 default: 0
     t.string   "bill_id"
     t.string   "bill_url"
+    t.datetime "reset_sent_at"
     t.decimal  "ewallet"
     t.integer  "package"
     t.datetime "expiry"
