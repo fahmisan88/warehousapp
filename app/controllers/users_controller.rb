@@ -133,6 +133,7 @@ class UsersController < ApplicationController
     end
   end
 
+# ajax check existing email on registration form
   def emailcheck
     @user = User.find_by(email: reg_user_params[:email].downcase)
     if @user.present?

@@ -17,6 +17,11 @@ Rails.application.routes.draw do
   post '/checkemail' => 'users#emailcheck'
   post '/checkpackage' => 'users#packagecheck'
 
+  # create new users with free registration. eligable for special agent. need key in special password to create new users
+  get '/special' => 'specialusers#index'
+  post '/special/new' => 'specialusers#new'
+  post '/special/register' => 'specialusers#register'
+
   resources :sessions, only: [:new, :create, :destroy]
   resources :users do
     member do
