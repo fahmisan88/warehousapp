@@ -36,6 +36,8 @@
                     <%= f.text_field :extra_charge, id: "type_field", class: 'form-control', type:"text", required: true %>
                     <label> <%= f.label :type_field, "Minus Charge (RMB)" %> </label>
                     <%= f.text_field :minus_charge, id: "type_field", class: 'form-control', type:"text", required: true %>
+                    <label> <%= f.label :type_field, "Remark Admin" %> </label>
+                    <%= f.text_field :remark_admin, id: "type_field", class: 'form-control', type:"text", placeholder:"Any notes for this shipment"%>
                   </div>
                   <%= f.submit "Add / Minus Charge", class: "btn btn-info", type:"submit" %>
                   <% end %>
@@ -177,6 +179,36 @@
                   <% end %>
                   </div>
                   <%= link_to 'Back', shipments_path, class:"btn btn-link" %>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title"><i class="fa fa-home fa-fw"></i> User's Shipping Address</h3>
+            </div>
+            <div class="panel-body">
+              <div class="table-responsive">
+                <div class="list-group">
+                  <b href="#" class="list-group-item">
+
+                    <b>Name: </b>
+                    <%=@shipment.user.name %>
+                    <br>
+                    <b>Address: </b>
+                    <%=@shipment.user.address%>
+                    <br>
+                    <b>Postcode:</b>
+                    <%=@shipment.user.postcode%>
+                    <br>
+                    <b>State: </b>
+                    <%=@shipment.user.address2%>
+                    <br>
+                    <b>Phone No.:</b>
+                    <%=@shipment.user.phone%>
+                  </b>
                 </div>
               </div>
             </div>

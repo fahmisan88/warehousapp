@@ -24,5 +24,13 @@ class Shipment < ApplicationRecord
     where(status: 2)
   end
 
+  def self.search3(search3)
+    where(sea_freight: false)
+  end
+
+  def self.search4(search4)
+    where(sea_freight: true)
+  end
+
 
 end
