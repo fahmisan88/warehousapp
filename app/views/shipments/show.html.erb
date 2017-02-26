@@ -16,7 +16,7 @@
       <div class="col-lg-8">
         <div class="panel panel-default">
           <div class="panel-heading">
-            <h3 class="panel-title"><i class="fa fa-ship fa-fw"></i>Shipment Details </h3>
+            <h3 class="panel-title"><i class="fa fa-ship fa-fw"></i>Shipment Details (EZI ID: <%=@shipment.user.ezi_id%>)</h3>
           </div>
           <div class="panel-body">
             <table class="table">
@@ -61,6 +61,18 @@
                     Air Freight
                     <%end%>
                   </td>
+                </tr>
+                <tr>
+                  <th>Remark User</th>
+                  <td><%=@shipment.remark%></td>
+                </tr>
+                <tr>
+                  <th>Remark Admin</th>
+                  <td><%=@shipment.remark_admin%></td>
+                </tr>
+                <tr>
+                  <th>Extra Charge</th>
+                  <td><%=@shipment.extra_remark%> (RM <%=(@shipment.extra_charge / @currency.myr2rmb).ceil(1)%>)</td>
                 </tr>
                 <tr>
                   <th>Total Price</th>
@@ -127,7 +139,9 @@
                 <tr>
                   <th>AWB</th>
                   <th>Description</th>
+                  <th>Chinese Description</th>
                   <th>Type</th>
+                  <th>Remark</th>
                   <th>Final Weight(kg)</th>
                 </tr>
               </thead>
@@ -137,11 +151,15 @@
                 <tr>
                   <td><%= ordered_parcel.parcel.awb%> </td>
                   <td><%= ordered_parcel.parcel.description%></td>
+                  <td><%= ordered_parcel.parcel.product_chinese%></td>
                   <td><%= ordered_parcel.parcel.parcel_good%></td>
+                  <td><%= ordered_parcel.parcel.remark%></td>
                   <td><%= ordered_parcel.parcel.final_kg%></td>
                 </tr>
                 <% end %>
                 <tr>
+                  <td></td>
+                  <td></td>
                   <td></td>
                   <td></td>
                   <td>Total: </td>

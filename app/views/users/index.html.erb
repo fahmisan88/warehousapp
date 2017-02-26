@@ -92,7 +92,7 @@
                       <td><%= user.name%> </td>
                       <td><%= user.email%> </td>
                       <td><%= user.updated_at.strftime("%d-%m-%Y")%></td>
-                      <td><%= user.updated_at.strftime("%d-%m-%Y").to_date + 365.days%></td>
+                      <td><%= user.expiry.strftime("%d-%m-%Y")%></td>
                       <td><%= user.status%></td>
                       <td><span><%= link_to "", edit_user_path(user), class:"fa fa-pencil" %></span>&nbsp;&nbsp;
                       <span><%= link_to "", user_path(user), class:"fa fa-eye" %></span>&nbsp;&nbsp;

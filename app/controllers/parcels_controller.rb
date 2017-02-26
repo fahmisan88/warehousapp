@@ -79,7 +79,7 @@ class ParcelsController < ApplicationController
       @parcel= current_user.parcels.build(parcel_params)
       authorize @parcel
     if @parcel.save
-      @parcel.update_attributes(status: 0)
+      @parcel.update_attributes(status: 0, weight: 0.5, width: 1, length: 1, height: 1)
       flash[:success] = "Thank you for your time. You've successfully created a parcel."
       # deliver_mail(current_user.name, current_user.email, "parcels", "created")
       redirect_to parcels_path

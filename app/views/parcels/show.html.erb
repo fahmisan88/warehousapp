@@ -16,7 +16,7 @@
       <div class="col-lg-8">
         <div class="panel panel-default">
           <div class="panel-heading">
-            <h3 class="panel-title"><i class="fa fa-archive fa-fw"></i> My Parcel</h3>
+            <h3 class="panel-title"><i class="fa fa-archive fa-fw"></i> My Parcel (EZI ID: <%=@parcel.user.ezi_id%>)</h3>
           </div>
           <div class="panel-body">
 
@@ -130,10 +130,10 @@
                 <tr>
                   <th>Weight</th>
                   <td>
-                    <% if @parcel.weight? %>
-                    <%=@parcel.weight%> kg
+                    <% if @parcel.weight == 0.5 %>
+                    <%=@parcel.weight%> kg (minimal weight)
                     <%else%>
-                    Not Yet Available
+                    <%=@parcel.weight%> kg
                     <%end%>
                   </td>
                 </tr>

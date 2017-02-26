@@ -27,6 +27,18 @@ class ShipmentsController < ApplicationController
       else
         @shipments = current_user.shipments.search2(params[:search2]).order("updated_at DESC").page params[:page]
       end
+    elsif params[:search3]
+      if admin_user || staff_user
+        @shipments = Shipment.search3(params[:search3]).order("updated_at DESC").page params[:page]
+      else
+        @shipments = current_user.shipments.search3(params[:search3]).order("updated_at DESC").page params[:page]
+      end
+    elsif params[:search4]
+      if admin_user || staff_user
+        @shipments = Shipment.search4(params[:search4]).order("updated_at DESC").page params[:page]
+      else
+        @shipments = current_user.shipments.search4(params[:search4]).order("updated_at DESC").page params[:page]
+      end
     elsif params[:search]
       if admin_user || staff_user
         @shipments = Shipment.search(params[:search]).order("updated_at DESC").page params[:page]
@@ -40,6 +52,7 @@ class ShipmentsController < ApplicationController
 
   def show
     @shipment = Shipment.find_by(id: params[:id])
+    @currency = Currency.find_by(id: 1)
     authorize @shipment
   end
 
@@ -272,7 +285,7 @@ class ShipmentsController < ApplicationController
       @shipment.update(charge: sensitiveChargeByWeight61To100ToSS.ceil(1))
       flash[:success] ="Auto Calculated!"
       redirect_to edit_shipment_path(@shipment)
-    elsif @shipment.user.address2 == ("Sabah" || "Sarawak") && @shipment.shipment_type == "Sensitive" && @shipment.final_kg >= 101 
+    elsif @shipment.user.address2 == ("Sabah" || "Sarawak") && @shipment.shipment_type == "Sensitive" && @shipment.final_kg >= 101
       @shipment.update(charge: sensitiveChargeByWeight101AboveToSS.ceil(1))
       flash[:success] ="Auto Calculated!"
       redirect_to edit_shipment_path(@shipment)
@@ -365,7 +378,7 @@ class ShipmentsController < ApplicationController
   end
 
   def add_charge_params
-    params.require(:shipment).permit(:repackaging, :reorganize, :extra_charge, :extra_remark, :minus_charge)
+    params.require(:shipment).permit(:repackaging, :reorganize, :extra_charge, :extra_remark, :minus_charge, :remark_admin)
   end
 
   def sea_calculate_params

@@ -183,7 +183,8 @@
                       <span><%= link_to "", parcel_path(parcel), class:"fa fa-eye" %></span>&nbsp;&nbsp;
                       <% if parcel.status == "Waiting"%>
                       <span><%= link_to "", parcel_path(parcel), class:"fa fa-trash", data: { confirm: "Are you sure you want delete this parcel?"}, method: :delete %></span>
-                      <%else%>
+                      <%elsif admin_user && (parcel.status == "Arrived" || parcel.status == "Waiting")%>
+                      <span><%= link_to "", parcel_path(parcel), class:"fa fa-trash", data: { confirm: "Are you sure you want delete this parcel?"}, method: :delete %></span>
                       <%end%>
                     </td>
                       <%end%>

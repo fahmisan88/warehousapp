@@ -44,6 +44,31 @@
           </table>
         </div>
       </div>
+      <div class="col-lg-4">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title"><i class="fa fa-search fa-fw"></i>Sort by Freight</h3>
+          </div>
+          <table class="table table-bordered">
+            <tbody>
+              <tr>
+                <td>
+                  <%= form_tag(shipments_path, method: "get", id: "search-form") do %>
+                    <%= hidden_field_tag :search0, params[:search0]%>
+                  <%= submit_tag "Air Freight", :name => nil, class:"btn btn-info btn-sm"%>
+                  <%end%>
+                </td>
+                <td>
+                  <%= form_tag(shipments_path, method: "get", id: "search-form") do %>
+                  <%= hidden_field_tag :search1, params[:search1]%>
+                  <%= submit_tag "Sea Freight", :name => nil, class:"btn btn-info btn-sm"%>
+                  <%end%>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
     <div class="row">
       <div class="col-lg-12">
@@ -101,21 +126,22 @@
                   <%if admin_user || staff_user %>
                   <td><%= shipment.user.ezi_id%></td>
                   <% end%>
-                  <td><span>
+                  <td>
+                    <span>
+                      <%if shipment.bill_url.nil? %>
+                      <%= link_to "", shipment_path(shipment), class:"fa fa-eye" %></span>&nbsp;&nbsp;
+                      <% elsif shipment.bill_url? && shipment.status != "Paid" %>
+                      <%= link_to "Pay", shipment_path(shipment) %></span>&nbsp;&nbsp;
+                      <% else %>
+                      <%= link_to "", shipment_path(shipment), class:"fa fa-eye" %></span>&nbsp;&nbsp;
+                      <% end%>
+                    <span>
                     <% if shipment.status != "Paid" && admin_user || staff_user %>
                     <%= link_to "", edit_shipment_path(shipment), class:"fa fa-pencil" %>
                   </span>&nbsp;&nbsp;
                   <span><%= link_to "", shipment_path(shipment), class:"fa fa-trash", data: { confirm: "Are you sure you want delete this shipment?"}, method: :delete %></span>&nbsp;&nbsp;
                   <% else %>
                   <% end %>
-                  <span>
-                    <%if shipment.bill_url.nil? %>
-                    <%= link_to "", shipment_path(shipment), class:"fa fa-eye" %></span>&nbsp;&nbsp;
-                    <% elsif shipment.bill_url? && shipment.status != "Paid" %>
-                    <%= link_to "Pay", shipment_path(shipment) %></span>&nbsp;&nbsp;
-                    <% else %>
-                    <%= link_to "", shipment_path(shipment), class:"fa fa-eye" %></span>&nbsp;&nbsp;
-                    <% end%>
                   </td>
                   <%end%>
                   <%end%>
