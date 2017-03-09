@@ -16,8 +16,8 @@
                     <%= form_for(:user, url: sessions_path, html: { id: "user-login-form", class: "form-horizontal" }) do |f| %>
                                     
                             <div style="margin-bottom: 25px" class="input-group">
-                                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                        <%= f.text_field :email, required: true, id: "type_field", class: 'form-control', placeholder:"email", type:"text" %>                                        
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                                        <%= f.text_field :email, required: true, id: "type_field", class: 'form-control', placeholder:"email address", type:"text" %>                                        
                                     </div>
                                 
                             <div style="margin-bottom: 25px" class="input-group">
