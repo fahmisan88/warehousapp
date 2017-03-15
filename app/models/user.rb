@@ -13,7 +13,7 @@ class User < ApplicationRecord
 
   # package; 1 = RM150/year, 2 = RM250/2years, 3 = RM300/3years 
   validates :package, inclusion: { in: [1,2,3] }
-  validates :name, presence: true, length: { in: 5..40 }, format: { with: VALID_NAME_REGEX, message: "Only allows letters, space and single quote (') between 5 to 40 characters"}
+  validates :name, presence: true, length: { in: 5..80 }, format: { with: VALID_NAME_REGEX, message: "Only allows letters, space and single quote (') between 5 to 40 characters"}
 
   enum role: [:user, :staff, :admin]
   enum status: [:Inactive, :Active, :Suspended, :Blocked]
