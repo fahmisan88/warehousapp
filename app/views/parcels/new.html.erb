@@ -86,7 +86,7 @@
 
                 </table>
                 <br>
-
+                <%= f.hidden_field :ezi_id, value: current_user.ezi_id %>
                 <%= f.submit "Create Parcel", class: "btn btn-success btn-lg", type:"submit" %>
                 <%= link_to 'Back', parcels_path, class:"btn btn-link" %>
 
