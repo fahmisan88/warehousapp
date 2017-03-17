@@ -88,6 +88,7 @@
                 <table class="table table-bordered">
                   <thead>
                     <tr>
+                      <th>#</th>
                       <th>User ID</th>
                       <th>Name</th>
                       <th>Email</th>
@@ -98,8 +99,15 @@
                     </tr>
                   </th
                   <tbody>
-                    <%@users.each do |user|%>
+                    <% if params[:page].nil? || params[:page] == "0" || params[:page] == "1" %>
+                      <% x = 0 %>
+                    <% else %>
+                      <% page = params[:page].to_i - 1 %>
+                      <% x = page * 10 %>
+                    <% end %>
+                    <%@users.each_with_index do |user, index|%>
                     <tr>
+                      <td><%= index + x + 1 %></td>
                       <td><%= user.ezi_id%></td>
                       <td><%= user.name%> </td>
                       <td><%= user.email%> </td>

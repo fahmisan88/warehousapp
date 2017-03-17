@@ -60,6 +60,8 @@ Rails.application.routes.draw do
       put :sea_calculate
       patch :add_charge
       put :add_charge
+      get :add_tracking
+      patch :update_tracking
     end
   end
   resources :currencies, only: [:edit, :update]

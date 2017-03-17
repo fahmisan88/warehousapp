@@ -370,7 +370,20 @@ class ShipmentsController < ApplicationController
     else
       @shipments= current_user.shipments.where(status: 2).order(updated_at: :desc).page params[:page]
     end
+  end
 
+  def add_tracking
+    @shipment = Shipment.find(params[:id])
+  end
+
+  def update_tracking
+    @shipment = Shipment.find(params[:id])
+    if @shipment.update tracking_params
+      flash[:success] = "You successfully added a tracking number"
+    else
+      flash[:danger] = "Failed to add tracking number"
+    end
+    redirect_to shipments_path
   end
 
   private
@@ -389,6 +402,10 @@ class ShipmentsController < ApplicationController
 
   def sea_calculate_params
     params.require(:shipment).permit(:sea_charge)
+  end
+
+  def tracking_params
+    params.require(:shipment).permit(:tracking)
   end
 
 
