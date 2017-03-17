@@ -9,3 +9,4 @@
 //= require revolution/extensions/revolution.extension.parallax.min
 //= require revolution/extensions/revolution.extension.slideanims.min
 //= require revolution/extensions/revolution.extension.video.min
+//= require revolution/revolution.addon.slicey.min
