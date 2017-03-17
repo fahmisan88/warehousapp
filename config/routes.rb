@@ -62,6 +62,8 @@ Rails.application.routes.draw do
       put :add_charge
       get :add_tracking
       patch :update_tracking
+      get :edit_status
+      patch :update_status
     end
   end
   resources :currencies, only: [:edit, :update]

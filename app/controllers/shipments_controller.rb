@@ -386,6 +386,20 @@ class ShipmentsController < ApplicationController
     redirect_to shipments_path
   end
 
+  def edit_status
+    @shipment = Shipment.find(params[:id])
+  end
+
+  def update_status
+    @shipment = Shipment.find(params[:id])
+    if @shipment.update change_status_params
+      flash[:success] = "You successfully update the status"
+    else
+      flash[:danger] = "Failed to update status"
+    end
+    redirect_to shipments_path
+  end
+
   private
 
   def shipment_params
@@ -406,6 +420,10 @@ class ShipmentsController < ApplicationController
 
   def tracking_params
     params.require(:shipment).permit(:tracking)
+  end
+
+  def change_status_params
+    params.require(:shipment).permit(:status)
   end
 
 
