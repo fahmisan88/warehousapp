@@ -16,59 +16,74 @@
       <div class="col-lg-4">
         <div class="panel panel-default">
           <div class="panel-heading">
-            <h3 class="panel-title"><i class="fa fa-search fa-fw"></i>Sort by Status</h3>
+            <h3 class="panel-title"><i class="fa fa-search fa-fw"></i>Search EZI ID</h3>
           </div>
           <table class="table table-bordered">
             <tbody>
               <tr>
                 <td>
                   <%= form_tag(shipments_path, method: "get", id: "search-form") do %>
-                    <%= hidden_field_tag :search0, params[:search0]%>
-                  <%= submit_tag "Processing", :name => nil, class:"btn btn-info btn-sm"%>
+                  <div class="col-lg-6"><%= text_field_tag :search, params[:search], class: "form-control text" %></div>
+                  <div class="col-lg-2"><%= submit_tag "Search", :name => nil, class:"btn btn-success btn-sm"%></div>
                   <%end%>
-                </td>
-                <td>
-                  <%= form_tag(shipments_path, method: "get", id: "search-form") do %>
-                  <%= hidden_field_tag :search1, params[:search1]%>
-                  <%= submit_tag "Awaiting Payment", :name => nil, class:"btn btn-info btn-sm"%>
-                  <%end%>
-                </td>
-                <td>
-                  <%= form_tag(shipments_path, method: "get", id: "search-form") do %>
-                  <%= hidden_field_tag :search2, params[:search2]%>
-                  <%= submit_tag "Paid", :name => nil, class:"btn btn-info btn-sm"%>
-                  <%end%>
+                  <div class="text-right">
+                    <a href="<%=shipments_path%>">View All</a>
+                  </div>
                 </td>
               </tr>
             </tbody>
           </table>
         </div>
       </div>
-      <div class="col-lg-4">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h3 class="panel-title"><i class="fa fa-search fa-fw"></i>Sort by Freight</h3>
+      <div class="col-lg-3">
+      <div class="dropdown pull-left">
+        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Sort By Status
+          <span class="caret"></span></button>
+          <ul class="dropdown-menu">
+            <li>
+              <a href="/shipments">
+                <i class="icon_set_1_icon-11"></i>All
+              </a>
+            </li>
+            <li>
+              <a href="/shipments?status=Processing" <%if @filter_params == "Processing" %>id="active" <% end %> >
+                <i class="icon_set_1_icon-11"></i>Processing
+              </a>
+            </li>
+            <li>
+              <a href="/shipments?status=Awaiting%20Payment" <%if @filter_params == "Awaiting Payment" %>id="active" <% end %> >
+                <i class="icon_set_1_icon-11"></i>Awaiting Payment
+              </a>
+            </li>
+            <li>
+              <a href="/shipments?status=Paid" <%if @filter_params == "Paid" %>id="active" <% end %> >
+                <i class="icon_set_1_icon-11"></i>Paid
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="dropdown pull-right">
+          <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Sort By Freight
+            <span class="caret"></span></button>
+            <ul class="dropdown-menu">
+              <li>
+                <a href="/shipments">
+                  <i class="icon_set_1_icon-11"></i>All
+                </a>
+              </li>
+              <li>
+                <a href="/shipments?sea_freight=Air%20Freight" <%if @freight_params == "Air Freight" %>id="active" <% end %> >
+                  <i class="icon_set_1_icon-11"></i>Air Freight
+                </a>
+              </li>
+              <li>
+                <a href="/shipments?sea_freight=Sea%20Freight" <%if @freight_params == "Sea Freight" %>id="active" <% end %> >
+                  <i class="icon_set_1_icon-11"></i>Sea Freight
+                </a>
+              </li>
+            </ul>
           </div>
-          <table class="table table-bordered">
-            <tbody>
-              <tr>
-                <td>
-                  <%= form_tag(shipments_path, method: "get", id: "search-form") do %>
-                    <%= hidden_field_tag :search0, params[:search0]%>
-                  <%= submit_tag "Air Freight", :name => nil, class:"btn btn-info btn-sm"%>
-                  <%end%>
-                </td>
-                <td>
-                  <%= form_tag(shipments_path, method: "get", id: "search-form") do %>
-                  <%= hidden_field_tag :search1, params[:search1]%>
-                  <%= submit_tag "Sea Freight", :name => nil, class:"btn btn-info btn-sm"%>
-                  <%end%>
-                </td>
-              </tr>
-            </tbody>
-          </table>
         </div>
-      </div>
     </div>
     <div class="row">
       <div class="col-lg-12">
@@ -93,6 +108,7 @@
             <table class="table table-bordered">
               <thead>
                 <tr>
+                  <th>#</th>
                   <th>Date</th>
                   <th>Ship ID</th>
                   <th>Charges</th>
@@ -105,8 +121,15 @@
                 </tr>
               </thead>
               <tbody>
-                <%@shipments.each do |shipment|%>
+                <% if params[:page].nil? || params[:page] == "0" || params[:page] == "1" %>
+                  <% x = 0 %>
+                <% else %>
+                  <% page = params[:page].to_i - 1 %>
+                  <% x = page * 10 %>
+                <% end %>
+                <%@shipments.each_with_index do |shipment, index|%>
                 <tr>
+                  <td><%= index + x + 1 %></td>
                   <td><%= shipment.updated_at.strftime("%d-%m-%Y  (%H:%M)")%> </td>
                   <td><%= shipment.id%></td>
                   <td>

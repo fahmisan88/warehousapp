@@ -2,6 +2,7 @@ class ParcelsController < ApplicationController
   before_action :authenticate!
 
   def index
+    @filter_params = params[:status]
 
     if admin_user || staff_user
     @parcels= Parcel.all.order(updated_at: :desc).page params[:page]
@@ -9,56 +10,58 @@ class ParcelsController < ApplicationController
     @parcels= current_user.parcels.order(updated_at: :desc).page params[:page]
     end
 
-    if params[:search0]
+		if @filter_params == "Waiting"
       if admin_user || staff_user
-        @parcels = Parcel.search0(params[:search0]).order("updated_at DESC").page params[:page]
+        @parcels = Parcel.where(status: 0).order("created_at desc").page(params[:page])
       else
-        @parcels = current_user.parcels.search0(params[:search0]).order("updated_at DESC").page params[:page]
+        @parcels = current_user.parcels.where(status: 0).order("created_at desc").page(params[:page])
       end
-    elsif params[:search1]
+    elsif @filter_params == "Arrived"
       if admin_user || staff_user
-        @parcels = Parcel.search1(params[:search1]).order("updated_at DESC").page params[:page]
+        @parcels = Parcel.where(status: 1).order("created_at desc").page(params[:page])
       else
-        @parcels = current_user.parcels.search1(params[:search1]).order("updated_at DESC").page params[:page]
+        @parcels = current_user.parcels.where(status: 1).order("created_at desc").page(params[:page])
       end
-    elsif params[:search2]
+		elsif @filter_params == "Ready To Ship"
       if admin_user || staff_user
-        @parcels = Parcel.search2(params[:search2]).order("updated_at DESC").page params[:page]
+        @parcels = Parcel.where(status: 2).order("created_at desc").page(params[:page])
       else
-        @parcels = current_user.parcels.search2(params[:search2]).order("updated_at DESC").page params[:page]
+        @parcels = current_user.parcels.where(status: 2).order("created_at desc").page(params[:page])
       end
-    elsif params[:search3]
+		elsif @filter_params == "Shipped"
       if admin_user || staff_user
-        @parcels = Parcel.search3(params[:search3]).order("updated_at DESC").page params[:page]
+        @parcels = Parcel.where(status: 3).order("created_at desc").page(params[:page])
       else
-        @parcels = current_user.parcels.search3(params[:search3]).order("updated_at DESC").page params[:page]
+        @parcels = current_user.parcels.where(status: 3).order("created_at desc").page(params[:page])
       end
-    elsif params[:search4]
+    elsif @filter_params == "Request"
       if admin_user || staff_user
-        @parcels = Parcel.search4(params[:search4]).order("updated_at DESC").page params[:page]
+        @parcels = Parcel.where(status: 4).order("created_at desc").page(params[:page])
       else
-        @parcels = current_user.parcels.search4(params[:search4]).order("updated_at DESC").page params[:page]
+        @parcels = current_user.parcels.where(status: 4).order("created_at desc").page(params[:page])
       end
-    elsif params[:search5]
+    elsif @filter_params == "Refunding"
       if admin_user || staff_user
-        @parcels = Parcel.search5(params[:search5]).order("updated_at DESC").page params[:page]
+        @parcels = Parcel.where(status: 5).order("created_at desc").page(params[:page])
       else
-        @parcels = current_user.parcels.search5(params[:search5]).order("updated_at DESC").page params[:page]
+        @parcels = current_user.parcels.where(status: 5).order("created_at desc").page(params[:page])
       end
-    elsif params[:search6]
+		elsif @filter_params == "Refunded"
       if admin_user || staff_user
-        @parcels = Parcel.search6(params[:search6]).order("updated_at DESC").page params[:page]
+        @parcels = Parcel.where(status: 6).order("created_at desc").page(params[:page])
       else
-        @parcels = current_user.parcels.search6(params[:search6]).order("updated_at DESC").page params[:page]
+        @parcels = current_user.parcels.where(status: 6).order("created_at desc").page(params[:page])
       end
-    elsif params[:search]
+		end
+
+    if params[:search]
       if admin_user || staff_user
         @parcels = Parcel.search(params[:search]).order("updated_at DESC").page params[:page]
       else
         @parcels = current_user.parcels.search(params[:search]).order("updated_at DESC").page params[:page]
       end
-    else
     end
+    
   end
 
   def show
@@ -185,7 +188,7 @@ class ParcelsController < ApplicationController
   private
 
     def parcel_params
-      params.require(:parcel).permit(:awb, :description, :image, :remark, :parcel_good, :photoshoot, :inspection, :product_chinese, :product_quantity, :product_total_price, :price_per_unit)
+      params.require(:parcel).permit(:awb, :description, :image, :remark, :parcel_good, :photoshoot, :inspection, :product_chinese, :product_quantity, :product_total_price, :price_per_unit, :ezi_id)
     end
 
     def update_parcel_params

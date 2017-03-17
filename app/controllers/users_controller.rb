@@ -3,15 +3,24 @@ class UsersController < ApplicationController
   before_action :authenticate!,  only: [:edit, :update]
 
   def index
-
+    @filter_params = params[:status]
     @users = User.all.order(updated_at: :desc).page params[:page]
-      authorize @users
-      if params[:search]
-        @users = User.search(params[:search]).order("updated_at DESC").page params[:page]
-      elsif params[:search1]
-        @users = User.search1(params[:search1]).order("updated_at DESC").page params[:page]
-      else
+    authorize @users
+
+      if @filter_params == "Inactive"
+        @users = User.where(status: 0).order("created_at desc").page(params[:page])
+      elsif @filter_params == "Active"
+        @users = User.where(status: 1).order("created_at desc").page(params[:page])
+  		elsif @filter_params == "Suspended"
+        @users = User.where(status: 2).order("created_at desc").page(params[:page])
+      elsif @filter_params == "Blocked"
+        @users = User.where(status: 3).order("created_at desc").page(params[:page])
       end
+
+      if params[:search]
+          @users = User.search(params[:search]).order("updated_at DESC").page params[:page]
+      end
+
   end
 
   def show
