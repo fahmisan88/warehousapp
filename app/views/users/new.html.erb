@@ -8,9 +8,82 @@
       <div class="panel-heading">
         <div class="panel-title">Sign Up</div>
       </div>
-      <div class="panel-body" align="center">
-        <p>Close for new registration, for the moment.</p>
+      <div class="panel-body" >
+        <%= form_for(@user, url: {action: "create"}, method: :post, html: {id: "form-validation", class: "form-horizontal"} ) do %>
+
+                                <div class="form-group">
+                                    <label for="email" class="col-md-3 control-label">Email</label>
+                                    <div class="col-md-9">
+                                        <input id="validation-email" class="form-control" placeholder="Email" name="user[email]" type="text" required="required" data-validation="email,server" data-validation-url="/checkemail">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="fullname" class="col-md-3 control-label">Full Name</label>
+                                    <div class="col-md-9">
+                                        <input id="validation-fullname" type="text" class="form-control" placeholder="Full Name" name="user[fullname]" required="required" data-validation="custom" data-validation-regexp="^[a-zA-Z\x27 ]{5,80}$" data-validation-error-msg="Only letters, space and single quote (') are allowed between 5 to 80 characters">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="password" class="col-md-3 control-label">Password</label>
+                                    <div class="col-md-9">
+                                        <input type="password" class="form-control" name="passwd_confirmation" placeholder="Password" required="required" data-validation="length,alphanumeric" data-validation-length="6-20">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="password2" class="col-md-3 control-label">Repeat Password</label>
+                                    <div class="col-md-9">
+                                        <input type="password" class="form-control" name="user[passwd]" placeholder="Repeat Password" required="required" data-validation="confirmation,length,alphanumeric" data-validation-length="6-20" data-validation-confirm="passwd_confirmation">
+                                    </div>
+                                </div>
+
+                                 <div class="form-group">
+                                  <label class="col-md-3 control-label">Choose Promo Package</label>
+                                  <div class="col-md-9">
+                                      <select class="form-control" name = "user[package]" data-validation="required,server" data-validation-url="/checkpackage">
+                                        <option value="1" selected="selected">1 Year subscription = RM150</option>
+                                        <option value="2">2 Years subscription = RM250</option>
+                                        <!-- <option value="3">3 Years subscription = RM300</option> -->
+                                      </select>
+                                  </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-offset-3 col-sm-9">
+                                        <div class="checkbox" data-pg-collapsed>
+                                            <label class="control-label">
+                                                <input type="checkbox" data-validation="required" data-validation-error-msg="You have to agree to our terms"> I accept the <a href="/tnc.html" target="_blank">Terms and Conditions of Service</a>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <!-- Button -->
+                                    <div class="col-md-offset-3 col-md-9">
+                                        <button type="submit" class="btn btn-info">Sign Up</button>
+                                    </div>
+                                </div>
+
+                            <% end %>
       </div>
     </div>
   </div>
 </div>
+
+<script>
+$.validate({
+  modules : 'sanitize, html5, security'
+});
+
+
+$(document).ready(function(){
+    swal({
+        title: '<span style="color:#db280d">Warning</span>',
+        html: "Ezicargo registration are ONLY available to RICH members. If you are not a RICH member please learn more about RICH by visiting <a href='http://www.rahsiaimportchina.com' target='_blank'><span style='color:#db280d'>rahsiaimportchina.com</span></a> before proceeding with us. No REFUND will be granted  after the registration with Ezicargo.",
+    width: 600,
+    padding: 100,
+        type: "warning",
+        confirmButtonText: "Understood"}, 2000);
+});
+</script>
