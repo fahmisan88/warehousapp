@@ -16,7 +16,7 @@
       <div class="col-lg-4">
         <div class="panel panel-default">
           <div class="panel-heading">
-            <h3 class="panel-title"><i class="fa fa-search fa-fw"></i>Search User ID</h3>
+            <h3 class="panel-title"><i class="fa fa-search fa-fw"></i>Search User</h3>
           </div>
           <table class="table table-bordered">
             <tbody>
@@ -35,28 +35,40 @@
         </table>
           </div>
         </div>
-        <div class="col-lg-4">
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <h3 class="panel-title"><i class="fa fa-search fa-fw"></i>Search User Email</h3>
+        <div class = "col-lg-4">
+          <div class="dropdown pull-left">
+            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Sort By Status
+              <span class="caret"></span></button>
+              <ul class="dropdown-menu">
+                <li>
+                  <a href="/users">
+                    <i class="icon_set_1_icon-11"></i>All
+                  </a>
+                </li>
+                <li>
+                  <a href="/users?status=Inactive" <%if @filter_params == "Inactive" %>id="active" <% end %> >
+                    <i class="icon_set_1_icon-11"></i>Inactive
+                  </a>
+                </li>
+                <li>
+                  <a href="/users?status=Active" <%if @filter_params == "Active" %>id="active" <% end %> >
+                    <i class="icon_set_1_icon-11"></i>Active
+                  </a>
+                </li>
+                <li>
+                  <a href="/users?status=Suspended" <%if @filter_params == "Suspended" %>id="active" <% end %> >
+                    <i class="icon_set_1_icon-11"></i>Suspended
+                  </a>
+                </li>
+                <li>
+                  <a href="/users?status=Blocked" <%if @filter_params == "Blocked" %>id="active" <% end %> >
+                    <i class="icon_set_1_icon-11"></i>Blocked
+                  </a>
+                </li>
+              </ul>
             </div>
-            <table class="table table-bordered">
-              <tbody>
-                <tr>
-                  <td>
-                    <%= form_tag(users_path, method: "get", id: "search-form") do %>
-                    <div class="col-lg-6"><%= text_field_tag :search1, params[:search1], class: "form-control text", placeholder:"user@email.com" %></div>
-                    <div class="col-lg-2"><%= submit_tag "Search", :name => nil, class:"btn btn-success btn-sm"%></div>
-                    <%end%>
-                    <div class="text-right">
-                      <a href="<%=users_path%>">View All</a>
-                    </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-            </div>
-          </div>
+        </div>
+
       </div>
     <div class="row">
       <div class="col-lg-12">
@@ -76,6 +88,7 @@
                 <table class="table table-bordered">
                   <thead>
                     <tr>
+                      <th>#</th>
                       <th>User ID</th>
                       <th>Name</th>
                       <th>Email</th>
@@ -86,8 +99,15 @@
                     </tr>
                   </th
                   <tbody>
-                    <%@users.each do |user|%>
+                    <% if params[:page].nil? || params[:page] == "0" || params[:page] == "1" %>
+                      <% x = 0 %>
+                    <% else %>
+                      <% page = params[:page].to_i - 1 %>
+                      <% x = page * 10 %>
+                    <% end %>
+                    <%@users.each_with_index do |user, index|%>
                     <tr>
+                      <td><%= index + x + 1 %></td>
                       <td><%= user.ezi_id%></td>
                       <td><%= user.name%> </td>
                       <td><%= user.email%> </td>

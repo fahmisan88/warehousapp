@@ -3,49 +3,55 @@ class ShipmentsController < ApplicationController
 
 
   def index
+    @filter_params = params[:status]
+    @freight_params = params[:sea_freight]
+
     if admin_user || staff_user
       @shipments= Shipment.all.order(updated_at: :desc).page params[:page]
     else
       @shipments= current_user.shipments.order(updated_at: :desc).page params[:page]
     end
 
-    if params[:search0]
+		if @filter_params == "Processing"
       if admin_user || staff_user
-        @shipments = Shipment.search0(params[:search0]).order("updated_at DESC").page params[:page]
+        @shipments = Shipment.where(status: 0).order("created_at desc").page(params[:page])
       else
-        @shipments = current_user.shipments.search0(params[:search0]).order("updated_at DESC").page params[:page]
+        @shipments = current_user.shipments.where(status: 0).order("created_at desc").page(params[:page])
       end
-    elsif params[:search1]
+    elsif @filter_params == "Awaiting Payment"
       if admin_user || staff_user
-        @shipments = Shipment.search1(params[:search1]).order("updated_at DESC").page params[:page]
+        @shipments = Shipment.where(status: 1).order("created_at desc").page(params[:page])
       else
-        @shipments = current_user.shipments.search1(params[:search1]).order("updated_at DESC").page params[:page]
+        @shipments = current_user.shipments.where(status: 1).order("created_at desc").page(params[:page])
       end
-    elsif params[:search2]
+		elsif @filter_params == "Paid"
       if admin_user || staff_user
-        @shipments = Shipment.search2(params[:search2]).order("updated_at DESC").page params[:page]
+        @shipments = Shipment.where(status: 2).order("created_at desc").page(params[:page])
       else
-        @shipments = current_user.shipments.search2(params[:search2]).order("updated_at DESC").page params[:page]
+        @shipments = current_user.shipments.where(status: 2).order("created_at desc").page(params[:page])
       end
-    elsif params[:search3]
+    end
+
+		if @freight_params == "Air Freight"
       if admin_user || staff_user
-        @shipments = Shipment.search3(params[:search3]).order("updated_at DESC").page params[:page]
+        @shipments = Shipment.where(sea_freight: false).order("created_at desc").page(params[:page])
       else
-        @shipments = current_user.shipments.search3(params[:search3]).order("updated_at DESC").page params[:page]
+        @shipments = current_user.shipments.where(sea_freight: false).order("created_at desc").page(params[:page])
       end
-    elsif params[:search4]
+    elsif @freight_params == "Sea Freight"
       if admin_user || staff_user
-        @shipments = Shipment.search4(params[:search4]).order("updated_at DESC").page params[:page]
+        @shipments = Shipment.where(sea_freight: true).order("created_at desc").page(params[:page])
       else
-        @shipments = current_user.shipments.search4(params[:search4]).order("updated_at DESC").page params[:page]
+        @shipments = current_user.shipments.where(sea_freight: true).order("created_at desc").page(params[:page])
       end
-    elsif params[:search]
+    end
+
+    if params[:search]
       if admin_user || staff_user
         @shipments = Shipment.search(params[:search]).order("updated_at DESC").page params[:page]
       else
         @shipments = current_user.shipments.search(params[:search]).order("updated_at DESC").page params[:page]
       end
-    else
     end
 
   end
@@ -364,13 +370,40 @@ class ShipmentsController < ApplicationController
     else
       @shipments= current_user.shipments.where(status: 2).order(updated_at: :desc).page params[:page]
     end
+  end
 
+  def add_tracking
+    @shipment = Shipment.find(params[:id])
+  end
+
+  def update_tracking
+    @shipment = Shipment.find(params[:id])
+    if @shipment.update tracking_params
+      flash[:success] = "You successfully added a tracking number"
+    else
+      flash[:danger] = "Failed to add tracking number"
+    end
+    redirect_to shipments_path
+  end
+
+  def edit_status
+    @shipment = Shipment.find(params[:id])
+  end
+
+  def update_status
+    @shipment = Shipment.find(params[:id])
+    if @shipment.update change_status_params
+      flash[:success] = "You successfully update the status"
+    else
+      flash[:danger] = "Failed to update status"
+    end
+    redirect_to shipments_path
   end
 
   private
 
   def shipment_params
-    params.require(:shipment).permit(:status, :remark, :charge, :bill_id, :bill_url, :due_at, :paid_at, :reorganize, :repackaging, :sea_freight)
+    params.require(:shipment).permit(:status, :remark, :charge, :bill_id, :bill_url, :due_at, :paid_at, :reorganize, :repackaging, :sea_freight, :ezi_id)
   end
 
   def calculate_params
@@ -383,6 +416,14 @@ class ShipmentsController < ApplicationController
 
   def sea_calculate_params
     params.require(:shipment).permit(:sea_charge)
+  end
+
+  def tracking_params
+    params.require(:shipment).permit(:tracking)
+  end
+
+  def change_status_params
+    params.require(:shipment).permit(:status)
   end
 
 

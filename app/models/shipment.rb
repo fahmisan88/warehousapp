@@ -10,27 +10,8 @@ class Shipment < ApplicationRecord
   before_destroy :update_status, prepend: true
   paginates_per 10
 
-
-
-  def self.search0(search0)
-    where(status: 0)
+  def self.search(search)
+      where('ezi_id ILIKE :search', search: "%#{search}%")
   end
-
-  def self.search1(search1)
-    where(status: 1)
-  end
-
-  def self.search2(search2)
-    where(status: 2)
-  end
-
-  def self.search3(search3)
-    where(sea_freight: false)
-  end
-
-  def self.search4(search4)
-    where(sea_freight: true)
-  end
-
 
 end

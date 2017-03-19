@@ -1,0 +1,41 @@
+<br>
+<div id="wrapper">
+  <div id="page-wrapper">
+    <br>
+    <br>
+    <div class="row">
+        <div class="col-lg-12">
+            <ol class="breadcrumb">
+                <li class="active">
+                    <i class="fa fa-archive"></i> Change Status Shipment
+                </li>
+            </ol>
+        </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title"><i class="fa fa-archive fa-fw"></i> Change Status Shipment </h3>
+          </div>
+          <div class="panel-body">
+            <div class="container">
+              <%= form_for(@shipment, url: update_status_shipment_path(@shipment), html: { id: "status-update-form" }) do |f| %>
+              <form>
+                <div class="form-group">
+                  <label for="AWB">Status:</label>
+                  <%= f.select :status, [ 'Processing', 'Awaiting Payment', 'Paid'],{ :include_blank => '-- Select One --' }, class:"form-control", required: true %>
+                </div>
+                <div class="text-center">
+                <%= f.submit "Submit", class: "btn btn-success btn-lg", data: { confirm: "Are you sure you want change this shipment's status?"}, type:"submit" %>
+                <%= link_to 'Back', shipments_path, class:"btn btn-link" %>
+                </div>
+              </form>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

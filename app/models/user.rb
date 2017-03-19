@@ -11,7 +11,7 @@ class User < ApplicationRecord
   validates :email, presence: true, uniqueness: true, format: { with: VALID_EMAIL_REGEX, message: "Not a valid email address" }
   validates :password, presence: true, on: :create, length: { in: 6..20 }, format: { with: VALID_PASSWORD_REGEX, message: "Only allows alphanumeric and underscore between 6 to 20 characters"}
 
-  # package; 1 = RM150/year, 2 = RM250/2years, 3 = RM300/3years 
+  # package; 1 = RM150/year, 2 = RM250/2years, 3 = RM300/3years
   validates :package, inclusion: { in: [1,2,3] }
   validates :name, presence: true, length: { in: 5..80 }, format: { with: VALID_NAME_REGEX, message: "Only allows letters, space and single quote (') between 5 to 80 characters"}
 
@@ -19,12 +19,9 @@ class User < ApplicationRecord
   enum status: [:Inactive, :Active, :Suspended, :Blocked]
 
   def self.search(search)
-    where("ezi_id ILIKE ?", "%#{search}%")
+    where('ezi_id ILIKE :search OR email ILIKE :search', search: "%#{search}%")
   end
 
-  def self.search1(search1)
-    where("email ILIKE ?", "%#{search1}%")
-  end
 
   # token for password reset
   def generate_password_token!
