@@ -61,7 +61,7 @@ class ParcelsController < ApplicationController
         @parcels = current_user.parcels.search(params[:search]).order("updated_at DESC").page params[:page]
       end
     end
-    
+
   end
 
   def show
@@ -182,6 +182,39 @@ class ParcelsController < ApplicationController
       else
         flash[:danger]
         redirect_to parcels_path
+      end
+    end
+
+    def admin_create_parcel_show
+      authorize current_user
+      @parcel = Parcel.new
+    end
+
+    # use only for admin to create new parcels for users due sometime seller deliver extra parcels without user acknowledges.
+    def admin_create
+      @parcel= current_user.parcels.build(parcel_params)
+      authorize @parcel
+      if @parcel.save
+        @parcel.update_attributes(status: 0, weight: 0.5, width: 1, length: 1, height: 1)
+        flash[:success] = "Thank you for your time. You've successfully created a parcel."
+        # deliver_mail(current_user.name, current_user.email, "parcels", "created")
+        redirect_to parcels_path
+      else
+        flash[:danger]
+        redirect_to new_parcel_path
+      end
+    end
+
+    def user_exist
+      @user = User.find_by(ezi_id: parcel_params[:ezi_id].upcase)
+      if @user.present?
+        respond_to do |format|
+          format.json {render json: { valid: true }}
+        end
+      else
+        respond_to do |format|
+          format.json {render json: { valid: false, message: "Ezicargo Code not exists" }}
+        end
       end
     end
 

@@ -36,6 +36,10 @@ class ParcelPolicy < ApplicationPolicy
     show?
   end
 
+  def admin_create_parcel_show?
+    user_has_power?
+  end
+
   private
 
   def user_has_power?
