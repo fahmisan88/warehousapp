@@ -1,6 +1,6 @@
 # README
 
-1. install *imagemagick* and postgresql dev
+1. install *imagemagick* and *postgresql dev*
 
 ```bash
 sudo apt-get update
