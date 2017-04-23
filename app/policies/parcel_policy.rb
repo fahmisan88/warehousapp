@@ -40,6 +40,10 @@ class ParcelPolicy < ApplicationPolicy
     user_has_power?
   end
 
+  def admin_create?
+    user_has_power?
+  end
+
   private
 
   def user_has_power?

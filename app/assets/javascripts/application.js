@@ -21,9 +21,9 @@
 //= require_tree .
 
 function validateFiles(inputFile) {
-  var maxExceededMessage = "This file exceeds the maximum allowed file size (300 KB)";
+  var maxExceededMessage = "This file exceeds the maximum allowed file size (1 MB)";
   var extErrorMessage = "Only image file with extension: .jpg, .jpeg, .gif or .png is allowed";
-  var maxExtErrorMessage = "This file exceeds the maximum allowed file size (300 KB) \nand is not allowed file extension (only .jpg, .jpeg, .gif or .png)";
+  var maxExtErrorMessage = "This file exceeds the maximum allowed file size (1 MB) \nand is not allowed file extension (only .jpg, .jpeg, .gif or .png)";
   var allowedExtension = ["jpg", "jpeg", "gif", "png"];
 
   var extName;
@@ -86,7 +86,7 @@ function resetActive(event, percent, step) {
         });
     }
 
-    function showCurrentStepInfo(step) {        
+    function showCurrentStepInfo(step) {
         var id = "#" + step;
         $(id).addClass("activeStepInfo");
     }

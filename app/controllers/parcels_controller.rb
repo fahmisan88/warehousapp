@@ -186,36 +186,29 @@ class ParcelsController < ApplicationController
     end
 
     def admin_create_parcel_show
-      authorize current_user
       @parcel = Parcel.new
+      authorize @parcel
     end
 
     # use only for admin to create new parcels for users due sometime seller deliver extra parcels without user acknowledges.
     def admin_create
-      @parcel= current_user.parcels.build(parcel_params)
+      @user = User.find_by(ezi_id: parcel_params[:ezi_id].capitalize)
+      @user_id = @user.id
+      @parcel= Parcel.create(user_id: @user_id , ezi_id: parcel_params[:ezi_id].capitalize, awb: parcel_params[:awb], description: parcel_params[:description], parcel_good: parcel_params[:parcel_good], product_quantity: parcel_params[:product_quantity], product_chinese: parcel_params[:product_chinese], remark: parcel_params[:remark], image: parcel_params[:image], photoshoot: false, inspection: false, price_per_unit: 0)
       authorize @parcel
-      if @parcel.save
-        @parcel.update_attributes(status: 0, weight: 0.5, width: 1, length: 1, height: 1)
-        flash[:success] = "Thank you for your time. You've successfully created a parcel."
-        # deliver_mail(current_user.name, current_user.email, "parcels", "created")
+      if @parcel.persisted?
+        @parcel.update_attributes(status: 7, weight: 0.5, width: 1, length: 1, height: 1)
+        flash[:success] = "Parcel successfully created"
         redirect_to parcels_path
       else
-        flash[:danger]
-        redirect_to new_parcel_path
+        flash[:danger] = @parcel.errors.full_messages
+        redirect_to '/parcels/parcel_new'
       end
     end
 
-    def user_exist
-      @user = User.find_by(ezi_id: parcel_params[:ezi_id].upcase)
-      if @user.present?
-        respond_to do |format|
-          format.json {render json: { valid: true }}
-        end
-      else
-        respond_to do |format|
-          format.json {render json: { valid: false, message: "Ezicargo Code not exists" }}
-        end
-      end
+    # check the existence of ezi_id. 'ezicode_exist' is a helper method than con found at controller superclass (application_controller.rb). use for form validation.
+    def checkezicode
+      ezicode_exist
     end
 
   private
