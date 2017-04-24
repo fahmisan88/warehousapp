@@ -146,7 +146,6 @@ class UsersController < ApplicationController
   def emailcheck
     @user = User.find_by(email: reg_user_params[:email].downcase)
     if @user.present?
-      flash[:danger] = "Package is not available"
       respond_to do |format|
         format.json {render json: { valid: false, message: "This email is already registered" }}
       end
@@ -166,7 +165,6 @@ class UsersController < ApplicationController
         format.json { render json: { valid: true } }
       end
     else
-      flash[:danger] = "Package is not available"
       respond_to do |format|
         format.json { render json: { valid: false, message: "Package is not available" } }
       end

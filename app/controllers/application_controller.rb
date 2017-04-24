@@ -41,8 +41,22 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  protected
+  # check existing of user on ezicargo code
+  def ezicode_exist
+    @user = User.find_by(ezi_id: parcel_params[:ezi_id].upcase)
+    if @user.present?
+      respond_to do |format|
+        format.json {render json: { valid: true }}
+      end
+    else
+      respond_to do |format|
+        format.json {render json: { valid: false, message: "Ezicargo Code not exists" }}
+      end
+    end
+  end
+  helper_method :ezicode_exist
 
+  protected
 # ================================================================================================
   # email notification
   # name: current_user.name

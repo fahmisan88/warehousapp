@@ -1,0 +1,72 @@
+<br>
+<div id="wrapper">
+  <div id="page-wrapper">
+    <br>
+    <br>
+    <div class="row">
+        <div class="col-lg-12">
+            <ol class="breadcrumb">
+                <li class="active">
+                    <i class="fa fa-archive"></i> Parcel
+                </li>
+            </ol>
+        </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title"><i class="fa fa-archive fa-fw"></i> Create Parcel</h3>
+          </div>
+          <div class="panel-body">
+
+            <div class="container">
+              <%= form_for(@parcel, url: "/parcels/admin_create", method: :post, html: { id: "parcel-create-form" }) do |f| %>
+                <div class="form-group">
+                  <label for="ezi_id">Ezicargo Code:</label>
+                  <input type="text" class="form-control" placeholder="Q0000" name="parcel[ezi_id]" required="required" data-validation="custom,server" data-validation-regexp="^[qQ][0-9]{4}$" data-validation-url="/eziid_check", data-validation-error-msg="Only valid and existing Ezicargo Code are accepted">
+                </div>
+                <div class="form-group">
+                  <label for="type">Type of parcel</label>
+                  <%= f.select :parcel_good, [ 'Normal', 'Sensitive'],{ :include_blank => '-- Select One --' }, class:"form-control", required: true %>
+                </div>
+                <div class="form-group">
+                  <label for="AWB">Air Way Bill (AWB):</label>
+                  <%= f.text_field :awb, required: true, id: "type_field", class: 'form-control', placeholder:"AWB", type:"text" %>
+                </div>
+                <div class="form-group">
+                  <label for="pwd">Product Description:</label>
+                  <%= f.text_field :description, required: true, id: "type_field", class: 'form-control', placeholder:"Description", type:"text" %>
+                </div>
+                <div class="form-group">
+                  <label for="pwd">Product Quantity:</label>
+                  <%= f.text_field :product_quantity, required: true, id: "type_field", class: 'form-control', placeholder:"Quantity", type:"text" %>
+                </div>
+                <div class="form-group">
+                  <label for="pwd">Product Name in Chinese:</label>
+                  <%= f.text_field :product_chinese, id: "type_field", class: 'form-control', placeholder:"Copy paste product name in Chinese", type:"text" %>
+                </div>
+                <div class="form-group">
+                  <label for="pwd">Remarks:</label>
+                  <%= f.text_field :remark, id: "type_field", class: 'form-control', placeholder:"Anything to note", type:"text" %>
+                </div>
+                <div class="form-group">
+                  <%= f.label :"Upload Product's Image" %>
+                  <%= f.file_field :image, accept:"image/png,image/gif,image/jpeg", onchange:"validateFiles(this);", data:{ max_file_size: 1.megabyte }, class:"form-control" %>
+                </div>
+                <br>
+                <%= f.submit "Create Parcel", class: "btn btn-success btn-lg", type:"submit" %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+$.validate({
+  modules : 'sanitize, html5, security'
+});
+</script>

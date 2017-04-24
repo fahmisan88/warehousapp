@@ -38,7 +38,15 @@
                     <a href="<%=dashboard_path%>"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
                 </li>
                 <li>
-                  <a href="/parcels" data-toggle="collapse" data-target="#parcel"><i class="fa fa-fw fa-archive"></i> Parcels </a>
+                  <a href="javascript:;" data-toggle="collapse" data-target="#parcel"><i class="fa fa-fw fa-archive"></i> Parcels </a>
+                  <ul id="parcel" class="collapse">
+                    <li>
+                        <a href="/parcels">All Parcels</a>
+                    </li>
+                    <!-- <li>
+                        <a href="/parcels/parcel_new">Create Parcel</a>
+                    </li> -->
+                  </ul>
                 </li>
                 <li>
                   <a href="/shipments" data-toggle="collapse" data-target="#shipment"><i class="fa fa-fw fa-ship"></i> Shipments </a>

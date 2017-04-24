@@ -17,6 +17,10 @@ Rails.application.routes.draw do
   post '/checkemail' => 'users#emailcheck'
   post '/checkpackage' => 'users#packagecheck'
 
+  get '/parcels/parcel_new' => 'parcels#admin_create_parcel_show'
+  post '/parcels/admin_create' => 'parcels#admin_create'
+  post '/eziid_check' => 'parcels#checkezicode'
+
   # create new users with free registration. eligable for special agent. need key in special password to create new users
   get '/special' => 'specialusers#index'
   post '/special/new' => 'specialusers#new'
