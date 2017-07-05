@@ -1,0 +1,85 @@
+<br>
+<div id="wrapper">
+  <div id="page-wrapper">
+    <br>
+    <br>
+    <div class="row">
+        <div class="col-lg-12">
+            <ol class="breadcrumb">
+                <li class="active">
+                    <i class="fa fa-archive"></i> Parcel
+                </li>
+            </ol>
+        </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title"><i class="fa fa-archive fa-fw"></i> Add Parcel Dimension & Image</h3>
+          </div>
+          <div class="panel-body" style="padding-left:80px;padding-right:80px;">
+          <%= form_for(@parcel , url: admin_parcel_path(@parcel), method: :patch, html: { multipart: true }) do |f| %>
+            <div class="row">
+              <div class="col-sm-12 add_bottom_30">
+                <h4>Product Details</h4>
+                <div class="row">
+                  <div class="form-group pull-in clearfix">
+                    <div class="col-sm-12">
+                      <label>Remarks</label>
+                      <%= f.text_area :remark_admin, id: "type_field", class: 'form-control', placeholder:"Anything to note on this products", type:"text" %>
+                    </div>
+                  </div>
+                </div>
+                <hr>
+                <h4>Product Dimension</h4>
+                <div class="row">
+                  <div class="form-group pull-in clearfix">
+                    <div class="col-sm-3">
+                      <label>Weight</label>
+                      <%= f.text_field :weight, id: "type_field", class: 'form-control', placeholder:"(kg))", type:"text" %>
+                    </div>
+                    <div class="col-sm-3">
+                      <label>Width</label>
+                      <%= f.text_field :width, id: "type_field", class: 'form-control', placeholder:"(kg))", type:"text" %>
+                    </div>
+                    <div class="col-sm-3">
+                      <label>Length</label>
+                      <%= f.text_field :length, id: "type_field", class: 'form-control', placeholder:"(kg))", type:"text" %>
+                    </div>
+                    <div class="col-sm-3">
+                      <label>Height</label>
+                      <%= f.text_field :height, id: "type_field", class: 'form-control', placeholder:"(kg))", type:"text" %>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+            <hr>
+            <% if @parcel.photoshoot? %>
+            <div class="row">
+              <div class="col-md-6 col-sm-6 add_bottom_30">
+                <h4>Product Image</h4>
+                <div class="form-group">
+                  <label>(png/jpeg/jpg)</label>
+                  <%= f.file_field :images, multiple: true, required: true, class: 'form-control' %>
+                </div>
+              </div>
+            </div>
+            <% end %>
+
+            <div class="row">
+              <div class="col-md-12 col-sm-12 add_bottom_30">
+                <hr>
+                <button type="submit">Save Parcel</button>
+                <%= link_to 'Back', :back, class:"btn btn-link" %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>

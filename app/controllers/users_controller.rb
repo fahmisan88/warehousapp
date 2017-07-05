@@ -87,7 +87,7 @@ class UsersController < ApplicationController
     authorize @user
     if @user.update(user_params)
       flash[:success] = "You have added your address!"
-      redirect_to dashboard_path
+      redirect_to dashboards_path
     else
       flash[:danger] = "Your update failed!"
       render :edit

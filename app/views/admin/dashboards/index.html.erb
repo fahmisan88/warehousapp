@@ -9,9 +9,7 @@
       <div class="row">
         <div class="col-lg-12">
           <h1 class="page-header">
-            My Dashboard <small>
-            <%= member_user.ezi_id.to_s %>
-            </small>
+            My Dashboard
           </h1>
           <ol class="breadcrumb">
             <li class="active">
@@ -35,7 +33,7 @@
                 </div>
                 <div class="col-xs-9 text-right">
                   <div class="huge"><%=@parcels.count%></div>
-                  <div>New Arrived Parcels!</div>
+                  <div>Pending Parcels!</div>
                 </div>
               </div>
             </div>
@@ -57,7 +55,7 @@
                 </div>
                 <div class="col-xs-9 text-right">
                   <div class="huge"><%=@shipments.count%></div>
-                  <div>Total Shipments!</div>
+                  <div>Pending Shipments!</div>
                 </div>
               </div>
             </div>
@@ -79,8 +77,8 @@
                 </div>
 
                 <div class="col-xs-9 text-right">
-                  <div class="huge">$<%=@pendingpayment.sum(:charge).floor%></div>
-                  <div>Pending Payment</div>
+                  <div class="huge">$<%=@todaysale.sum(:charge).floor%></div>
+                  <div>Today's Sales!</div>
                 </div>
 
               </div>
@@ -103,7 +101,7 @@
                 </div>
                 <div class="col-xs-9 text-right">
                   <div class="huge">$<%=@totalsales.sum(:charge).floor%></div>
-                  <div>Total Spending!</div>
+                  <div>Total Sales!</div>
                 </div>
               </div>
             </div>
@@ -145,19 +143,23 @@
                   <i class="fa fa-fw fa-dolar"></i>1 MYR = <%=@currency.myr2rmb%> RMB
                 </b>
               </div>
+              <div class="text-right">
+                <a href="<%=edit_admin_currency_path(@currency)%>">Update Currency Rate <i class="fa fa-arrow-circle-right"></i></a>
+              </div>
             </div>
           </div>
         </div>
         <div class="col-lg-4">
           <div class="panel panel-default">
             <div class="panel-heading">
-              <h3 class="panel-title"><i class="fa fa-money fa-fw"></i> Transaction History</h3>
+              <h3 class="panel-title"><i class="fa fa-money fa-fw"></i> Today's Transaction</h3>
             </div>
             <div class="panel-body">
               <div class="table-responsive">
                 <table class="table table-bordered table-hover table-striped">
                   <thead>
                     <tr>
+                      <th>ID</th>
                       <th>Order #</th>
                       <th>Order Date</th>
                       <th>Amount (MYR)</th>
@@ -166,6 +168,7 @@
                   <tbody>
                     <%@todaysales.each do |sales|%>
                     <tr>
+                      <td><%=current_user.ezi_id%></td>
                       <td><%=sales.bill_id%></td>
                       <td><%=sales.updated_at.strftime("%d-%m-%Y")%></td>
                       <td><%=sales.charge%></td>
@@ -183,31 +186,31 @@
         <div class="col-lg-4">
           <div class="panel panel-default">
             <div class="panel-heading">
-              <h3 class="panel-title"><i class="fa fa-money fa-fw"></i> Shipments History</h3>
+              <h3 class="panel-title"><i class="fa fa-money fa-fw"></i> Pending Transaction</h3>
             </div>
             <div class="panel-body">
               <div class="table-responsive">
                 <table class="table table-bordered table-hover table-striped">
                   <thead>
                     <tr>
-                      <th>Shipment ID</th>
-                      <th>Status</th>
-                      <th>Shipped At</th>
+                      <th>Bill #</th>
+                      <th>Bill at</th>
+                      <th>Amount (MYR)</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <%@shipments.each do |shipment|%>
+                    <%@todaysale2.each do |sales|%>
                     <tr>
-                      <td><%=shipment.id%></td>
-                      <td><%=shipment.status%></td>
-                      <td><%=shipment.updated_at.strftime("%d-%m-%Y")%></td>
+                      <td><%=sales.bill_id%></td>
+                      <td><%=sales.updated_at.strftime("%d-%m-%Y")%></td>
+                      <td><%=sales.charge%></td>
                     </tr>
                     <%end%>
                   </tbody>
                 </table>
               </div>
               <div class="text-right">
-                <a href="<%=shipments_path%>">View All Shipment <i class="fa fa-arrow-circle-right"></i></a>
+                <a href="<%=statement_path%>">View All Transactions <i class="fa fa-arrow-circle-right"></i></a>
               </div>
             </div>
           </div>

@@ -7,10 +7,14 @@ end
 def create
   user = User.find_by(email: user_params[:email].downcase)
              &.authenticate(user_params[:password])
-  if user && user.status == "Active" && user.address?
+  if user && (user.role == "admin" || user.role == "staff")
+    session[:id] = user.id
+    flash[:success] = "Welcome back Admin"
+    redirect_to admin_dashboards_path
+  elsif user && user.status == "Active" && user.address?
     session[:id] = user.id
     flash[:success] = "Welcome back #{current_user.name}"
-    redirect_to dashboard_path
+    redirect_to dashboards_path
   elsif user && user.status == "Active" && user.address.nil?
     session[:id] = user.id
     flash[:success] = "Please add your address before proceed"

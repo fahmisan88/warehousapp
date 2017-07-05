@@ -14,15 +14,8 @@
         <!-- Top Menu Items -->
         <ul class="nav navbar-right top-nav">
             <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> <%=current_user.name%> <b class="caret"></b></a>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> Admin <b class="caret"></b></a>
                 <ul class="dropdown-menu">
-                    <li>
-                        <a href="<%=user_path(current_user)%>"><i class="fa fa-fw fa-user"></i> View Profile</a>
-                    </li>
-                    <li>
-                        <a href="<%=statement_path%>"><i class="fa fa-fw fa-book"></i> Statement</a>
-                    </li>
-                    <li class="divider"></li>
                     <li>
                       <%= link_to session_path(current_user), method: :delete do %>
                       <i class="fa fa-fw fa-power-off"></i>Log Out
@@ -35,17 +28,17 @@
         <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav side-nav">
                 <li class="active">
-                    <a href="<%=dashboard_path%>"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
+                    <a href="<%=admin_dashboards_path%>"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
                 </li>
                 <li>
                   <a href="javascript:;" data-toggle="collapse" data-target="#parcel"><i class="fa fa-fw fa-archive"></i> Parcels </a>
                   <ul id="parcel" class="collapse">
                     <li>
-                        <a href="/parcels">All Parcels</a>
+                        <a href="/admin/parcels">All Parcels</a>
                     </li>
-                    <!-- <li>
-                        <a href="/parcels/parcel_new">Create Parcel</a>
-                    </li> -->
+                    <li>
+                        <a href="/admin/parcels/new">Create Parcel</a>
+                    </li>
                   </ul>
                 </li>
                 <li>

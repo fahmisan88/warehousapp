@@ -7,6 +7,15 @@ class ApplicationController < ActionController::Base
     redirect_to request.referrer || root_path
   end
 
+  # check if user is an admin
+  def check_if_admin
+    if current_user.role == "admin" || current_user.role == "staff"
+    else
+      flash[:danger] = 'Sorry, only admins allowed!' unless current_user.role == "admin" || current_user.role == "staff"
+      redirect_to root_path
+    end
+  end
+
   private
 
   def admin_user

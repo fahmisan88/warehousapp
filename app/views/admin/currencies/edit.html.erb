@@ -21,7 +21,7 @@
           <div class="panel-body">
 
             <div class="container">
-              <%= form_for(@currency, url: currency_path(@currency), html: { id: "currency-update-form" }) do |f| %>
+              <%= form_for(@currency, url: admin_currency_path(@currency), html: { id: "currency-update-form" }) do |f| %>
               <form>
                 <div class="form-group">
                   <label for="pwd">Currency Exchange (RMB to MYR):</label>

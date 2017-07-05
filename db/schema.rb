@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170317183959) do
+ActiveRecord::Schema.define(version: 20170621180650) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -51,12 +51,12 @@ ActiveRecord::Schema.define(version: 20170317183959) do
     t.string   "remark"
     t.string   "image"
     t.integer  "user_id"
-    t.decimal  "weight"
+    t.decimal  "weight",              default: "0.5"
     t.decimal  "volume"
-    t.integer  "status"
+    t.integer  "status",              default: 0
     t.integer  "parcel_good"
-    t.datetime "created_at",          null: false
-    t.datetime "updated_at",          null: false
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
     t.boolean  "photoshoot"
     t.boolean  "inspection"
     t.integer  "product_quantity"
@@ -69,9 +69,9 @@ ActiveRecord::Schema.define(version: 20170317183959) do
     t.string   "image3"
     t.string   "image4"
     t.string   "image5"
-    t.decimal  "width"
-    t.decimal  "length"
-    t.decimal  "height"
+    t.decimal  "width",               default: "1.0"
+    t.decimal  "length",              default: "1.0"
+    t.decimal  "height",              default: "1.0"
     t.decimal  "chargeable"
     t.boolean  "refund"
     t.string   "refund_explain"
@@ -79,6 +79,7 @@ ActiveRecord::Schema.define(version: 20170317183959) do
     t.decimal  "final_kg"
     t.string   "remark_admin"
     t.string   "ezi_id"
+    t.json     "images"
   end
 
   create_table "shipments", force: :cascade do |t|
