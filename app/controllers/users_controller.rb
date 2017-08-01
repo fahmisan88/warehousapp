@@ -15,6 +15,8 @@ class UsersController < ApplicationController
         @users = User.where(status: 2).order("created_at desc").page(params[:page])
       elsif @filter_params == "Blocked"
         @users = User.where(status: 3).order("created_at desc").page(params[:page])
+      elsif @filter_params == "Expired"
+        @users = User.where(status: 4).order("expiry desc").page(params[:page])
       end
 
       if params[:search]
@@ -29,6 +31,55 @@ class UsersController < ApplicationController
 
   def pay
     @user = User.find_by(id: params[:id])
+  end
+
+  def renew
+    @user = member_user
+    if @user.package?
+      @user_package = case @user.package
+        when 1 then "1 year subscription = RM150"
+        when 2 then "2 years subscription = RM250"
+        else "2 years subscription = RM250"
+      end
+    end
+  end
+
+  def update_package
+    @package = package_params[:package]
+    if (1..2).include? @package.to_i
+      # member_user.update_attribute(:package, @package.to_i)
+      respond_to do |format|
+        format.json { render json: { valid: true } }
+      end
+    else
+      respond_to do |format|
+        format.json { render json: { valid: false, message: "Package is not available" } }
+      end
+    end
+  end
+
+  def billplz_bill_renewal
+    @user = member_user
+
+    if package_params
+      @package = package_params[:package].to_i
+    end
+
+    if @user.package.nil? || @user.package == 0
+      @user.update_attribute(:package, @package)
+    end
+
+    if !@user.bill_id? && @user.status == "Expired"
+      @bill = BillplzRenewal.create_bill_for(@user.id)
+      @user.update_attribute(:bill_id, @bill.parsed_response['id'])
+      @user.update_attribute(:bill_url, @bill.parsed_response['url'])
+      @user.update_attribute(:package, @package)
+      redirect_to @bill.parsed_response['url']
+    elsif @user.bill_id? && @user.status == "Expired"
+      redirect_to @user.bill_url
+    else
+      redirect_to root_path
+    end
   end
 
   def billplz
@@ -183,6 +234,10 @@ class UsersController < ApplicationController
 
   def edit_params
     params.require(:user).permit(:ezi_id, :expiry)
+  end
+
+  def package_params
+    params.require(:user).permit(:package)
   end
 
 end

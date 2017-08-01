@@ -30,4 +30,24 @@ class WebhooksController < ApplicationController
       render body: nil
     end
   end
+
+# utk kegunaan pengesahan renewal payment sahaja
+  def renewal_callback
+    bill_id = params[:id].to_s
+    bill_paid = params[:paid].to_bool
+    bill_state = params[:state].to_s
+
+    response = BillplzRenewal.check_status(bill_id)
+    if (response['paid'] == true) && (bill_paid == true)
+      @user = User.find_by(bill_id: params[:id])
+      @year = @user.package
+      @user.update_attribute(:status, 1)
+      @user.update_attribute(:expiry, Time.now + @year.years)
+
+      render json: { status: "paid" }, status: :ok
+    else
+      render json: { status: "unpaid" }, status: :ok
+    end
+  end
+
 end

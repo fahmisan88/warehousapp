@@ -27,18 +27,6 @@
                                 <th>Package Subscription</th>
                                 <td><%=@user.package%> year(s)</td>
                               </tr>
-                              <tr>
-                                <th>Payment Amount</th>
-                                <% if @user.package == 1 %>
-                                <td>RM150</td>
-                                <% elsif @user.package == 2 %>
-                                <td>RM250</td>
-                                <% elsif @user.package == 3 %>
-                                <td>RM300</td>
-                                <% else %>
-                                <td>RM300</td>
-                                <% end %>
-                              </tr>
                             </tbody>
                           </table>
 

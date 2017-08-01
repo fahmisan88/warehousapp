@@ -16,6 +16,7 @@ Rails.application.routes.draw do
 
   post '/checkemail' => 'users#emailcheck'
   post '/checkpackage' => 'users#packagecheck'
+  post '/updatepackage' => 'users#update_package'
 
   get '/parcels/parcel_new' => 'parcels#admin_create_parcel_show'
   post '/parcels/admin_create' => 'parcels#admin_create'
@@ -25,6 +26,10 @@ Rails.application.routes.draw do
   get '/special' => 'specialusers#index'
   post '/special/new' => 'specialusers#new'
   post '/special/register' => 'specialusers#register'
+
+  get '/renew' => 'users#renew'
+  post '/renewalprocess' => 'users#billplz_bill_renewal'
+  get '/renewalprocess' => 'users#billplz_bill_renewal'
 
   resources :sessions, only: [:new, :create, :destroy]
   resources :users do
@@ -76,5 +81,6 @@ Rails.application.routes.draw do
   scope '/webhooks', controller: :webhooks do
   post :payment_callback
   post :user_payment_callback
+  post :renewal_callback
   end
 end

@@ -16,7 +16,7 @@ class User < ApplicationRecord
   validates :name, presence: true, length: { in: 5..80 }, format: { with: VALID_NAME_REGEX, message: "Only allows letters, space and single quote (') between 5 to 80 characters"}
 
   enum role: [:user, :staff, :admin]
-  enum status: [:Inactive, :Active, :Suspended, :Blocked]
+  enum status: [:Inactive, :Active, :Suspended, :Blocked, :Expired]
 
   def self.search(search)
     where('ezi_id ILIKE :search OR email ILIKE :search', search: "%#{search}%")

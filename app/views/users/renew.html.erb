@@ -1,0 +1,64 @@
+<div id="header">
+  <%= render partial: 'partials/header' %>
+</div>
+
+<div class="container">
+<div id="loginbox" style="margin-top:50px;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+            <div class="panel panel-info" >
+                    <div class="panel-heading">
+                        <div class="panel-title">Yearly Fee</div>
+                    </div>
+
+                    <div style="padding-top:10px" class="panel-body" >
+                        <div class="panel-body">
+                          <div style="margin-bottom:10px;" align="center">
+                                Your subscription has expired on <font color="red"><%= @user.expiry.strftime("%v") %></font>. Please renew your subscription to continue using our service.
+                            </div>
+                          <table class="table">
+                            <tbody>
+                              <tr>
+                                <th>Name</th>
+                                <td><%=@user.name%></td>
+                              </tr>
+                              <tr>
+                                <th>Email</th>
+                                <td><%=@user.email%></td>
+                              </tr>
+                              <tr>
+                                <th>Package Subscription</th>
+                                <td>
+                                  <% if @user.package? %>
+                                    <%= @user_package %>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+
+                            <div class="button text-center">
+                              <%= link_to "Pay Now", '/renewalprocess', method: :get, class: "btn btn-success btn-lg" %>
+                            </div>
+                                  <% else %>
+                                    <%= form_for(@user, url: '/renewalprocess', method: :post, html: { id: "form-validation", class: "form-horizontal" }) do %>
+                                      <select class="form-control" name="user[package]">
+                                        <option value="1" selected="selected">1 Year subscription = RM150</option>
+                                        <option value="2">2 Years subscription = RM250</option>
+                                      </select>
+
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+
+                          <div class="button text-center">
+                            <button type="submit" value="submit" class="btn btn-success btn-lg">Pay Now</button>
+                          </div>
+                          <% end %>
+                        <% end %>
+
+                          <%= link_to "Back", session_path(current_user), method: :delete, class: 'white shadowed link-styling' %>
+                        </div>
+
+                        </div>
+                    </div>
+        </div>
+    </div>
