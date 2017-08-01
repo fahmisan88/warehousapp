@@ -19,6 +19,10 @@ def create
     session[:id] = user.id
     flash[:success] = "Please pay our yearly fee to continue using our service"
     redirect_to pay_user_path(user.id)
+  elsif user&.status == "Expired"
+    session[:id] = user.id
+    flash[:success] = "Please pay your renewal fee to continue using our service"
+    redirect_to '/renew'
   else
     flash[:danger] = "Error logging in"
     render :new
