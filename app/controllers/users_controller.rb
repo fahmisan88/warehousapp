@@ -34,13 +34,18 @@ class UsersController < ApplicationController
   end
 
   def renew
-    @user = member_user
-    if @user.package?
-      @user_package = case @user.package
-        when 1 then "1 year subscription = RM150"
-        when 2 then "2 years subscription = RM250"
-        else "2 years subscription = RM250"
+    if member_user.expiry < Time.now
+      @user = member_user
+      if @user.package?
+        @user_package = case @user.package
+          when 1 then "1 year subscription = RM150"
+          when 2 then "2 years subscription = RM250"
+          else "2 years subscription = RM250"
+        end
       end
+    else
+      flash[:success] = "Your membership are still active"
+      redirect_to '/dashboard'
     end
   end
 
