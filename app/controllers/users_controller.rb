@@ -16,7 +16,7 @@ class UsersController < ApplicationController
       elsif @filter_params == "Blocked"
         @users = User.where(status: 3).order("created_at desc").page(params[:page])
       elsif @filter_params == "Expired"
-        @users = User.where(status: 4).order("expiry desc").page(params[:page])
+        @users = User.where(status: 4).order("created_at desc").page(params[:page])
       end
 
       if params[:search]
