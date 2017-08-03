@@ -23,6 +23,9 @@ def create
     session[:id] = user.id
     flash[:success] = "Please pay your renewal fee to continue using our service"
     redirect_to '/renew'
+  elsif user&.status == "Suspended"
+    session[:id] = user.id
+    redirect_to block_suspend_user_path(session[:id])
   else
     flash[:danger] = "Error logging in"
     render :new

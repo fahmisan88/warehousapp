@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
 
-  before_action :authenticate!,  only: [:edit, :update, :renew]
+  before_action :authenticate!,  only: [:edit, :update]
 
   def index
     @filter_params = params[:status]
@@ -34,18 +34,23 @@ class UsersController < ApplicationController
   end
 
   def renew
-    if member_user.expiry < Time.now
-      @user = member_user
-      if @user.package?
-        @user_package = case @user.package
-          when 1 then "1 year subscription = RM150"
-          when 2 then "2 years subscription = RM250"
-          else "2 years subscription = RM250"
+    if member_user&.status == "Expired"
+      if member_user.expiry < Time.now
+        @user = member_user
+        if @user.package?
+          @user_package = case @user.package
+            when 1 then "1 year subscription = RM150"
+            when 2 then "2 years subscription = RM250"
+            else "2 years subscription = RM250"
+          end
         end
+      else
+        flash[:success] = "Your membership are still active"
+        redirect_to '/dashboard'
       end
     else
-      flash[:success] = "Your membership are still active"
-      redirect_to '/dashboard'
+      session.delete(:id)
+      redirect_to root_path
     end
   end
 
