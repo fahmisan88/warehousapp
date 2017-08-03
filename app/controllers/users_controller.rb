@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
 
-  before_action :authenticate!,  only: [:edit, :update, :renew]
+  before_action :authenticate!,  only: [:edit, :update]
 
   def index
     @filter_params = params[:status]
