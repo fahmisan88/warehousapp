@@ -172,12 +172,15 @@ class UsersController < ApplicationController
 
   def suspend
     @user= User.find_by(id: params[:id])
-    if @user.update_attribute(:status, 2)
-      flash[:success] = "You've suspend a user."
-      redirect_to users_path
+    @duration = params[:duration].to_i
+    if @user.update_attribute(:status, 2) && @user.update_attribute(:releasesuspend_at, Time.now + @duration)
+      respond_to do |format|
+        format.json {render json: { status: "success", message: "The user was successfully suspended."}, status: :ok}
+      end
     else
-      flash[:danger]
-      redirect_to users_path
+      respond_to do |format|
+        format.json {render json: { status: "error", message: "The user was not successfully suspended. Please contact the app developer"}, status: :ok}
+      end
     end
   end
 

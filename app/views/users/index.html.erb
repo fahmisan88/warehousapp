@@ -127,7 +127,7 @@
                       <span><%= link_to "", user_path(user), class:"fa fa-eye" %></span>&nbsp;&nbsp;
                       <span><%= link_to "", edit_id_user_path(user), class:"fa fa-id-card" %></span>&nbsp;&nbsp;
                       <span><%= link_to "", activate_user_path(user), class:"fa fa-unlock", data: { confirm: "Are you sure you want to activate this user?"}, method: :post %></span>&nbsp;&nbsp;
-                      <span><%= link_to "", suspend_user_path(user), class:"fa fa-lock", data: { confirm: "Are you sure you want to suspend this user?"}, method: :post %></span>&nbsp;&nbsp;
+                      <span><a onclick="userSuspend('<%= user.id %>', '<%= user.ezi_id %>', '<%= user.name %>')" class="fa fa-lock cursor-pointer" rel="nofollow"></a></span>&nbsp;&nbsp;
                       <span><%= link_to "", block_user_path(user), class:"fa fa-ban", data: { confirm: "Are you sure you want to block this user?"}, method: :post %></span>&nbsp;&nbsp;
                     </td>
                       <%end%>
@@ -148,3 +148,44 @@
   </div>
 </div>
 </div>
+
+<script>
+$(document).ready(function(){
+  $('.cursor-pointer').css('cursor', 'pointer');
+});
+
+  function userSuspend(userid, eziId, name){
+
+      swal({
+      title: 'User Suspension (Ezicargo ID:'+ eziId +')',
+      text: 'Name: '+ name,
+      input: 'select',
+      inputOptions: {
+        '<%= 1*60*60 %>': '1 hour',
+        '<%= 2*60*60 %>': '2 hours',
+        '<%= 3*60*60 %>': '3 hours'
+      },
+      inputPlaceholder: 'Select hour to suspend',
+      showCancelButton: true,
+      showLoaderOnConfirm: true,
+      preConfirm: function (value) {
+        return new Promise(function (resolve, reject) {
+          if (value === '<%= 1*60*60 %>' || value === '<%= 2*60*60 %>' || value === '<%= 3*60*60 %>') {
+            $.post("/users/"+ userid +"/suspend", {duration: value})
+            .done(function (result){
+              swal({
+                title: 'User Suspension',
+                type: result.status,
+                text: result.message,
+                timer: 4000
+              }).catch(swal.noop)
+            })
+          } else {
+            reject('Select 1, 2 or 3 hour(s)')
+          }
+        })
+      }
+    }).catch(swal.noop)
+
+  }
+</script>

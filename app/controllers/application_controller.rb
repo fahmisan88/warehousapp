@@ -36,6 +36,16 @@ class ApplicationController < ActionController::Base
 
   def authenticate!
     unless current_user&.status == "Active"
+      session.delete(:id)
+      redirect_to root_path
+      flash[:danger] = "You need to login first"
+    end
+  end
+
+# authenticate for suspended users
+  def suspended!
+    unless current_user&.status == "Suspended"
+      session.delete(:id)
       redirect_to root_path
       flash[:danger] = "You need to login first"
     end

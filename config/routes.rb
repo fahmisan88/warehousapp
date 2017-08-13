@@ -31,6 +31,8 @@ Rails.application.routes.draw do
   post '/renewalprocess' => 'users#billplz_bill_renewal'
   get '/renewalprocess' => 'users#billplz_bill_renewal'
 
+  get '/suspend' => 'block_suspend_users#index'
+
   resources :sessions, only: [:new, :create, :destroy]
   resources :users do
     member do
@@ -75,6 +77,7 @@ Rails.application.routes.draw do
       patch :update_status
     end
   end
+
   resources :currencies, only: [:edit, :update]
   resources :activities, only:[:index]
 
