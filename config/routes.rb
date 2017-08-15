@@ -29,7 +29,7 @@ Rails.application.routes.draw do
 
   get '/renew' => 'users#renew'
   post '/renewalprocess' => 'users#billplz_bill_renewal'
-  get '/renewalprocess' => 'users#billplz_bill_renewal'
+  get '/renewalprocess' => 'users#billplz_getbill'
 
   get '/suspend' => 'block_suspend_users#index'
 

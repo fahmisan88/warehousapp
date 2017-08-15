@@ -68,11 +68,22 @@ class UsersController < ApplicationController
     end
   end
 
+  def billplz_getbill
+    if member_user&.status == "Expired" && member_user.bill_id?
+      redirect_to member_user.bill_url
+    else
+      reset_session
+      redirect_to root_path
+    end
+  end
+
   def billplz_bill_renewal
     @user = member_user
 
     if package_params
       @package = package_params[:package].to_i
+    else
+      redirect_to '/renew'
     end
 
     if @user.package.nil? || @user.package == 0
