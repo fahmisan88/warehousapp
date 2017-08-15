@@ -34,18 +34,23 @@ class UsersController < ApplicationController
   end
 
   def renew
-    if member_user.expiry < Time.now
-      @user = member_user
-      if @user.package?
-        @user_package = case @user.package
-          when 1 then "1 year subscription = RM150"
-          when 2 then "2 years subscription = RM250"
-          else "2 years subscription = RM250"
+    if member_user&.status == "Expired"
+      if member_user.expiry < Time.now
+        @user = member_user
+        if @user.package?
+          @user_package = case @user.package
+            when 1 then "1 year subscription = RM150"
+            when 2 then "2 years subscription = RM250"
+            else "2 years subscription = RM250"
+          end
         end
+      else
+        flash[:success] = "Your membership are still active"
+        redirect_to '/dashboard'
       end
     else
-      flash[:success] = "Your membership are still active"
-      redirect_to '/dashboard'
+      session.delete(:id)
+      redirect_to root_path
     end
   end
 
@@ -63,11 +68,22 @@ class UsersController < ApplicationController
     end
   end
 
+  def billplz_getbill
+    if member_user&.status == "Expired" && member_user.bill_id?
+      redirect_to member_user.bill_url
+    else
+      reset_session
+      redirect_to root_path
+    end
+  end
+
   def billplz_bill_renewal
     @user = member_user
 
     if package_params
       @package = package_params[:package].to_i
+    else
+      redirect_to '/renew'
     end
 
     if @user.package.nil? || @user.package == 0
@@ -167,12 +183,15 @@ class UsersController < ApplicationController
 
   def suspend
     @user= User.find_by(id: params[:id])
-    if @user.update_attribute(:status, 2)
-      flash[:success] = "You've suspend a user."
-      redirect_to users_path
+    @duration = params[:duration].to_i
+    if @user.update_attribute(:status, 2) && @user.update_attribute(:releasesuspend_at, Time.now + @duration)
+      respond_to do |format|
+        format.json {render json: { status: "success", message: "The user was successfully suspended."}, status: :ok}
+      end
     else
-      flash[:danger]
-      redirect_to users_path
+      respond_to do |format|
+        format.json {render json: { status: "error", message: "The user was not successfully suspended. Please contact the app developer"}, status: :ok}
+      end
     end
   end
 
