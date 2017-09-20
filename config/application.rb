@@ -21,5 +21,6 @@ module Ezcargo
     config.time_zone = 'Asia/Kuala_Lumpur'
     config.active_record.default_timezone = :local
     config.assets.paths << Rails.root.join("app", "assets", "fonts")
+    config.autoload_paths += %W(#{config.root}/lib)
   end
 end
