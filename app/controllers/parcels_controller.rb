@@ -6,7 +6,8 @@ class ParcelsController < ApplicationController
   def testmail
     mailer = Mailin.new(ENV['SENDINBLUE_API_URL'], ENV['SENDINBLUE_API_KEY'], 10)
     data = {"id" => 15, "to" => "nor.azlan.idris@gmail.com", "attr" => {"NAME" => "Smith John"}, "headers" => {"Content-Type" => "text/html;charset=iso-8859-1"} }
-    print mailer.send_transactional_template(data)
+    result = mailer.send_transactional_template(data)
+    puts result['code'] == "success" ? "email sent" : "opss..error"
   end
 
   def index
@@ -125,7 +126,10 @@ class ParcelsController < ApplicationController
       @parcel = Parcel.find(params[:id])
       authorize @parcel
 
-      
+      @user_id = @parcel.user_id
+      @user = User.find(@user_id)
+
+
 
       if @parcel.update(update_parcel_params)
         if @parcel.weight? && @parcel.length? && @parcel.width? && @parcel.height?
@@ -138,9 +142,13 @@ class ParcelsController < ApplicationController
           end
         end
         mailer = Mailin.new(ENV['SENDINBLUE_API_URL'], ENV['SENDINBLUE_API_KEY'], 5)
-        data = {"id" => 15, "to" => "nor.azlan.idris@gmail.com", "attr" => {"NAME" => "Smith John"}, "headers" => {"Content-Type" => "text/html;charset=iso-8859-1"} }
-        flash[:success] = "You've successfully updated the parcel!"
-        redirect_to parcel_path(@parcel)
+        data = {"id" => 15, "to" => @user.email, "attr" => {"NAME" => @user.name}, "headers" => {"Content-Type" => "text/html;charset=iso-8859-1"} }
+        result = mailer.send_transactional_template(data)
+
+        if result['code'] == "success"
+          flash[:success] = "You've successfully updated the parcel & an email has sent to user"
+          redirect_to parcel_path(@parcel)
+        end
       else
         redirect_to parcels_path
         flash[:danger] = "Update parcel fail"
