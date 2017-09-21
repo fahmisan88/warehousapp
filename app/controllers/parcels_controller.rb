@@ -1,6 +1,15 @@
 class ParcelsController < ApplicationController
   before_action :authenticate!
 
+  include Sendinblue
+
+  def testmail
+    mailer = Mailin.new(ENV['SENDINBLUE_API_URL'], ENV['SENDINBLUE_API_KEY'], 10)
+    data = {"id" => 15, "to" => "nor.azlan.idris@gmail.com", "attr" => {"NAME" => "Smith John"}, "headers" => {"Content-Type" => "text/html;charset=iso-8859-1"} }
+    result = mailer.send_transactional_template(data)
+    puts result['code'] == "success" ? "email sent" : "opss..error"
+  end
+
   def index
     @filter_params = params[:status]
 
@@ -117,22 +126,42 @@ class ParcelsController < ApplicationController
       @parcel = Parcel.find(params[:id])
       authorize @parcel
 
+      @user_id = @parcel.user_id
+      @user = User.find(@user_id)
+
+      # check if parcel status is arrived for first time to use in email notification
+      parcelwaiting = (@parcel.status == "Waiting"? true : false)
+
+
+
       if @parcel.update(update_parcel_params)
         if @parcel.weight? && @parcel.length? && @parcel.width? && @parcel.height?
-        @parcel.update_attributes(volume: ((@parcel.length * @parcel.width * @parcel.height)/6000.to_f).ceil, weight: (@parcel.weight.to_f).ceil)
-        @parcel.update_attributes(chargeable: ((@parcel.weight+@parcel.volume)/2.to_f).ceil)
-        if @parcel.weight >= @parcel.chargeable
-          @parcel.update_attributes(final_kg: @parcel.weight, status: 1, free_storage: Time.now + 15.days)
-        else
-          @parcel.update_attributes(final_kg: @parcel.chargeable, status: 1, free_storage: Time.now + 15.days)
+          @parcel.update_attributes(volume: ((@parcel.length * @parcel.width * @parcel.height)/6000.to_f).ceil, weight: (@parcel.weight.to_f).ceil)
+          @parcel.update_attributes(chargeable: ((@parcel.weight+@parcel.volume)/2.to_f).ceil)
+          if @parcel.weight >= @parcel.chargeable
+            @parcel.update_attributes(final_kg: @parcel.weight, status: 1, free_storage: Time.now + 15.days)
+          else
+            @parcel.update_attributes(final_kg: @parcel.chargeable, status: 1, free_storage: Time.now + 15.days)
+          end
         end
-          @parcel_user = @parcel.user_id
-          @user_info = User.find(@parcel_user)
-          deliver_mail(@user_info.name, @user_info.email, "parcels", "arrived")
+        mailer = Mailin.new(ENV['SENDINBLUE_API_URL'], ENV['SENDINBLUE_API_KEY'], 5)
+        data = {"id" => 15, "to" => @user.email, "attr" => {"NAME" => @user.name, "PRODUCT" => @parcel.description, "AWB" => @parcel.awb}, "headers" => {"Content-Type" => "text/html;charset=iso-8859-1"} }
+
+        if parcelwaiting
+          result = mailer.send_transactional_template(data)
+          if result['code'] == "success"
+            flash[:success] = "You've successfully updated the parcel & an email has sent to user"
+            redirect_to parcel_path(@parcel)
+          else
+            puts result['code']
+            puts result['message']
+            flash[:success] = "You've successfully updated the parcel"
+            redirect_to parcel_path(@parcel)
+          end
         else
+          flash[:success] = "You've successfully updated the parcel"
+          redirect_to parcel_path(@parcel)
         end
-        flash[:success] = "You've successfully updated the parcel!"
-        redirect_to parcel_path(@parcel)
       else
         redirect_to parcels_path
         flash[:danger] = "Update parcel fail"
