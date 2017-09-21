@@ -129,6 +129,9 @@ class ParcelsController < ApplicationController
       @user_id = @parcel.user_id
       @user = User.find(@user_id)
 
+      # check if parcel status is arrived for first time to use in email notification
+      parcelwaiting = (@parcel.status == "Waiting"? true : false)
+
 
 
       if @parcel.update(update_parcel_params)
@@ -142,11 +145,21 @@ class ParcelsController < ApplicationController
           end
         end
         mailer = Mailin.new(ENV['SENDINBLUE_API_URL'], ENV['SENDINBLUE_API_KEY'], 5)
-        data = {"id" => 15, "to" => @user.email, "attr" => {"NAME" => @user.name}, "headers" => {"Content-Type" => "text/html;charset=iso-8859-1"} }
-        result = mailer.send_transactional_template(data)
+        data = {"id" => 15, "to" => @user.email, "attr" => {"NAME" => @user.name, "PRODUCT" => @parcel.description, "AWB" => @parcel.awb}, "headers" => {"Content-Type" => "text/html;charset=iso-8859-1"} }
 
-        if result['code'] == "success"
-          flash[:success] = "You've successfully updated the parcel & an email has sent to user"
+        if parcelwaiting
+          result = mailer.send_transactional_template(data)
+          if result['code'] == "success"
+            flash[:success] = "You've successfully updated the parcel & an email has sent to user"
+            redirect_to parcel_path(@parcel)
+          else
+            puts result['code']
+            puts result['message']
+            flash[:success] = "You've successfully updated the parcel"
+            redirect_to parcel_path(@parcel)
+          end
+        else
+          flash[:success] = "You've successfully updated the parcel"
           redirect_to parcel_path(@parcel)
         end
       else
