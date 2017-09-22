@@ -19,23 +19,23 @@ def create
     session[:id] = user.id
     flash[:success] = "Please pay our yearly fee to continue using our service"
     redirect_to pay_user_path(user.id)
-  elsif user&.status == "Expired"
+  elsif user && user.status == "Expired"
     session[:id] = user.id
     flash[:success] = "Please pay your renewal fee to continue using our service"
     redirect_to '/renew'
-  elsif user&.status == "Suspended"
+  elsif user && user.status == "Suspended"
     session[:id] = user.id
     redirect_to '/suspend'
   else
-    session.delete(:id)
-    flash[:danger] = "Error logging in"
-    render :new
+    reset_session
+    flash[:danger] = "Wrong Credential"
+    redirect_to '/login'
   end
 
 end
 
 def destroy
-  session.delete(:id)
+  reset_session
   flash[:success] = "You've been logged out"
   redirect_to root_path
 end
