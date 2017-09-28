@@ -3,38 +3,37 @@ class Admin::ParcelsController < ApplicationController
 
   def index
     @filter_params = params[:status]
-    @parcels       = Parcel.all.order(updated_at: :desc).page params[:page]
+    @parcels       = Parcel.all.order(updated_at: :desc).page(params[:page]).per(15)
 
     case @filter_params
     when "Waiting"
-      @parcels = Parcel.where(status: 0).order("created_at desc").page(params[:page])
+      @parcels = Parcel.where(status: 0).order("created_at desc").page(params[:page]).per(15)
     when "Arrived"
-      @parcels = Parcel.where(status: 1).order("created_at desc").page(params[:page])
+      @parcels = Parcel.where(status: 1).order("created_at desc").page(params[:page]).per(15)
     when "Ready To Ship"
-      @parcels = Parcel.where(status: 2).order("created_at desc").page(params[:page])
+      @parcels = Parcel.where(status: 2).order("created_at desc").page(params[:page]).per(15)
     when "Shipped"
-      @parcels = Parcel.where(status: 3).order("created_at desc").page(params[:page])
+      @parcels = Parcel.where(status: 3).order("created_at desc").page(params[:page]).per(15)
     when "Request Refund"
-      @parcels = Parcel.where(status: 4).order("created_at desc").page(params[:page])
+      @parcels = Parcel.where(status: 4).order("created_at desc").page(params[:page]).per(15)
     when "Refund Rejected"
-      @parcels = Parcel.where(status: 5).order("created_at desc").page(params[:page])
+      @parcels = Parcel.where(status: 5).order("created_at desc").page(params[:page]).per(15)
     when "Refunded"
-      @parcels = Parcel.where(status: 6).order("created_at desc").page(params[:page])
+      @parcels = Parcel.where(status: 6).order("created_at desc").page(params[:page]).per(15)
     when "Normal"
-      @parcels = Parcel.where(parcel_good: 0).order("created_at desc").page(params[:page])
+      @parcels = Parcel.where(parcel_good: 0).order("created_at desc").page(params[:page]).per(15)
     when "Sensitive"
-      @parcels = Parcel.where(parcel_good: 1).order("created_at desc").page(params[:page])
+      @parcels = Parcel.where(parcel_good: 1).order("created_at desc").page(params[:page]).per(15)
     when "I Dont Know"
-      @parcels = Parcel.where(parcel_good: 2).order("created_at desc").page(params[:page])
+      @parcels = Parcel.where(parcel_good: 2).order("created_at desc").page(params[:page]).per(15)
     end
 
     if params[:search]
-      @parcels = Parcel.search(params[:search]).order("updated_at DESC").page params[:page]
+      @parcels = Parcel.search(params[:search]).order("updated_at DESC").page(params[:page]).per(15)
     end
     if params[:search_ezi]
-      @parcels = Parcel.search_ezi(params[:search_ezi]).order("updated_at DESC").page params[:page]
+      @parcels = Parcel.search_ezi(params[:search_ezi]).order("updated_at DESC").page(params[:page]).per(15)
     end
-
   end
 
   def show
@@ -97,7 +96,7 @@ class Admin::ParcelsController < ApplicationController
       @parcel.update(volume: volume, weight: weight, chargeable: chargeable, free_storage: free_storage, final_kg: final_kg, status: "Arrived")
       @parcel_user = @parcel.user_id
       @user_info   = User.find(@parcel_user)
-      deliver_mail(@user_info.name, @user_info.email, "parcels", "arrived")
+      # deliver_mail(@user_info.name, @user_info.email, "parcels", "arrived")
       flash[:success] = "You've successfully updated the parcel!"
       redirect_to admin_parcel_path(@parcel)
     else
@@ -136,7 +135,7 @@ class Admin::ParcelsController < ApplicationController
   end
 
   def update_parcel_params
-    params.require(:parcel).permit(:length, :width, :height, :volume, :weight, :chargeable, :status, :free_storage, :remark_admin, { images: [] })
+    params.require(:parcel).permit(:length, :width, :height, :volume, :weight, :chargeable, :status, :free_storage, :parcel_good, :remark_admin, { images: [] })
   end
 
 end

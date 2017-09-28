@@ -47,20 +47,7 @@ Rails.application.routes.draw do
       patch :update_request_refund
     end
   end
-  resources :shipments do
-    member do
-      patch :calculate
-      put :calculate
-      patch :sea_calculate
-      put :sea_calculate
-      patch :add_charge
-      put :add_charge
-      get :add_tracking
-      patch :update_tracking
-      get :edit_status
-      patch :update_status
-    end
-  end
+  resources :shipments
   resources :dashboards, only: :index
   resources :activities, only: :index
 
@@ -76,6 +63,20 @@ Rails.application.routes.draw do
       member do
         post :accept_refund
         post :reject_refund
+      end
+    end
+    resources :shipments do
+      member do
+        post :calculate
+        get :add_tracking
+        patch :update_tracking
+        get :edit_status
+        patch :update_status
+        get :invoice
+      end
+      collection do
+        get :air
+        get :sea
       end
     end
   end
