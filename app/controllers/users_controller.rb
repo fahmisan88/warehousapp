@@ -15,6 +15,8 @@ class UsersController < ApplicationController
         @users = User.where(status: 2).order("created_at desc").page(params[:page])
       elsif @filter_params == "Blocked"
         @users = User.where(status: 3).order("created_at desc").page(params[:page])
+      elsif @filter_params == "Expired"
+        @users = User.where(status: 4).order("created_at desc").page(params[:page])
       end
 
       if params[:search]
@@ -29,6 +31,76 @@ class UsersController < ApplicationController
 
   def pay
     @user = User.find_by(id: params[:id])
+  end
+
+  def renew
+    if member_user&.status == "Expired"
+      if member_user.expiry < Time.now
+        @user = member_user
+        if @user.package?
+          @user_package = case @user.package
+            when 1 then "1 year subscription = RM150"
+            when 2 then "2 years subscription = RM250"
+            else "2 years subscription = RM250"
+          end
+        end
+      else
+        flash[:success] = "Your membership are still active"
+        redirect_to '/dashboard'
+      end
+    else
+      session.delete(:id)
+      redirect_to root_path
+    end
+  end
+
+  def update_package
+    @package = package_params[:package]
+    if (1..2).include? @package.to_i
+      # member_user.update_attribute(:package, @package.to_i)
+      respond_to do |format|
+        format.json { render json: { valid: true } }
+      end
+    else
+      respond_to do |format|
+        format.json { render json: { valid: false, message: "Package is not available" } }
+      end
+    end
+  end
+
+  def billplz_getbill
+    if member_user&.status == "Expired" && member_user.bill_id?
+      redirect_to member_user.bill_url
+    else
+      reset_session
+      redirect_to root_path
+    end
+  end
+
+  def billplz_bill_renewal
+    @user = member_user
+
+    if package_params
+      @package = package_params[:package].to_i
+    else
+      redirect_to '/renew'
+    end
+
+    if @user.package.nil? || @user.package == 0
+      @user.update_attribute(:package, @package)
+    end
+
+    if !@user.bill_id? && @user.status == "Expired"
+      @bill = BillplzRenewal.create_bill_for(@user.id)
+      @user.update_attribute(:bill_id, @bill.parsed_response['id'])
+      @user.update_attribute(:bill_url, @bill.parsed_response['url'])
+      @user.update_attribute(:package, @package)
+      redirect_to @bill.parsed_response['url']
+    elsif @user.bill_id? && @user.status == "Expired"
+      redirect_to @user.bill_url
+    else
+      redirect_to root_path
+    end
   end
 
   def billplz
@@ -111,12 +183,15 @@ class UsersController < ApplicationController
 
   def suspend
     @user= User.find_by(id: params[:id])
-    if @user.update_attribute(:status, 2)
-      flash[:success] = "You've suspend a user."
-      redirect_to users_path
+    @duration = params[:duration].to_i
+    if @user.update_attribute(:status, 2) && @user.update_attribute(:releasesuspend_at, Time.now + @duration)
+      respond_to do |format|
+        format.json {render json: { status: "success", message: "The user was successfully suspended."}, status: :ok}
+      end
     else
-      flash[:danger]
-      redirect_to users_path
+      respond_to do |format|
+        format.json {render json: { status: "error", message: "The user was not successfully suspended. Please contact the app developer"}, status: :ok}
+      end
     end
   end
 
@@ -183,6 +258,10 @@ class UsersController < ApplicationController
 
   def edit_params
     params.require(:user).permit(:ezi_id, :expiry)
+  end
+
+  def package_params
+    params.require(:user).permit(:package)
   end
 
 end

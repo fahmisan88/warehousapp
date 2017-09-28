@@ -18,6 +18,7 @@
 //= require sweetalert2
 //= require form-validator
 //= require jquery.modal
+//= require zebra_tooltips
 //= require_tree .
 
 function validateFiles(inputFile) {
