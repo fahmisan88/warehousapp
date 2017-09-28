@@ -14,4 +14,12 @@ class Shipment < ApplicationRecord
       where('ezi_id ILIKE :search', search: "%#{search}%")
   end
 
+  def is_borneo?
+    result = false
+    if self.user.address2 == "Sabah" || self.user.address2 == "Sarawak"
+      result = true
+    end
+    return result
+  end
+
 end
