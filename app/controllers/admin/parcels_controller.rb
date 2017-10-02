@@ -1,5 +1,5 @@
 class Admin::ParcelsController < ApplicationController
-  before_filter :check_if_admin
+  before_action :check_if_admin
 
   def index
     @filter_params = params[:status]

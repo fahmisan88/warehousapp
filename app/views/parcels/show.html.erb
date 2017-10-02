@@ -18,9 +18,6 @@
                 <% else %>
                 <%=@parcel.awb%>
                 <% end%>
-                <% if @parcel.status == "Waiting"%>
-                  <%= link_to "", edit_parcel_path(@parcel), class:"fa fa-pencil" %>
-                <%end%>
               </td>
             </tr>
             <tr>

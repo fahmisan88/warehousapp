@@ -78,9 +78,7 @@
                   <td><%= shipment.status%></td>
                   <td><%= shipment.user.ezi_id%></td>
                   <td>
-                    <span><%= link_to "", admin_shipment_path(shipment), class:"fa fa-eye" %></span>&nbsp;&nbsp;<span>
-                    <span><%= link_to "", add_tracking_admin_shipment_path(shipment), class:"fa fa-plane" %></span>&nbsp;&nbsp;
-                    <span><%= link_to "", edit_status_admin_shipment_path(shipment), class:"fa fa-arrows" %></span>
+                    <span><%= link_to "View", admin_shipment_path(shipment), class:"btn-xs" %></span>
                   </td>
                   <%end%>
                   <%end%>

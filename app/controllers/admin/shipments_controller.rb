@@ -1,5 +1,5 @@
 class Admin::ShipmentsController < ApplicationController
-  before_filter :check_if_admin
+  before_action :check_if_admin
 
 
   # def index
@@ -85,34 +85,32 @@ class Admin::ShipmentsController < ApplicationController
     @currency = Currency.find_by(id: 1)
     @ringgit = @currency.myr2rmb
 
-    extraCharge = @shipment.extra_charge / @ringgit
-    minusCharge = @shipment.minus_charge / @ringgit
     chargePhotoshoot = @shipment.parcels.where(photoshoot: true).size * 10 / @ringgit
     chargeInspection = @shipment.parcels.where(inspection: true).size * 30 / @ringgit
+    extraCharge = params[:shipment][:extra_charge].to_d / @ringgit
+    minusCharge = params[:shipment][:minus_charge].to_d / @ringgit
+    airCharge = params[:shipment][:air_charge].to_d
 
-    if @shipment.reorganize?
+    if params[:shipment][:reorganize] == "true"
       chargeReorganize = @shipment.parcels.size * 2 / @ringgit
     else
       chargeReorganize = 0
     end
 
-    if @shipment.repackaging?
+    if params[:shipment][:repackaging] == "true"
       chargeRepackaging = 10 / @ringgit
     else
       chargeRepackaging = 0
     end
 
+    chargeMYR = (airCharge + extraCharge + chargeReorganize + chargeRepackaging + chargePhotoshoot + chargeInspection - minusCharge).ceil(1)
+    @shipment.update(charge: chargeMYR, repackaging: calculate_params[:repackaging], reorganize: calculate_params[:reorganize],
+                      extra_charge: calculate_params[:extra_charge], minus_charge: calculate_params[:minus_charge], extra_remark: calculate_params[:extra_remark],
+                      remark_admin: calculate_params[:remark_admin], air_charge: calculate_params[:air_charge]
+                    )
+    flash[:success] ="Calculate successfully"
+    redirect_to admin_shipment_path(@shipment)
 
-    if @shipment.update(calculate_params)
-
-      chargeMYR = @shipment.air_charge + extraCharge + chargeReorganize + chargeRepackaging + chargePhotoshoot + chargeInspection - minusCharge
-      @shipment.update_attributes(charge: chargeMYR.ceil(1))
-      flash[:success] ="Calculate successfully"
-      redirect_to admin_shipment_path(@shipment)
-    else
-      flash[:danger] = "Calculate failed"
-      redirect_to edit_admin_shipment_path(@shipment)
-    end
   end
 
   def sea_calculate
@@ -120,31 +118,31 @@ class Admin::ShipmentsController < ApplicationController
     @currency = Currency.find_by(id: 1)
     @ringgit = @currency.myr2rmb
 
-    extraCharge = @shipment.extra_charge / @ringgit
-    minusCharge = @shipment.minus_charge / @ringgit
+    chargePhotoshoot = @shipment.parcels.where(photoshoot: true).size * 10 / @ringgit
+    chargeInspection = @shipment.parcels.where(inspection: true).size * 30 / @ringgit
+    extraCharge = params[:shipment][:extra_charge].to_d / @ringgit
+    minusCharge = params[:shipment][:minus_charge].to_d / @ringgit
+    seaCharge = params[:shipment][:sea_charge].to_d
 
-    if @shipment.reorganize?
+    if params[:shipment][:reorganize] == "true"
       chargeReorganize = @shipment.parcels.size * 2 / @ringgit
     else
       chargeReorganize = 0
     end
 
-    if @shipment.repackaging?
+    if params[:shipment][:repackaging] == "true"
       chargeRepackaging = 10 / @ringgit
     else
       chargeRepackaging = 0
     end
 
-    if @shipment.update(sea_calculate_params)
-
-      chargeMYR = @shipment.sea_charge + extraCharge + chargeReorganize + chargeRepackaging - minusCharge
-      @shipment.update_attributes(charge: chargeMYR.ceil(1))
-      flash[:success] ="Sea Charge Submitted"
-      redirect_to admin_shipment_path(@shipment)
-    else
-      flash[:danger] = "Submit Fail"
-      redirect_to edit_sea_admin_shipment_path(@shipment)
-    end
+    chargeMYR = (seaCharge + extraCharge + chargeReorganize + chargeRepackaging + chargePhotoshoot + chargeInspection - minusCharge).ceil(1)
+    @shipment.update(charge: chargeMYR, repackaging: sea_calculate_params[:repackaging], reorganize: sea_calculate_params[:reorganize],
+                      extra_charge: sea_calculate_params[:extra_charge], minus_charge: sea_calculate_params[:minus_charge], extra_remark: sea_calculate_params[:extra_remark],
+                      remark_admin: sea_calculate_params[:remark_admin], sea_charge: sea_calculate_params[:sea_charge]
+                    )
+    flash[:success] ="Sea Charge Submitted"
+    redirect_to admin_shipment_path(@shipment)
 
   end
 
