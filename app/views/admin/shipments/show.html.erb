@@ -1,185 +1,237 @@
-<br>
-<div id="wrapper">
-  <div id="page-wrapper">
-    <br>
-    <br>
-    <div class="row">
-      <div class="col-lg-8">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h3 class="panel-title"><i class="fa fa-ship fa-fw"></i>Shipment Details (EZI ID: <%=@shipment.user.ezi_id%>)</h3>
-          </div>
-          <div class="panel-body">
-            <table class="table">
-              <tbody>
-                <tr>
-                  <th>Shipment ID</th>
-                  <td><%=@shipment.id%></td>
-                </tr>
-                <tr>
-                  <th>Type of Shipment</th>
-                  <td><%=@shipment.shipment_type%></td>
-                </tr>
-                <tr>
-                  <th>Final Weight (kg)</th>
-                  <td>
-                    <%=@shipment.final_kg%>
-                  </td>
-                </tr>
-                <tr>
-                  <th>Status</th>
-                  <td><%=@shipment.status%></td>
-                </tr>
-                <tr>
-                  <th>Extra Service</th>
-                  <td>
-                    <%if @shipment.reorganize? || @shipment.repackaging? %>
-                    <% if @shipment.reorganize == true%>| Reorganize | <% else;end%>
-                    <% if @shipment.repackaging == true%>| Repackaging | <% else;end%>
-                    <% if @shipment.parcels.where(photoshoot: true).size >= 1%>| Photoshoot (<%=@shipment.parcels.where(photoshoot: true).size%> parcels) | <% else; end%>
-                    <% if @shipment.parcels.where(inspection: true).size >= 1%>| Inspection (<%=@shipment.parcels.where(inspection: true).size%> parcels) | <% else; end%>
-                    <% else %>
-                    None
-                    <%end%>
-                  </td>
-                </tr>
-                <tr>
-                  <th>Type Of Freight</th>
-                  <td>
-                    <% if @shipment.sea_freight == true%>
-                    Sea Freight
-                    <%else%>
-                    Air Freight
-                    <%end%>
-                  </td>
-                </tr>
-                <tr>
-                  <th>Remark User</th>
-                  <td><%=@shipment.remark%></td>
-                </tr>
-                <tr>
-                  <th>Remark Admin</th>
-                  <td><%=@shipment.remark_admin%></td>
-                </tr>
-                <% if @shipment.extra_remark %>
-                  <tr>
-                    <th>Extra Charge</th>
-                    <td><%=@shipment.extra_remark%> (RM <%=(@shipment.extra_charge / @currency.myr2rmb).ceil(1)%>)</td>
-                  </tr>
+<div class="container banner">
+  <div class="row">
+    <div class="col-lg-8">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          Shipment Summary (EZI ID: <%=@shipment.user.ezi_id%>)
+        </div>
+        <div class="panel-body">
+          <table class="table">
+            <tbody>
+              <tr>
+                <th>Status</th>
+                <td>
+                <%= form_for(@shipment, url: update_status_admin_shipment_path(@shipment), html: { id: "status-update-form" }) do |f| %>
+                  <%= f.select :status, [ 'Processing', 'Awaiting Payment', 'Paid'], class:"form-control", required: true %>
+                  <%= f.submit "Update", class: " btn-xs", data: { confirm: "Are you sure you want change this shipment's status?"}, type:"submit" %>
                 <% end %>
-                <tr>
-                  <th>Total Price</th>
-                  <td>RM <%=@shipment.charge%></td>
-                </tr>
-              </tbody>
-            </table>
-            <%if @shipment.bill_url? && @shipment.status != "Paid" %>
-            <div class="button text-center">
-              <%= link_to "Pay Now", @shipment.bill_url, class: "btn btn-success btn-lg" %>
-            </div>
-            <%elsif @shipment.status == "Paid"%>
-            <div class="button text-center">
-            <%= link_to "View Bill", @shipment.bill_url, class: "btn btn-success btn-lg" %>
-            </div>
-            <%else%>
-            <%end%>
-            <%= link_to 'Back', :back, class:"btn btn-link" %>
+                </td>
+              </tr>
+              <tr>
+                <th>Type Of Freight</th>
+                <td>
+                  <% if @shipment.sea_freight == true%>
+                  Sea
+                  <%else%>
+                  Air
+                  <%end%>
+                </td>
+              </tr>
+              <tr>
+                <th>Type of Shipment</th>
+                <td><%=@shipment.shipment_type%></td>
+              </tr>
+              <tr>
+                <th>Selected Parcels</th>
+                <td>
+                  <% @shipment.ordered_parcels.each do |ordered_parcel| %>
+                    <span class="icon-babu"><i class="fa fa-check-circle-o"></i></span>&nbsp;<%= ordered_parcel.parcel.awb%> <br>
+                  <% end %>
+                </td>
+              </tr>
+              <tr>
+                <th>Final Weight (kg)</th>
+                <td>
+                  <%=@shipment.final_kg%>
+                </td>
+              </tr>
+              <tr>
+                <th>Extra Service</th>
+                <td>
+                  <%if @shipment.reorganize? || @shipment.repackaging? || @shipment.parcels.where(photoshoot: true).size >= 1 || @shipment.parcels.where(inspection: true).size >= 1  %>
+                  <% if @shipment.reorganize == true%>Reorganize<br><%end%>
+                  <% if @shipment.repackaging == true%>Repackaging<br><%end%>
+                  <% if @shipment.parcels.where(photoshoot: true).size >= 1%>Photoshoot (<%=@shipment.parcels.where(photoshoot: true).size%> parcels)<br><%end%>
+                  <% if @shipment.parcels.where(inspection: true).size >= 1%>Inspection (<%=@shipment.parcels.where(inspection: true).size%> parcels)<br><%end%>
+                  <% else %>
+                  None
+                  <%end%>
+                </td>
+              </tr>
+              <% if @shipment.remark? %>
+              <tr>
+                <th>Remark User</th>
+                <td><%=@shipment.remark%></td>
+              </tr>
+              <% end %>
+              <% if @shipment.remark_admin? %>
+              <tr>
+                <th>Remark Admin</th>
+                <td><%=@shipment.remark_admin%></td>
+              </tr>
+              <% end %>
+              <tr>
+                <th>Tracking Number</th>
+                <td>
+                  <% if @shipment.tracking %>
+                    <%= @shipment.tracking %>
+                  <% else %>
+                    <%= form_for(@shipment, url: update_tracking_admin_shipment_path(@shipment), html: { id: "tracking-update-form" }) do |f| %>
+                    <%= f.text_field :tracking, id: "type_field", type:"text", required: true, size: 18 %>
+                    <%= f.submit "Add", class: "btn-xs", data: { confirm: "Are you sure you want change this shipment's status?"}, type:"submit" %>
+                    <% end %>
+                  <% end %>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <%if @shipment.bill_url? && @shipment.status != "Paid" %>
+          <div class="button text-center">
+            <%= link_to "Pay Now", @shipment.bill_url, class: "btn btn-success btn-normal" %>
           </div>
+          <%elsif @shipment.status == "Paid"%>
+          <div class="button text-center">
+          <%= link_to "View Bill", @shipment.bill_url, class: "btn btn-success btn-normal" %>
+          </div>
+          <%else%>
+          <%end%>
         </div>
       </div>
-      <div class="col-lg-4">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h3 class="panel-title"><i class="fa fa-home fa-fw"></i> Shipping Address</h3>
-          </div>
-          <div class="panel-body">
-            <div class="table-responsive">
-              <div class="list-group">
-                <b href="#" class="list-group-item">
-
-                  <b>Name: </b>
-                  <%=@shipment.user.name %>
-                  <br>
-                  <b>Address: </b>
-                  <%=@shipment.user.address%>
-                  <br>
-                  <b>Postcode:</b>
-                  <%=@shipment.user.postcode%>
-                  <br>
-                  <b>State: </b>
-                  <%=@shipment.user.address2%>
-                  <br>
-                  <b>Phone No.:</b>
-                  <%=@shipment.user.phone%>
-                </b>
-              </div>
-            </div>
-          </div>
-          <div class="panel-heading">
-            <h3 class="panel-title"><i class="fa fa-home fa-fw"></i> Tracking Number</h3>
-          </div>
-          <div class="panel-body">
-            <div class="table-responsive">
-              <div class="list-group">
-                <b href="#" class="list-group-item">
-                  <%=@shipment.tracking %>
-                </b>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
     </div>
-    <div class="row">
-      <div class="col-lg-12">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h3 class="panel-title"><i class="fa fa-archive fa-fw"></i> Selected Parcel</h3>
-          </div>
-          <div class="panel-body">
-            <table class="table table-bordered">
-
-              <thead>
-                <tr>
-                  <th>AWB</th>
-                  <th>Description</th>
-                  <th>Chinese Description</th>
-                  <th>Type</th>
-                  <th>Remark</th>
-                  <th>Final Weight(kg)</th>
-                </tr>
-              </thead>
-
-              <tbody>
-                <% @shipment.ordered_parcels.each do |ordered_parcel| %>
-                <tr>
-                  <td><%= ordered_parcel.parcel.awb%> </td>
-                  <td><%= ordered_parcel.parcel.description%></td>
-                  <td><%= ordered_parcel.parcel.product_chinese%></td>
-                  <td><%= ordered_parcel.parcel.parcel_good%></td>
-                  <td><%= ordered_parcel.parcel.remark%></td>
-                  <td><%= ordered_parcel.parcel.final_kg%></td>
-                </tr>
-                <% end %>
-                <tr>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td>Total: </td>
-                  <td><%=@shipment.final_kg%></td>
-                </tr>
-              </tbody>
-
-            </table>
-
-
+    <div class="col-lg-4">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          Shipping Address
+        </div>
+        <div class="panel-body">
+          <div class="table-responsive">
+            <div class="list-group">
+              <b href="#" class="list-group-item text-center">
+                <%=@shipment.user.name %>
+                <br>
+                <%=@shipment.user.address%>
+                <br>
+                <%=@shipment.user.postcode%>
+                <br>
+                <%=@shipment.user.address2%>
+                <br>
+                <%=@shipment.user.phone%>
+              </b>
+            </div>
           </div>
         </div>
       </div>
-
     </div>
   </div>
-</div>
+
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          Payment Details
+        </div>
+        <div class="panel-body">
+          <table class="table table-striped">
+
+            <thead>
+              <tr>
+                <th>Item</th>
+                <th>Description</th>
+                <th>Price (MYR)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><u><strong>Selected Parcels </strong></u><br><br>
+                  <% @shipment.ordered_parcels.each do |ordered_parcel| %>
+                    &nbsp;&nbsp;<span class="icon-babu"><i class="fa fa-check-circle-o"></i></span>&nbsp;<%= ordered_parcel.parcel.awb%><br>
+                  <% end %>
+                </td>
+                <td>
+                  <u><strong>Chargeable KG</strong></u><br><br>
+                  <% @shipment.ordered_parcels.each do |ordered_parcel| %>
+                    <%= ordered_parcel.parcel.final_kg%> KG <br>
+                  <% end %>
+                </td>
+                <td>
+                  <br><br>
+                  <% if @shipment.sea_freight? %>
+                  <%= @shipment.sea_charge? ? @shipment.sea_charge : "Awaiting" %>
+                  <% else %>
+                  <%= @shipment.charge? ? calculate_kg(@shipment) : "Awaiting" %>
+                  <% end %>
+                </td>
+              </tr>
+              <tr>
+                <td><u><strong>Extra Services </strong></u><br><br>
+                  <%if @shipment.reorganize? || @shipment.repackaging? || @shipment.parcels.where(photoshoot: true).size >= 1 || @shipment.parcels.where(inspection: true).size >= 1  %>
+                  <% if @shipment.reorganize == true%>Reorganize<br><%end%>
+                  <% if @shipment.repackaging == true%>Repackaging<br><%end%>
+                  <% if @shipment.parcels.where(photoshoot: true).size >= 1%>Photoshoot<br><%end%>
+                  <% if @shipment.parcels.where(inspection: true).size >= 1%>Inspection<br><%end%>
+                  <% else %>
+                  None
+                  <%end%>
+                </td>
+                <td><br><br>
+                  <%if @shipment.reorganize? || @shipment.repackaging? || @shipment.parcels.where(photoshoot: true).size >= 1 || @shipment.parcels.where(inspection: true).size >= 1  %>
+                  <% if @shipment.reorganize == true%><%= @shipment.parcels.size %> parcels X RMB 2<br><%end%>
+                  <% if @shipment.repackaging == true%>1 shipment X RMB 10<br><%end%>
+                  <% if @shipment.parcels.where(photoshoot: true).size >= 1%><%=@shipment.parcels.where(photoshoot: true).size%> parcels X RMB 10<br><%end%>
+                  <% if @shipment.parcels.where(inspection: true).size >= 1%><%=@shipment.parcels.where(inspection: true).size%> parcels X RMB 30<br><%end%>
+                  <% else %>
+                  N/A
+                  <%end%>
+                </td>
+                <td><br><br>
+                  <%if @shipment.reorganize? || @shipment.repackaging? || @shipment.parcels.where(photoshoot: true).size >= 1 || @shipment.parcels.where(inspection: true).size >= 1  %>
+                  <% if @shipment.reorganize == true%><%=calculate_reorganize(@shipment)%><br><%end%>
+                  <% if @shipment.repackaging == true%><%=calculate_repackaging(@shipment)%><br><%end%>
+                  <% if @shipment.parcels.where(photoshoot: true).size >= 1%><%= calculate_photoshoot(@shipment) %><br><%end%>
+                  <% if @shipment.parcels.where(inspection: true).size >= 1%><%= calculate_inspection(@shipment)%> <br><%end%>
+                  <% else %>
+                  0.0
+                  <%end%>
+                </td>
+              </tr>
+              <tr>
+                <td><u><strong>Additional Charges</strong></u></td>
+                <td><%= @shipment.extra_charge != 0 ? @shipment.extra_remark : "N/A" %></td>
+                <td><%= calculate_add_charge(@shipment) %></td>
+              </tr>
+
+              <tr>
+                <td><u><strong>Minus Charges</strong></u></td>
+                <td><%= @shipment.minus_charge != 0 ? @shipment.extra_remark : "N/A" %></td>
+                <td>- <%= calculate_minus_charge(@shipment) %></td>
+              </tr>
+              <tr>
+                <td></td>
+                <td><br><strong class="pull-right">TOTAL : </strong></td>
+                <td><br><%= @shipment.charge? ? @shipment.charge : "Awaiting" %></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="row">
+            <div class="col-md-8">
+              <% if @shipment.sea_freight? %>
+              <%= link_to 'Back', sea_admin_shipments_path, class:"btn btn-info btn-md" %>
+              <%= link_to 'Calculate', edit_sea_admin_shipment_path(@shipment), class: "btn btn-normal btn-form"%>
+              <% else %>
+              <%= link_to 'Back', air_admin_shipments_path, class:"btn btn-info btn-md" %>
+              <%= link_to 'Calculate', edit_admin_shipment_path(@shipment), class: "btn btn-normal btn-form"%>
+              <% end %>
+            </div>
+            <div class="col-md-4">
+              <% if @shipment.status == "Processing" && @shipment.charge  %>
+                <%= link_to "Request Payment", admin_shipment_path(@shipment), class: "btn btn-normal btn-success", method: :patch %>
+              <% else %>
+                <button class="btn btn-normal btn-success" disabled= "true">Request Payment</button>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

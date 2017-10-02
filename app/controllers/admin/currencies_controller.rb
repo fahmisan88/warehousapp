@@ -1,5 +1,5 @@
 class Admin::CurrenciesController < ApplicationController
-  before_filter :check_if_admin
+  before_action :check_if_admin
   
   def edit
     @currency = Currency.find(params[:id])

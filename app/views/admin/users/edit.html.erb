@@ -1,14 +1,14 @@
 <div class="container banner">
   <div class="row">
-      <div class="col-xs-10">
+      <div class="col-md-8 col-md-offset-2">
         <div class="panel panel-default">
           <div class="panel-heading">
-            <h3 class="panel-title"><i class="fa fa-user fa-fw"></i> Add Address </h3>
+            Change Address And Phone
           </div>
           <div class="panel-body">
 
             <div class="container">
-              <%= form_for(@user, url: user_path(@user), html: { id: "parcel-update-form" }) do |f| %>
+              <%= form_for(@user, url: admin_user_path(@user), html: { id: "parcel-update-form" }) do |f| %>
               <form>
                 <div class="form-group col-xs-10">
                   <label for="address">Address:</label>
@@ -28,15 +28,10 @@
                   <%= f.text_field :phone, id: "type_field", class: 'form-control', type:"text", required: true %>
                 </div>
                 <div class="col-xs-10">
-                  <%= f.submit "Add Address", class: "btn btn-success btn-lg", type:"submit" %>
+                  <%= f.submit "Update", class: "btn btn-success btn-form", type:"submit" %>
                 </div>
               </form>
               <% end %>
-            </div>
-            <div class="text-center">
-              <h2>
-                Please make sure your address is complete, this step cannot be modified later.
-              </h2>
             </div>
           </div>
         </div>

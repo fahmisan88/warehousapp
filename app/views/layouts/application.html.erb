@@ -8,14 +8,15 @@
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
     <!-- <link href="https://fonts.googleapis.com/css?family=Roboto:700%2C500%2C900" rel="stylesheet" property="stylesheet" type="text/css" media="all"> -->
     <link href="https://fonts.googleapis.com/css?family=Rubik:500%2C400%2C700" rel="stylesheet" property="stylesheet" type="text/css" media="all">
+    <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
   </head>
   <body>
     <div>
       <% if admin_user || staff_user %>
-        <%= render partial: 'partials/sidebar-admin' %>
+        <%= render partial: 'partials/navbar_admin' %>
       <% elsif current_user && current_user.status == "Active" && current_user.address? %>
-        <%= render partial: 'partials/sidebar' %>
+        <%= render partial: 'partials/navbar' %>
       <%end%>
     </div>
       <%= render partial: "partials/flash_messages" %>
@@ -25,7 +26,7 @@
     </div>
 
 
-    <!-- for temporary announcement 
+    <!-- for temporary announcement
     <% if member_user && member_user.status == "Active" %>
     <script>
     swal({

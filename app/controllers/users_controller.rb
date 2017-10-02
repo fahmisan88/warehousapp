@@ -2,31 +2,9 @@ class UsersController < ApplicationController
 
   before_action :authenticate!,  only: [:edit, :update]
 
-  def index
-    @filter_params = params[:status]
-    @users = User.all.order(updated_at: :desc).page params[:page]
-    authorize @users
-
-      if @filter_params == "Inactive"
-        @users = User.where(status: 0).order("created_at desc").page(params[:page])
-      elsif @filter_params == "Active"
-        @users = User.where(status: 1).order("created_at desc").page(params[:page])
-  		elsif @filter_params == "Suspended"
-        @users = User.where(status: 2).order("created_at desc").page(params[:page])
-      elsif @filter_params == "Blocked"
-        @users = User.where(status: 3).order("created_at desc").page(params[:page])
-      elsif @filter_params == "Expired"
-        @users = User.where(status: 4).order("created_at desc").page(params[:page])
-      end
-
-      if params[:search]
-          @users = User.search(params[:search]).order("updated_at DESC").page params[:page]
-      end
-
-  end
-
   def show
     @user = User.find_by(id: params[:id])
+    authorize @user
   end
 
   def pay
@@ -152,29 +130,18 @@ class UsersController < ApplicationController
   def edit
     @user = User.find_by(id: params[:id])
     authorize @user
+    if @user.address?
+      flash[:danger] = "If you want to change your address please contact admin"
+      redirect_to dashboards_path
+    end
   end
 
   def update
     @user = User.find_by(id: params[:id])
     authorize @user
     if @user.update(user_params)
-      flash[:success] = "You have added your address!"
+      flash[:success] = "Address updated"
       redirect_to dashboards_path
-    else
-      flash[:danger] = "Your update failed!"
-      render :edit
-    end
-  end
-
-  def edit_id
-    @user = User.find_by(id: params[:id])
-  end
-
-  def update_id
-    @user = User.find_by(id: params[:id])
-    if @user.update(edit_params)
-      flash[:success] = "You have updated the user information!"
-      redirect_to users_path
     else
       flash[:danger] = "Your update failed!"
       render :edit
@@ -198,23 +165,23 @@ class UsersController < ApplicationController
   def block
     @user= User.find_by(id: params[:id])
     if @user.update_attribute(:status, 3)
-      redirect_to users_path
       flash[:success] = "You've block a user."
     else
-      flash[:danger]
-      redirect_to users_path
+      flash[:danger] = "Action failed"
     end
+    redirect_to admin_users_path
+
   end
 
   def activate
     @user= User.find_by(id: params[:id])
     if @user.update_attribute(:status, 1)
-      redirect_to users_path
       flash[:success] = "You've activate a user."
     else
-      flash[:danger]
-      redirect_to users_path
+      flash[:danger] = "Action failed"
     end
+    redirect_to admin_users_path
+
   end
 
 # ajax check existing email on registration form
@@ -254,10 +221,6 @@ class UsersController < ApplicationController
 
   def reg_user_params
     params.require(:user).permit(:email, :passwd, :fullname, :package)
-  end
-
-  def edit_params
-    params.require(:user).permit(:ezi_id, :expiry)
   end
 
   def package_params

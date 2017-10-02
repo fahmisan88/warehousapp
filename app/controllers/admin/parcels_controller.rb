@@ -1,38 +1,38 @@
 class Admin::ParcelsController < ApplicationController
-  before_filter :check_if_admin
+  before_action :check_if_admin
 
   def index
     @filter_params = params[:status]
-    @parcels       = Parcel.all.order(updated_at: :desc).page(params[:page]).per(15)
+    @parcels       = Parcel.all.order(updated_at: :desc).page(params[:page]).per(20)
 
     case @filter_params
     when "Waiting"
-      @parcels = Parcel.where(status: 0).order("created_at desc").page(params[:page]).per(15)
+      @parcels = Parcel.where(status: 0).order("created_at desc").page(params[:page]).per(20)
     when "Arrived"
-      @parcels = Parcel.where(status: 1).order("created_at desc").page(params[:page]).per(15)
+      @parcels = Parcel.where(status: 1).order("created_at desc").page(params[:page]).per(20)
     when "Ready To Ship"
-      @parcels = Parcel.where(status: 2).order("created_at desc").page(params[:page]).per(15)
+      @parcels = Parcel.where(status: 2).order("created_at desc").page(params[:page]).per(20)
     when "Shipped"
-      @parcels = Parcel.where(status: 3).order("created_at desc").page(params[:page]).per(15)
+      @parcels = Parcel.where(status: 3).order("created_at desc").page(params[:page]).per(20)
     when "Request Refund"
-      @parcels = Parcel.where(status: 4).order("created_at desc").page(params[:page]).per(15)
+      @parcels = Parcel.where(status: 4).order("created_at desc").page(params[:page]).per(20)
     when "Refund Rejected"
-      @parcels = Parcel.where(status: 5).order("created_at desc").page(params[:page]).per(15)
+      @parcels = Parcel.where(status: 5).order("created_at desc").page(params[:page]).per(20)
     when "Refunded"
-      @parcels = Parcel.where(status: 6).order("created_at desc").page(params[:page]).per(15)
+      @parcels = Parcel.where(status: 6).order("created_at desc").page(params[:page]).per(20)
     when "Normal"
-      @parcels = Parcel.where(parcel_good: 0).order("created_at desc").page(params[:page]).per(15)
+      @parcels = Parcel.where(parcel_good: 0).order("created_at desc").page(params[:page]).per(20)
     when "Sensitive"
-      @parcels = Parcel.where(parcel_good: 1).order("created_at desc").page(params[:page]).per(15)
+      @parcels = Parcel.where(parcel_good: 1).order("created_at desc").page(params[:page]).per(20)
     when "I Dont Know"
-      @parcels = Parcel.where(parcel_good: 2).order("created_at desc").page(params[:page]).per(15)
+      @parcels = Parcel.where(parcel_good: 2).order("created_at desc").page(params[:page]).per(20)
     end
 
     if params[:search]
-      @parcels = Parcel.search(params[:search]).order("updated_at DESC").page(params[:page]).per(15)
+      @parcels = Parcel.search(params[:search]).order("updated_at DESC").page(params[:page]).per(20)
     end
     if params[:search_ezi]
-      @parcels = Parcel.search_ezi(params[:search_ezi]).order("updated_at DESC").page(params[:page]).per(15)
+      @parcels = Parcel.search_ezi(params[:search_ezi]).order("updated_at DESC").page(params[:page]).per(20)
     end
   end
 

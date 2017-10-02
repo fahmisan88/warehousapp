@@ -4,8 +4,13 @@ class UserPolicy < ApplicationPolicy
     user_has_power?
   end
 
+
   def new?
     user.present? && record.id == user.id
+  end
+
+  def show?
+    new? || user.admin?
   end
 
   def create?
