@@ -72,22 +72,27 @@ class ShipmentsController < ApplicationController
     @shipment= current_user.shipments.build(shipment_params)
     finalKg = @parcels.sum(:final_kg).to_i
     authorize @shipment
-    if @shipment.save
-      @parcels.each do |parcel|
-        @shipment.ordered_parcels.create( {:parcel_id => parcel.id})
-        parcel.update({:status => :"Ready To Ship"})
-      end
-      if @parcels.sum(:parcel_good) >= 1
-        @shipment.update_attributes(status: "Processing", :final_kg => finalKg, :shipment_type => 1 )
-      else
-        @shipment.update_attributes(status: "Processing", :final_kg => finalKg, :shipment_type => 0 )
-      end
-      flash[:success] = "You've post a shipment."
-      # deliver_mail(current_user.name, current_user.email, "shipments", "created")
-      redirect_to shipments_path
-    else
-      flash[:danger]
+    if @parcels.blank?
+      flash[:danger] = "You have to select at least one parcel"
       redirect_to new_shipment_path
+    else
+      if @shipment.save
+        @parcels.each do |parcel|
+          @shipment.ordered_parcels.create( {:parcel_id => parcel.id})
+          parcel.update({:status => :"Ready To Ship"})
+        end
+        if @parcels.sum(:parcel_good) >= 1
+          @shipment.update_attributes(status: "Processing", :final_kg => finalKg, :shipment_type => 1 )
+        else
+          @shipment.update_attributes(status: "Processing", :final_kg => finalKg, :shipment_type => 0 )
+        end
+        flash[:success] = "You've post a shipment."
+        # deliver_mail(current_user.name, current_user.email, "shipments", "created")
+        redirect_to shipments_path
+      else
+        flash[:danger] = @shipment.errors.full_messages
+        redirect_to new_shipment_path
+      end
     end
   end
 

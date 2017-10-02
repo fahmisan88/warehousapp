@@ -27,21 +27,13 @@
         <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
         <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav side-nav">
-                <li class="active">
+                <li <% if current_page?(admin_dashboards_path) %> class="active" <% end %>>
                     <a href="<%=admin_dashboards_path%>"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
                 </li>
-                <li>
-                  <a href="javascript:;" data-toggle="collapse" data-target="#parcel"><i class="fa fa-fw fa-archive"></i> Parcels </a>
-                  <ul id="parcel" class="collapse">
-                    <li>
-                        <a href="/admin/parcels">All Parcels</a>
-                    </li>
-                    <li>
-                        <a href="/admin/parcels/new">Create Parcel</a>
-                    </li>
-                  </ul>
+                <li <% if current_page?(admin_parcels_path) %> class="active" <% end %>>
+                    <a href="/admin/parcels" data-toggle="collapse" data-target="#parcels"><i class="fa fa-fw fa-archive"></i> Parcels </a>
                 </li>
-                <li>
+                <li <% if current_page?(admin_shipments_path) || current_page?(air_admin_shipments_path) || current_page?(sea_admin_shipments_path)  %> class="active" <% end %>>
                   <a href="javascript:;" data-toggle="collapse" data-target="#shipment"><i class="fa fa-fw fa-ship"></i> Shipments </a>
                   <ul id="shipment" class="collapse">
                     <li>

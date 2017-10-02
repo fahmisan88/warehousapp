@@ -50,7 +50,6 @@ Rails.application.routes.draw do
   resources :parcels do
     member do
       get :request_refund
-      patch :update_awb
       patch :update_request_refund
     end
   end
@@ -73,18 +72,24 @@ Rails.application.routes.draw do
         post :reject_refund
       end
     end
-    resources :shipments do
+    resources :shipments, except: :index do
       member do
-        post :calculate
-        get :add_tracking
+        patch :calculate
         patch :update_tracking
-        get :edit_status
         patch :update_status
+        patch :sea_calculate
         get :invoice
+        get :edit_sea
       end
       collection do
         get :air
         get :sea
+      end
+    end
+    resources :users, only: [:index, :show, :edit, :update] do
+      member do
+        get :edit_id
+        patch :update_id
       end
     end
   end

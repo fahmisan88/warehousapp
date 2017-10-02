@@ -10,6 +10,8 @@ class Shipment < ApplicationRecord
   before_destroy :update_status, prepend: true
   paginates_per 10
 
+  validate :must_select_freight
+
   def self.search(search)
       where('ezi_id ILIKE :search', search: "%#{search}%")
   end
@@ -20,6 +22,14 @@ class Shipment < ApplicationRecord
       result = true
     end
     return result
+  end
+
+  private
+
+  def must_select_freight
+    if self.sea_freight.nil?
+      self.errors.add(:base, 'You must select type of freight')
+    end
   end
 
 end

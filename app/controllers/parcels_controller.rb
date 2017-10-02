@@ -71,17 +71,6 @@ class ParcelsController < ApplicationController
     end
   end
 
-  def update_awb
-    @parcel = Parcel.find(params[:id])
-    authorize @parcel
-    if @parcel.update(update_awb_params)
-      flash[:success] = "You've successfully change your AWB number!"
-    else
-      flash[:danger] = "Failed to update AWB number"
-    end
-      redirect_to parcel_path(@parcel)
-  end
-
   def update_request_refund
     @parcel = Parcel.find(params[:id])
     authorize @parcel
@@ -116,10 +105,6 @@ class ParcelsController < ApplicationController
 
   def parcel_params
     params.require(:parcel).permit(:awb, :description, :image, :remark, :parcel_good, :photoshoot, :inspection, :product_chinese, :product_quantity, :product_total_price, :price_per_unit, :ezi_id)
-  end
-
-  def update_awb_params
-    params.require(:parcel).permit(:new_awb)
   end
 
   def request_refund_params

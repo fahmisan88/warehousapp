@@ -1,22 +1,9 @@
-<br>
-<div id="wrapper">
-  <div id="page-wrapper">
-    <br>
-    <br>
-    <div class="row">
-        <div class="col-lg-12">
-            <ol class="breadcrumb">
-                <li class="active">
-                    <i class="fa fa-archive"></i> Parcel
-                </li>
-            </ol>
-        </div>
-    </div>
-    <div class="row">
+<div class="container banner">
+  <div class="row">
       <div class="col-lg-12">
         <div class="panel panel-default">
           <div class="panel-heading">
-            <h3 class="panel-title"><i class="fa fa-archive fa-fw"></i> Add Parcel Dimension & Image</h3>
+            Manage Arrived Parcel
           </div>
           <div class="panel-body" style="padding-left:80px;padding-right:80px;">
           <%= form_for(@parcel , url: admin_parcel_path(@parcel), method: :patch, html: { multipart: true }) do |f| %>
@@ -81,14 +68,11 @@
             <div class="row">
               <div class="col-md-12 col-sm-12 add_bottom_30">
                 <hr>
-                <button type="submit">Save Parcel</button>
-                <%= link_to 'Back', :back, class:"btn btn-link" %>
+                <%= f.submit "Mark Arrive", class: "btn btn-normal btn-form"%>
               </div>
-            </div>
+            </div><br> 
           <% end %>
         </div>
       </div>
     </div>
-  </div>
-</div>
 </div>
