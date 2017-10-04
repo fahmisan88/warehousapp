@@ -33,7 +33,7 @@
                   <td><%= shipment.bill_id%></td>
                   <td> RM <%= shipment.charge%></td>
                   <td><%= shipment.status%></td>
-                  <td><%= link_to "View Invoice", invoice_shipment_path(shipment), class: "btn-xs", target: :_blank %></td>
+                  <td><%= link_to "View Invoice", invoice_shipment_path(shipment, :format => :pdf), class: "btn-xs", target: :_blank %></td>
                   <%end%>
                   <%end%>
                 </tr>

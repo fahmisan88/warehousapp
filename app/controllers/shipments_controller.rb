@@ -142,7 +142,14 @@ class ShipmentsController < ApplicationController
 
   def invoice
     @shipment = Shipment.find(params[:id])
-    render layout: false
+    respond_to do |format|
+      format.html do
+        render layout: false
+      end
+      format.pdf do
+        render  pdf: "invoice", template: 'shipments/invoice.pdf.erb'
+      end
+    end
   end
 
   private
