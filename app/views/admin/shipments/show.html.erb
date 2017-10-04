@@ -158,7 +158,7 @@
                   <% if @shipment.sea_freight? %>
                   <%= @shipment.sea_charge? ? @shipment.sea_charge : "Awaiting" %>
                   <% else %>
-                  <%= @shipment.charge? ? calculate_kg(@shipment) : "Awaiting" %>
+                  <%= @shipment.air_charge? ? @shipment.air_charge : "Awaiting" %>
                   <% end %>
                 </td>
               </tr>

@@ -137,11 +137,12 @@ class ShipmentsController < ApplicationController
   end
 
   def statement
-    if admin_user || staff_user
-      @shipments= Shipment.all.where(status: 2).order(updated_at: :desc).page params[:page]
-    else
-      @shipments= current_user.shipments.where(status: 2).order(updated_at: :desc).page params[:page]
-    end
+    @shipments= current_user.shipments.where(status: 2).order(updated_at: :desc).page params[:page]
+  end
+
+  def invoice
+    @shipment = Shipment.find(params[:id])
+    render layout: false
   end
 
   private
