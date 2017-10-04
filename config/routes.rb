@@ -53,7 +53,11 @@ Rails.application.routes.draw do
       patch :update_request_refund
     end
   end
-  resources :shipments
+  resources :shipments do
+    member do
+      get :invoice
+    end
+  end
   resources :dashboards, only: :index
   resources :activities, only: :index
 
@@ -90,6 +94,11 @@ Rails.application.routes.draw do
       member do
         get :edit_id
         patch :update_id
+      end
+    end
+    resources :statements, only: :index do
+      member do
+        get :invoice
       end
     end
   end

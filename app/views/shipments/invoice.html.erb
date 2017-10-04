@@ -1,5 +1,14 @@
 <style media="screen">
-//Invoice template
+
+.container {
+  width: 100%;
+}
+
+.banner {
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+
 .invoice-box{
     max-width:800px;
     margin:auto;
@@ -76,9 +85,13 @@
         display:block;
         text-align:center;
     }
+
+
 }
 </style>
-<div class="invoice-box">
+
+<div class="container banner">
+  <div class="invoice-box">
   <table cellpadding="0" cellspacing="0">
     <tr class="top">
       <td colspan="2">
@@ -102,15 +115,19 @@
         <table>
           <tr>
             <td>
-              Ezicargo Sdn Bhd<br>
-              12345 Sunny Road<br>
-              Sunnyville, TX 12345
+              Ezicargo RICH Sdn Bhd (1185516-M)<br>
+              No 35 - 2, Rampai Niaga 5<br>
+              Rampai Business Park <br>
+              Taman Sri Rampai <br>
+              53300, Kuala Lumpur
             </td>
 
             <td>
-              Acme Corp.<br>
-              John Doe<br>
-              john@example.com
+              <%=@shipment.user.name %><br>
+              <%=@shipment.user.address%><br>
+              <%=@shipment.user.postcode%><br>
+              <%=@shipment.user.address2%><br>
+              <%=@shipment.user.phone%>
             </td>
           </tr>
         </table>
@@ -123,17 +140,17 @@
       </td>
 
       <td>
-        Check #
+        Online Banking (BillPlz)
       </td>
     </tr>
 
     <tr class="details">
       <td>
-        Check
+        Bill ID
       </td>
 
       <td>
-        1000
+        <%= @shipment.bill_id %>
       </td>
     </tr>
 
@@ -143,37 +160,65 @@
       </td>
 
       <td>
-        Price
+        Price (MYR)
       </td>
     </tr>
 
     <tr class="item">
       <td>
-        Website design
+        Parcels (<%=@shipment.final_kg %>KG)
       </td>
 
       <td>
-        $300.00
+        <% if @shipment.sea_freight? %>
+        <%= @shipment.sea_charge %>
+        <% else %>
+        <%= @shipment.air_charge %>
+        <% end %>
       </td>
     </tr>
 
     <tr class="item">
       <td>
-        Hosting (3 months)
+        <u>Extra Services</u> <br>
+        <%if @shipment.reorganize? || @shipment.repackaging? || @shipment.parcels.where(photoshoot: true).size >= 1 || @shipment.parcels.where(inspection: true).size >= 1  %>
+        <% if @shipment.reorganize == true%>Reorganize<br><%end%>
+        <% if @shipment.repackaging == true%>Repackaging<br><%end%>
+        <% if @shipment.parcels.where(photoshoot: true).size >= 1%>Photoshoot<br><%end%>
+        <% if @shipment.parcels.where(inspection: true).size >= 1%>Inspection<br><%end%>
+        <% else %>
+        None
+        <%end%>
       </td>
 
       <td>
-        $75.00
+        <br>
+        <%if @shipment.reorganize? || @shipment.repackaging? || @shipment.parcels.where(photoshoot: true).size >= 1 || @shipment.parcels.where(inspection: true).size >= 1  %>
+        <% if @shipment.reorganize == true%><%=calculate_reorganize(@shipment)%><br><%end%>
+        <% if @shipment.repackaging == true%><%=calculate_repackaging(@shipment)%><br><%end%>
+        <% if @shipment.parcels.where(photoshoot: true).size >= 1%><%= calculate_photoshoot(@shipment) %><br><%end%>
+        <% if @shipment.parcels.where(inspection: true).size >= 1%><%= calculate_inspection(@shipment)%> <br><%end%>
+        <% else %>
+          0.00
+        <% end %>
       </td>
     </tr>
 
     <tr class="item last">
       <td>
-        Domain name (1 year)
+        <u>Extra Charges</u> <br>
+          <%= @shipment.extra_remark? ? @shipment.extra_remark : "N/A" %>
       </td>
 
       <td>
-        $10.00
+        <br>
+        <% if @shipment.extra_charge != 0 %>
+          <%= calculate_add_charge(@shipment) %>
+        <% elsif @shipment.minus_charge != 0 %>
+          - <%= calculate_minus_charge(@shipment) %>
+        <% else %>
+          0.0
+        <% end %>
       </td>
     </tr>
 
@@ -181,8 +226,9 @@
       <td></td>
 
       <td>
-        Total: $385.00
+        TOTAL:  MYR <%= @shipment.charge %>
       </td>
     </tr>
   </table>
+</div>
 </div>
