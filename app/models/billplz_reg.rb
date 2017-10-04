@@ -11,7 +11,7 @@ class BillplzReg
       else 30000
     end
 
-    HTTParty.post("https://www.billplz.com/api/v3/bills/".to_str,
+    HTTParty.post((ENV['BILLPLZ_API'] + "/bills/").to_str,
     headers: {'Content-Type' => 'application/json','Accept '=> 'application/json' },
     body: {
       collection_id:      ENV["BILLPLZ_REG_APPID"],
@@ -32,7 +32,7 @@ class BillplzReg
 
   def self.check_status(user_id)
     user = User.find(user_id)
-    url = "https://www.billplz.com/api/v3/bills/" + user.bill_id
+    url = ENV['BILLPLZ_API'] + "/bills/" + user.bill_id
     arguments = { headers: {'Content-Type' => 'application/json', 'Accept' => 'application/json'},
                   basic_auth: { username: ENV["BILLPLZ_REG_KEY"]}
                   }
