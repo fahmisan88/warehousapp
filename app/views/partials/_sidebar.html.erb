@@ -17,7 +17,7 @@
             <a>Member Code Id: <%= member_user.ezi_id.to_s %></a>
             </li>
             <li>
-              <a>Membership expired on: 
+              <a>Membership expired on:
               <% t =  member_user.expiry %>
               <%= t.strftime('%a, %d %b %G') %></a>
             </li>
@@ -27,14 +27,19 @@
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> <%=current_user.name%> <b class="caret"></b></a>
                 <ul class="dropdown-menu">
-                    <li>
+                    <li class="text-center">
                         <a href="<%=user_path(current_user)%>"><i class="fa fa-fw fa-user"></i> View Profile</a>
                     </li>
-                    <li>
+                    <li class="text-center">
                         <a href="<%=statement_path%>"><i class="fa fa-fw fa-book"></i> Statement</a>
                     </li>
+                    <li class="text-center">
+                      <button type="button" class="btn" style="background-color: #7ef99c;border-radius: 19px;width: 100%;width: 80%;">
+                        <a href="/ic/upload" style="color: #262626;"><i class="fa fa-fw fa-vcard"></i> Upload IC</a>
+                      </button>
+                    </li>
                     <li class="divider"></li>
-                    <li>
+                    <li class="text-center">
                       <%= link_to session_path(current_user), method: :delete do %>
                       <i class="fa fa-fw fa-power-off"></i>Log Out
                         <% end %>
