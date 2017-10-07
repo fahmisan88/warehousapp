@@ -23,6 +23,7 @@
 /app/uploaders/*
 /public/uploads/*
 !/app/uploaders/image_uploader.rb
+!/app/uploaders/icpassport_uploader.rb
 
 # Ignore rbenv-vars
 .rbenv-vars

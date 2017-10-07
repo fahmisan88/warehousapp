@@ -33,6 +33,9 @@ Rails.application.routes.draw do
 
   get '/suspend' => 'block_suspend_users#index'
 
+  get '/ic/upload' => 'identitycards#new'
+  post '/ic/create' => 'identitycards#create'
+
   resources :sessions, only: [:new, :create, :destroy]
   resources :users do
     member do
