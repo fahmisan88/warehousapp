@@ -113,6 +113,9 @@
             <td>
               <%=@shipment.user.name %><br>
               <%=@shipment.user.address%><br>
+              <% if @shipment.user.city %>
+                <%=@shipment.user.city%><br>
+              <% end %>
               <%=@shipment.user.postcode%><br>
               <%=@shipment.user.address2%><br>
               <%=@shipment.user.phone%>

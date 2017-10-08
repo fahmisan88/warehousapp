@@ -15,6 +15,10 @@
                   <%= f.text_field :address, id: "type_field", class: 'form-control', type:"text", required: true %>
                 </div>
                 <div class="form-group col-xs-10">
+                  <label for="address">City:</label>
+                  <%= f.text_field :city, id: "type_field", class: 'form-control', type:"text", required: true %>
+                </div>
+                <div class="form-group col-xs-10">
                   <label for="type">State:</label>
                   <%= f.select :address2, [ 'Selangor', 'Kuala Lumpur', 'Kedah', 'P.Pinang', 'Perlis', 'Terengganu', 'Kelantan', 'Pahang', 'Johor', 'Perak', 'N.Sembilan', 'Melaka', 'Sabah', 'Sarawak', 'Putrajaya'],{ :include_blank => '-- Select One --' },
                    class:"form-control", required: true %>

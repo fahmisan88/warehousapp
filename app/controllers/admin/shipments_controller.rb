@@ -73,11 +73,10 @@ class Admin::ShipmentsController < ApplicationController
       @shipment_user = @shipment.user_id
       @user_info = User.find(@shipment_user)
       deliver_mail(@user_info.name, @user_info.email, "shipments", "waitpayment")
-      redirect_to admin_shipments_path
     else
       flash[:danger] = "Please calculate the cost of shipment first"
-      redirect_to admin_shipment_path(@shipment)
     end
+    redirect_to admin_shipment_path(@shipment)
   end
 
   def calculate
@@ -136,10 +135,16 @@ class Admin::ShipmentsController < ApplicationController
       chargeRepackaging = 0
     end
 
-    chargeMYR = (seaCharge + extraCharge + chargeReorganize + chargeRepackaging + chargePhotoshoot + chargeInspection - minusCharge).ceil(1)
+    if params[:shipment][:transport_charge] == ""
+      chargeTransport = 0
+    else
+      chargeTransport = params[:shipment][:transport_charge].to_d
+    end
+
+    chargeMYR = (seaCharge + extraCharge + chargeReorganize + chargeRepackaging + chargePhotoshoot + chargeInspection + chargeTransport - minusCharge).ceil(1)
     @shipment.update(charge: chargeMYR, repackaging: sea_calculate_params[:repackaging], reorganize: sea_calculate_params[:reorganize],
                       extra_charge: sea_calculate_params[:extra_charge], minus_charge: sea_calculate_params[:minus_charge], extra_remark: sea_calculate_params[:extra_remark],
-                      remark_admin: sea_calculate_params[:remark_admin], sea_charge: sea_calculate_params[:sea_charge]
+                      remark_admin: sea_calculate_params[:remark_admin], sea_charge: sea_calculate_params[:sea_charge], cbm: sea_calculate_params[:cbm], transport_charge: sea_calculate_params[:transport_charge]
                     )
     flash[:success] ="Sea Charge Submitted"
     redirect_to admin_shipment_path(@shipment)
@@ -175,6 +180,27 @@ class Admin::ShipmentsController < ApplicationController
     render layout: false
   end
 
+  def destroy
+    @shipment = Shipment.find(params[:id])
+    if @shipment.sea_freight?
+      if @shipment.destroy
+        flash[:success]= "Shipment successfully deleted"
+        redirect_to sea_admin_shipments_path
+      else
+        flash[:danger]
+        redirect_to sea_admin_shipments_path
+      end
+    else
+      if @shipment.destroy
+        flash[:success]= "Shipment successfully deleted"
+        redirect_to air_admin_shipments_path
+      else
+        flash[:danger]
+        redirect_to air_admin_shipments_path
+      end
+    end
+  end
+
   private
 
   def shipment_params
@@ -186,7 +212,7 @@ class Admin::ShipmentsController < ApplicationController
   end
 
   def sea_calculate_params
-    params.require(:shipment).permit(:sea_charge, :repackaging, :reorganize, :extra_charge, :extra_remark, :minus_charge, :remark_admin)
+    params.require(:shipment).permit(:sea_charge, :repackaging, :reorganize, :extra_charge, :extra_remark, :minus_charge, :remark_admin, :cbm, :transport_charge)
   end
 
   def tracking_params

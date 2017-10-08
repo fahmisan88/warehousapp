@@ -48,15 +48,28 @@
               <div class="col-md-6 col-sm-6 add_bottom_30">
                 <h4>Parcel Type</h4>
                 <div class="form-group">
-                  <%= f.select :parcel_good, [ 'Normal', 'Sensitive'],{ :include_blank => '-- Select One --' }, class:"form-control", required: true %>
+                  <%= f.select :parcel_good, [ 'Normal', 'Sensitive battery', 'Sensitive cosmetic', 'Sensitive magnet', 'Sensitive branded'],{ :include_blank => '-- Select One --' }, class:"form-control", required: true %>
                 </div>
               </div>
             </div>
+
+            <% if @parcel.inspection? %>
+            <hr>
+            <div class="row">
+              <div class="col-md-6 col-sm-6 add_bottom_30">
+                <h4>Parcel Inspection</h4>
+                <div class="form-group">
+                  <%= f.text_field :inspection_detail, id: "type_field", class: 'form-control', placeholder:"Inspection Details", type:"text", required: true %>
+                </div>
+              </div>
+            </div>
+            <% end %>
+
             <% if @parcel.photoshoot? %>
             <hr>
             <div class="row">
               <div class="col-md-6 col-sm-6 add_bottom_30">
-                <h4>Product Image</h4>
+                <h4>Parcel Image</h4>
                 <div class="form-group">
                   <label>(png/jpeg/jpg)</label>
                   <%= f.file_field :images, multiple: true, required: true, class: 'form-control' %>

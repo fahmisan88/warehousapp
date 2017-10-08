@@ -1,5 +1,42 @@
 <div class="container banner">
   <div class="row">
+    <div class="col-md-12">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          Selected Parcels
+        </div>
+        <div class="panel-body">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>AWB</th>
+                <th>Description</th>
+                <th>Chinese Name</th>
+                <th>Type</th>
+                <th>Weight (KG)</th>
+                <th>Quantity</th>
+                <th>Parcel Price</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @shipment.parcels.each do |parcel| %>
+              <tr>
+                <td><span class="icon-babu"><i class="fa fa-check-circle-o"></i></span>&nbsp;<%= parcel.awb %></td>
+                <td><%= parcel.description %></td>
+                <td><%= parcel.product_chinese %></td>
+                <td><%= parcel.parcel_good %></td>
+                <td><%= parcel.final_kg %></td>
+                <td><%= parcel.product_quantity %></td>
+                <td><%= parcel.product_total_price %></td>
+              </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
     <div class="col-lg-8">
       <div class="panel panel-default">
         <div class="panel-heading">
@@ -30,14 +67,6 @@
               <tr>
                 <th>Type of Shipment</th>
                 <td><%=@shipment.shipment_type%></td>
-              </tr>
-              <tr>
-                <th>Selected Parcels</th>
-                <td>
-                  <% @shipment.ordered_parcels.each do |ordered_parcel| %>
-                    <span class="icon-babu"><i class="fa fa-check-circle-o"></i></span>&nbsp;<%= ordered_parcel.parcel.awb%> <br>
-                  <% end %>
-                </td>
               </tr>
               <tr>
                 <th>Final Weight (kg)</th>
@@ -83,6 +112,12 @@
                   <% end %>
                 </td>
               </tr>
+              <% if @shipment.cbm? %>
+              <tr>
+                <th>CBM</th>
+                <td><%=@shipment.cbm%></td>
+              </tr>
+              <% end %>
             </tbody>
           </table>
           <%if @shipment.bill_url? && @shipment.status != "Paid" %>
@@ -110,6 +145,11 @@
                 <%=@shipment.user.name %>
                 <br>
                 <%=@shipment.user.address%>
+                <br>
+                <% if @shipment.user.city %>
+                <%=@shipment.user.city%>
+                <br>
+                <% end %>
                 <br>
                 <%=@shipment.user.postcode%>
                 <br>
@@ -199,7 +239,13 @@
                 <td><%= @shipment.extra_charge != 0 ? @shipment.extra_remark : "N/A" %></td>
                 <td><%= calculate_add_charge(@shipment) %></td>
               </tr>
-
+              <% if @shipment.transport_charge? %>
+              <tr>
+                <td><u><strong>Additional Charges</strong></u></td>
+                <td>Transport</td>
+                <td><%= @shipment.transport_charge %></td>
+              </tr>
+              <% end %>
               <tr>
                 <td><u><strong>Minus Charges</strong></u></td>
                 <td><%= @shipment.minus_charge != 0 ? @shipment.extra_remark : "N/A" %></td>

@@ -8,5 +8,6 @@ class DashboardsController < ApplicationController
     @shipments = current_user.shipments.where(status:2)
     @recent_shipments = current_user.shipments.where(status:2).limit(6).order(updated_at: :desc)
     @currency = Currency.find_by(id: 1)
+    @totalsales = current_user.shipments.where(status: 2).sum(:charge).floor
   end
 end

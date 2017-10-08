@@ -63,7 +63,7 @@ class Admin::UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:phone, :address, :address2, :postcode)
+    params.require(:user).permit(:phone, :address, :address2, :postcode, :city)
   end
 
   def edit_params

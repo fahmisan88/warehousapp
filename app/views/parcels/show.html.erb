@@ -44,11 +44,17 @@
               <th>Type of Parcel</th>
               <td><%=@parcel.parcel_good%></td>
             </tr>
+            <% if @parcel.inspection? %>
             <tr>
+              <th>Inspection Details</th>
+              <td><%=@parcel.inspection_detail%></td>
+            </tr>
+            <% end %>
+            <tr class="text-red">
               <th>Remarks User</th>
               <td><%=@parcel.remark%></td>
             </tr>
-            <tr>
+            <tr class="text-red">
               <th>Remarks Admin</th>
               <td><%=@parcel.remark_admin%></td>
             </tr>

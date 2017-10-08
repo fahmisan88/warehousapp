@@ -78,7 +78,8 @@
                   <td><%= shipment.status%></td>
                   <td><%= shipment.user.ezi_id%></td>
                   <td>
-                    <span><%= link_to "View", admin_shipment_path(shipment), class:"btn-xs" %></span>
+                    <span><%= link_to "View", admin_shipment_path(shipment), class:"btn-xs" %></span>&nbsp;&nbsp;
+                    <span><%= link_to "", admin_shipment_path(shipment), class:"fa fa-trash", method: :delete, data: { confirm: "Are you sure you want delete this parcel?"}  %></span>
                   </td>
                   <%end%>
                   <%end%>

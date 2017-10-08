@@ -24,8 +24,14 @@ class Admin::ParcelsController < ApplicationController
       @parcels = Parcel.where(parcel_good: 0).order("created_at desc").page(params[:page]).per(20)
     when "Sensitive"
       @parcels = Parcel.where(parcel_good: 1).order("created_at desc").page(params[:page]).per(20)
-    when "I Dont Know"
+    when "Sensitive battery"
       @parcels = Parcel.where(parcel_good: 2).order("created_at desc").page(params[:page]).per(20)
+    when "Sensitive cosmetic"
+      @parcels = Parcel.where(parcel_good: 3).order("created_at desc").page(params[:page]).per(20)
+    when "Sensitive magnet"
+      @parcels = Parcel.where(parcel_good: 4).order("created_at desc").page(params[:page]).per(20)
+    when "Sensitive branded"
+      @parcels = Parcel.where(parcel_good: 5).order("created_at desc").page(params[:page]).per(20)
     end
 
     if params[:search]
@@ -135,7 +141,7 @@ class Admin::ParcelsController < ApplicationController
   end
 
   def update_parcel_params
-    params.require(:parcel).permit(:length, :width, :height, :volume, :weight, :chargeable, :status, :free_storage, :parcel_good, :remark_admin, { images: [] })
+    params.require(:parcel).permit(:length, :width, :height, :volume, :weight, :chargeable, :status, :free_storage, :parcel_good, :remark_admin, :inspection_detail, { images: [] })
   end
 
 end

@@ -3,9 +3,10 @@
   <div class="row">
     <div class="col-md-6">
       <%= form_tag(admin_parcels_path, method: "get", id: "search-form") do %>
-      <div class="col-lg-6"><%= text_field_tag :search, params[:search], placeholder: "Search AWB", class: "form-control text" %></div>
-      <div class="col-lg-2"><%= submit_tag "Search", :name => nil, class:"btn btn-success btn-form"%></div>
+      <div class="col-md-6"><%= text_field_tag :search, params[:search], placeholder: "Search AWB", class: "form-control text" %></div>
+      <div class="col-md-3"><%= submit_tag "Search", :name => nil, class:"btn btn-success btn-form"%></div>
       <%end%>
+      <span class="col-md-3"><%= link_to "View All", admin_parcels_path, class: "btn btn-success btn-info" %></span>
     </div>
     <div class="col-md-6">
       <div class="pull-right">
@@ -24,7 +25,117 @@
       <div class="panel-body">
         <div class = "parcels">
           <% if @parcels.empty? %>
-          <h3 class="text-center">NO PARCELS AVAILABLE</h3>
+          <div style="overflow-x:auto;">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Created</th>
+                  <th>AWB</th>
+                  <th>
+                    <div class="dropdown">
+                      <button class="btn btn-small-dropdown dropdown-toggle" type="button" data-toggle="dropdown">Type
+                        <span class="caret"></span></button>
+                        <ul class="dropdown-menu">
+                          <li>
+                            <a href="/admin/parcels">
+                              <i class="icon_set_1_icon-11"></i>All
+                            </a>
+                          </li>
+                          <li>
+                            <a href="/admin/parcels?status=Normal" <%if @filter_params == "Normal" %>id="active" <% end %> >
+                              <i class="icon_set_1_icon-11"></i>Normal
+                            </a>
+                          </li>
+                          <li>
+                            <a href="/admin/parcels?status=Sensitive" <%if @filter_params == "Sensitive" %>id="active" <% end %> >
+                              <i class="icon_set_1_icon-11"></i>Sensitive
+                            </a>
+                          </li>
+                          <li>
+                            <a href="/admin/parcels?status=Sensitive%20battery" <%if @filter_params == "Sensitive battery" %>id="active" <% end %> >
+                              <i class="icon_set_1_icon-11"></i>Sensitive battery
+                            </a>
+                          </li>
+                          <li>
+                            <a href="/admin/parcels?status=Sensitive%20cosmetic" <%if @filter_params == "Sensitive cosmetic" %>id="active" <% end %> >
+                              <i class="icon_set_1_icon-11"></i>Sensitive cosmetic
+                            </a>
+                          </li>
+                          <li>
+                            <a href="/admin/parcels?status=Sensitive%20magnet" <%if @filter_params == "Sensitive magnet" %>id="active" <% end %> >
+                              <i class="icon_set_1_icon-11"></i>Sensitive magnet
+                            </a>
+                          </li>
+                          <li>
+                            <a href="/admin/parcels?status=Sensitive%20branded" <%if @filter_params == "Sensitive branded" %>id="active" <% end %> >
+                              <i class="icon_set_1_icon-11"></i>Sensitive branded
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
+                    </th>
+                    <th>
+                      <div class="dropdown">
+                        <button class="btn btn-small-dropdown dropdown-toggle" type="button" data-toggle="dropdown">Status
+                        <span class="caret"></span></button>
+                        <ul class="dropdown-menu">
+                          <li>
+                            <a href="/admin/parcels">
+                              <i class="icon_set_1_icon-11"></i>All
+                            </a>
+                          </li>
+                          <li>
+                            <a href="/admin/parcels?status=Waiting" <%if @filter_params == "Waiting" %>id="active" <% end %> >
+                              <i class="icon_set_1_icon-11"></i>Waiting
+                            </a>
+                          </li>
+                          <li>
+                            <a href="/admin/parcels?status=Arrived" <%if @filter_params == "Arrived" %>id="active" <% end %> >
+                              <i class="icon_set_1_icon-11"></i>Arrived
+                            </a>
+                          </li>
+                          <li>
+                            <a href="/admin/parcels?status=Ready%20To%20Ship" <%if @filter_params == "Ready To Ship" %>id="active" <% end %> >
+                              <i class="icon_set_1_icon-11"></i>Ready To Ship
+                            </a>
+                          </li>
+                          <li>
+                            <a href="/admin/parcels?status=Shipped" <%if @filter_params == "Shipped" %>id="active" <% end %> >
+                              <i class="icon_set_1_icon-11"></i>Shipped
+                            </a>
+                          </li>
+                          <li>
+                            <a href="/admin/parcels?status=Request%20Refund" <%if @filter_params == "Request Refund" %>id="active" <% end %> >
+                              <i class="icon_set_1_icon-11"></i>Request Refund
+                            </a>
+                          </li>
+                          <li>
+                            <a href="/admin/parcels?status=Refund%20Rejected" <%if @filter_params == "Refund Rejected" %>id="active" <% end %> >
+                              <i class="icon_set_1_icon-11"></i>Refund Rejected
+                            </a>
+                          </li>
+                          <li>
+                            <a href="/admin/parcels?status=Refunded" <%if @filter_params == "Refunded" %>id="active" <% end %> >
+                              <i class="icon_set_1_icon-11"></i>Refunded
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
+                    </th>
+                    <th>
+                      <%= form_tag(admin_parcels_path, method: "get", id: "search-form") do %>
+                      <%= text_field_tag :search_ezi, params[:search_ezi], placeholder: "EZI ID", size: 5 %>
+                      <%end%>
+                    </th>
+                    <th>Manage</th>
+                  </tr>
+                </thead>
+              <tbody>
+              </tbody>
+            </table>
+          </div><br><br>
+          <h3 class="text-center">NO PARCELS AVAILABLE</h3><br><br>
           <%else%>
 
           <div style="overflow-x:auto;">
@@ -55,8 +166,23 @@
                             </a>
                           </li>
                           <li>
-                            <a href="/admin/parcels?status=I%20Dont%20Know" <%if @filter_params == "I Dont Know" %>id="active" <% end %> >
-                              <i class="icon_set_1_icon-11"></i>I Dont Know
+                            <a href="/admin/parcels?status=Sensitive%20battery" <%if @filter_params == "Sensitive battery" %>id="active" <% end %> >
+                              <i class="icon_set_1_icon-11"></i>Sensitive battery
+                            </a>
+                          </li>
+                          <li>
+                            <a href="/admin/parcels?status=Sensitive%20cosmetic" <%if @filter_params == "Sensitive cosmetic" %>id="active" <% end %> >
+                              <i class="icon_set_1_icon-11"></i>Sensitive cosmetic
+                            </a>
+                          </li>
+                          <li>
+                            <a href="/admin/parcels?status=Sensitive%20magnet" <%if @filter_params == "Sensitive magnet" %>id="active" <% end %> >
+                              <i class="icon_set_1_icon-11"></i>Sensitive magnet
+                            </a>
+                          </li>
+                          <li>
+                            <a href="/admin/parcels?status=Sensitive%20branded" <%if @filter_params == "Sensitive branded" %>id="active" <% end %> >
+                              <i class="icon_set_1_icon-11"></i>Sensitive branded
                             </a>
                           </li>
                         </ul>

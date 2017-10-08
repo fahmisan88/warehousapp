@@ -72,7 +72,7 @@ def calculate_kg(shipment)
         charge =  chargeByWeight101aboveToSS.ceil(1)
       end
     end
-  elsif shipment.shipment_type == "Sensitive"
+  elsif shipment.shipment_type == "Sensitive" || shipment.shipment_type == "Sensitive magnet" || shipment.shipment_type == "Sensitive branded" || shipment.shipment_type == "Sensitive battery" || shipment.shipment_type == "Sensitive cosmetic"
     if !shipment.is_borneo?
       if shipment.final_kg < 2
         charge =  sensitiveChargeByWeight0To2.ceil(1)
