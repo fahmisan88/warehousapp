@@ -26,7 +26,11 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = User.find_by(id: params[:id])
+    if member_user.present?
+      @user = member_user
+    elsif admin_user.present?
+      @user = User.find_by(id: params[:id])
+    end
   end
 
   def pay
