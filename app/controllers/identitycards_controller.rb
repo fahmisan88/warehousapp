@@ -25,21 +25,6 @@ class IdentitycardsController < ApplicationController
     end
   end
 
-  def edit
-    @user = member_user
-  end
-
-  def update
-    @user = member_user
-
-    if @user.update_attributes(photo_params)
-      flash[:success] = "Identity card/passport was successfully uploaded."
-      redirect_to '/dashboard'
-    else
-      render :new
-    end
-  end
-
   private
 
   def photo_params
