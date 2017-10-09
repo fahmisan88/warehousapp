@@ -16,8 +16,11 @@ class User < ApplicationRecord
   # package; 1 = RM150/year, 2 = RM250/2years, 3 = RM300/3years
   validates :package, inclusion: { in: [1,2,3] }
   validates :name, presence: true, length: { in: 5..80 }, format: { with: VALID_NAME_REGEX, message: "Only allows letters, space and single quote (') between 5 to 80 characters"}
-  validates_file_size :icpassport, in: 500.kilobytes..3.megabytes, message: 'Identity card or passport image size must between %{min} and %{max}'
-  validates_file_content_type :icpassport, allow: ['image/jpeg', 'image/jpg', 'image/png'], mode: :strict, message: 'Only %{types} are allowed'
+
+  # validates_file_size :icpassport, in: 500.kilobytes..3.megabytes, message: 'Identity card or passport image size must between %{min} and %{max}'
+  # validates_file_content_type :icpassport, allow: ['image/jpeg', 'image/jpg', 'image/png'], mode: :strict, message: 'Only %{types} are allowed'
+
+  validates :icpassport, file_size: { less_than: 3.megabytes, message: 'Identity card or passport image size must below 3MB' }, file_content_type: { allow: ['image/jpeg', 'image/png', 'image/jpg'], mode: :strict, message: 'Only %{types} are allowed' }
 
   enum role: [:user, :staff, :admin]
   enum status: [:Inactive, :Active, :Suspended, :Blocked, :Expired]
