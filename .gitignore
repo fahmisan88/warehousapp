@@ -20,9 +20,7 @@
 /config/application.yml
 
 # ignore all images upload
-/app/uploaders/*
 /public/uploads/*
-!/app/uploaders/image_uploader.rb
 
 # Ignore rbenv-vars
 .rbenv-vars
