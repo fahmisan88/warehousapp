@@ -1,0 +1,38 @@
+<br>
+<div id="wrapper">
+  <div id="page-wrapper">
+    <div class="row">
+      <div class="container">
+        <div id="identitycard" style="margin-top:50px" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+          <div class="panel panel-info">
+            <div class="panel-heading">
+              <div class="panel-title">Upload Identity Card / Passport</div>
+            </div>
+            <div class="panel-body">
+              <div class="row">
+                <p style="padding: 8px;" class="text-center">Please cross with "Ezicargo usage" before upload your ic/passport image. Only accept jpg, jpeg and png file formats</p>
+              </div>
+              <div class="row" style="padding: 10px 15px 9px;">
+                <%= form_for(@user,url: {action: "create"}, method: :post, html: {multipart: true, role: "form"}) do |f| %>
+                <div class="form-group">
+                  <div class="row" style="margin-bottom: 20px;">
+                    <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12 col-md-offset-3 col-sm-offset-3 col-xs-offset-2">
+                      <%= f.file_field :icpassport, accept:"image/png,image/jpeg,image/jpg" %>
+                    </div>
+                  </div>
+                  <div class="row text-center" style="padding-left: 20px;padding-right: 20px;">
+                    <button type="submit" class="btn btn-lg btn-block btn-success" style="border-radius: 50px;background-color:hover: #35832f;">Submit</button>
+                  </div>
+                </div>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row text-center">
+                    <%= image_tag 'identitycard.png'%>
+                </div>
+  </div>
+</div>
