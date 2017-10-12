@@ -1,0 +1,197 @@
+<div class="container banner">
+  <div class="row">
+      <div class="col-lg-8">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            Parcel (EZI ID: <%=@parcel.user.ezi_id%>)
+          </div>
+          <div class="panel-body">
+
+
+            <table class="table">
+              <tbody>
+                <tr>
+                  <th>AWB No.</th>
+                  <td>
+                    <% if @parcel.new_awb?%>
+                    <%= @parcel.new_awb%>&nbsp;<small>(edited)</small>
+                    <% else %>
+                    <%=@parcel.awb%>
+                    <% end%>
+                  </td>
+                </tr>
+                <tr>
+                  <th>Product Description</th>
+                  <td><%=@parcel.description%></td>
+                </tr>
+                <tr>
+                  <th>Quantity</th>
+                  <td><%=@parcel.product_quantity%></td>
+                </tr>
+                <tr>
+                  <th>Price Per Unit</th>
+                  <td>RMB <%=@parcel.price_per_unit%> /unit</td>
+                </tr>
+                <tr>
+                  <th>Total Price</th>
+                  <td>RMB <%=@parcel.product_total_price%></td>
+                </tr>
+                <tr>
+                  <th>Product Name (Chinese)</th>
+                  <td><%=@parcel.product_chinese%></td>
+                </tr>
+                <tr>
+                  <th>Type of Parcel</th>
+                  <td><%=@parcel.parcel_good%></td>
+                </tr>
+                <% if @parcel.inspection? %>
+                <tr>
+                  <th>Inspection Details</th>
+                  <td><%=@parcel.inspection_detail%></td>
+                </tr>
+                <% end %>
+                <tr class="text-red">
+                  <th>Remarks User</th>
+                  <td><%=@parcel.remark%></td>
+                </tr>
+                <tr class="text-red">
+                  <th>Remarks Admin</th>
+                  <td><%=@parcel.remark_admin%></td>
+                </tr>
+                <tr>
+                  <th>Status</th>
+                  <td>
+                    <% if @parcel.status == "Request Refund" %>
+                    <%=@parcel.status%>&nbsp;&nbsp;<span><%= link_to "Accept", accept_refund_admin_parcel_path(@parcel), method: :post, class:"btn btn-success" %></span>&nbsp;&nbsp;<span><%= link_to "Reject", reject_refund_admin_parcel_path(@parcel), method: :post, class:"btn btn-danger" %></span><br>
+                    Reason: <%=@parcel.refund_explain%>
+                    <% else %>
+                    <%=@parcel.status%>
+                    <% end %>
+                  </td>
+                </tr>
+                <tr>
+                  <th>Free Storage Days Left</th>
+                  <td>
+                    <% if @parcel.free_storage.nil? %>
+                    No data
+                    <% else %>
+                    <% if Time.now >= @parcel.free_storage %>
+                    0 day
+                    <% elsif Time.now < @parcel.free_storage && Time.now > @parcel.free_storage - 1.days %>
+                    1 day
+                    <% elsif Time.now < @parcel.free_storage - 1.days && Time.now > @parcel.free_storage - 2.days %>
+                    2 days
+                    <% elsif Time.now < @parcel.free_storage - 2.days && Time.now > @parcel.free_storage - 3.days %>
+                    3 days
+                    <% elsif Time.now < @parcel.free_storage - 3.days && Time.now > @parcel.free_storage - 4.days %>
+                    4 days
+                    <% elsif Time.now < @parcel.free_storage - 4.days && Time.now > @parcel.free_storage - 5.days %>
+                    5 days
+                    <% elsif Time.now < @parcel.free_storage - 5.days && Time.now > @parcel.free_storage - 6.days %>
+                    6 days
+                    <% elsif Time.now < @parcel.free_storage - 6.days && Time.now > @parcel.free_storage - 7.days %>
+                    7 days
+                    <% elsif Time.now < @parcel.free_storage - 7.days && Time.now > @parcel.free_storage - 8.days %>
+                    8 days
+                    <% elsif Time.now < @parcel.free_storage - 8.days && Time.now > @parcel.free_storage - 9.days %>
+                    9 days
+                    <% elsif Time.now < @parcel.free_storage - 9.days && Time.now > @parcel.free_storage - 10.days %>
+                    10 days
+                    <% elsif Time.now < @parcel.free_storage - 10.days && Time.now > @parcel.free_storage - 11.days %>
+                    11 days
+                    <% elsif Time.now < @parcel.free_storage - 11.days && Time.now > @parcel.free_storage - 12.days %>
+                    12 days
+                    <% elsif Time.now < @parcel.free_storage - 12.days && Time.now > @parcel.free_storage - 13.days %>
+                    13 days
+                    <% elsif Time.now < @parcel.free_storage - 13.days && Time.now > @parcel.free_storage - 14.days %>
+                    14 days
+                    <% elsif Time.now < @parcel.free_storage - 14.days || Time.now > @parcel.free_storage - 15.days %>
+                    15 days
+                    <% else %>
+                    <% end %>
+                    <% end %>
+                  </td>
+                </tr>
+                <tr>
+                  <th>Extra Service</th>
+                  <td>
+                    <%if @parcel.photoshoot? || @parcel.inspection? %>
+                  <% if @parcel.photoshoot == true%>| Photoshoot | <% else;end%>
+                  <% if @parcel.inspection == true%>| Inspection | <% else;end%>
+                  <% else %>
+                  None
+                  <%end%>
+                  </td>
+                </tr>
+                <tr>
+                  <th>Weight</th>
+                  <td>
+                    <% if @parcel.weight == 0.5 %>
+                    <%=@parcel.weight%> kg (minimal weight)
+                    <%else%>
+                    <%=@parcel.weight%> kg
+                    <%end%>
+                  </td>
+                </tr>
+                <tr>
+                  <th>Volume Metric</th>
+                  <td>
+                    <% if @parcel.volume? %>
+                    <%=@parcel.volume%> kg (<%=@parcel.width%> cm X <%=@parcel.length%> cm X <%=@parcel.height%> cm)
+                    <% else %>
+                    Not Yet Available
+                    <% end%>
+                  </td>
+                </tr>
+
+              </tbody>
+            </table>
+            <%= link_to 'Back', admin_parcels_path, class:"btn btn-small btn-info" %>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4">
+          <div class="panel panel-default">
+              <div class="panel-heading">
+                Uploaded Image
+              </div>
+              <div class="panel-body">
+                  <div class="table-responsive">
+                    <div class="list-group">
+                        <div class="text-center">  <%=image_tag @parcel.image, class:"image-size"%></div>
+                    </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <%if @parcel.photoshoot? %>
+      <div class="col-lg-4">
+          <div class="panel panel-default">
+              <div class="panel-heading">
+                  <h3 class="panel-title"><i class="fa fa-archive fa-fw"></i>Received Parcel Image</h3>
+              </div>
+              <div class="panel-body">
+                  <div class="table-responsive">
+                    <div class="list-group text-center">
+                      <li class="list-group-item">
+                        <% @parcel.images.each do |image| %>
+                          <a>
+                            <%= link_to image.url(:medium), class: :popup_link, target: :_blank do %>
+                          <%= image_tag image.url(:thumb), class: "image-size-thumb"%>
+                          <% end %>
+                        </a>
+                        <% end %>
+                      </li>
+                    </div>
+                  </div>
+                  <%if @parcel.status == "Arrived"%>
+                    <div class="text-right">
+                        <a href="<%=request_refund_parcel_path%>">Not Your Ordered Product? Apply for Refund! <i class="fa fa-arrow-circle-right"></i></a>
+                    </div>
+                  <%end%>
+              </div>
+          </div>
+      </div>
+      <%end%>
+    </div>
+</div>

@@ -1,23 +1,9 @@
-<br>
-<div id="wrapper">
-  <div id="page-wrapper">
-    <br>
-    <br>
-    <div class="row">
-      <div class="col-lg-12">
-        <ol class="breadcrumb">
-          <li class="active">
-            <i class="fa fa-money"></i> Statement
-          </li>
-        </ol>
-      </div>
-    </div>
-    <div class="row">
-
+<div class="container banner">
+  <div class="row">
       <div class="col-lg-12">
         <div class="panel panel-default">
           <div class="panel-heading">
-            <h3 class="panel-title"><i class="fa fa-money fa-fw"></i> My Statements</h3>
+            Statements
           </div>
           <div class="panel-body">
             <div class = "shipments text-center">
@@ -26,14 +12,9 @@
               <h3 class="text-center">No statements available for show.</h3>
             </div>
             <% else %>
-            <br>
-            <br>
-
           </div>
-          <div>
-
-
-            <table class="table table-bordered">
+          <div style="overflow-x:auto;">
+            <table class="table table-striped">
               <thead>
                 <tr>
                   <th>Date</th>
@@ -41,29 +22,28 @@
                   <th>Bill ID</th>
                   <th>Charge</th>
                   <th>Status</th>
+                  <th>Action</th>
                 </tr>
               </thead>
               <tbody>
                 <%@shipments.each do |shipment|%>
                 <tr>
-                  <td><%= shipment.updated_at.strftime("%d-%m-%Y  (%H:%M)")%> </td>
+                  <td><%= shipment.updated_at.strftime("%d %b %G")%> </td>
                   <td><%= shipment.id%></td>
                   <td><%= shipment.bill_id%></td>
                   <td> RM <%= shipment.charge%></td>
                   <td><%= shipment.status%></td>
+                  <td><%= link_to "View Invoice", invoice_shipment_path(shipment, :format => :pdf), class: "btn-xs", target: :_blank %></td>
                   <%end%>
                   <%end%>
                 </tr>
               </tbody>
             </table>
-            <%= link_to 'Back', shipments_path, class:"btn btn-link" %>
-            <nav>
+            <nav class="text-center">
               <%= paginate @shipments %>
             </nav>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</div>
 </div>

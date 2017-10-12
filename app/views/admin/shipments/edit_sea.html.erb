@@ -1,0 +1,95 @@
+<div class="container banner">
+  <div class="row">
+    <div class="col-md-10 col-md-offset-1">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          Calculate Sea Freight
+        </div>
+        <div class="panel-body">
+          <div class="section top-padding">
+            <div class="container">
+              <div>
+                <%= form_for(@shipment, url: sea_calculate_admin_shipment_path(@shipment), html: { id: "calculate-form" }) do |f| %>
+                <h4>Add Shipment Services</h4><br>
+                <div class="row">
+                  <div class="form-group pull-in clearfix">
+                    <div class="col-sm-4">
+                      <%= f.check_box :repackaging, {}, "true", "false"%>
+                      <label> <%= f.label :type_field, "Repackaging" %> </label>
+                    </div>
+                    <div class="col-sm-4">
+                      <%= f.check_box :reorganize, {}, "true", "false"%>
+                      <label> <%= f.label :type_field, "Reorganize" %> </label>
+                    </div>
+                  </div>
+                </div>
+
+                <hr>
+
+                <h4>Add Additional Charges</h4>
+                <br>
+                <div class="row">
+                  <div class="form-group pull-in clearfix">
+                    <div class="col-sm-4">
+                      <label>Charges Details</label>
+                      <%= f.text_field :extra_remark, id: "type_field", class: 'form-control', placeholder:"eg. 1 Extra Box", type:"text" %>
+                    </div>
+                    <div class="col-sm-4">
+                      <label>Add Charges</label>
+                      <%= f.text_field :extra_charge, required: true, id: "type_field", class: 'form-control', type:"text" %>
+                    </div>
+                    <div class="col-sm-4">
+                      <label>Minus Charges</label>
+                      <%= f.text_field :minus_charge, required: true, id: "type_field", class: 'form-control', type:"text" %>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="form-group pull-in clearfix">
+                    <div class="col-sm-4">
+                      <label>CBM Details</label>
+                      <%= f.text_field :cbm, id: "type_field", class: 'form-control', placeholder:"CBM details", type:"text" %>
+                    </div>
+                    <div class="col-sm-4">
+                      <label>Transport Charges</label><small>(MYR)</small>
+                      <%= f.text_field :transport_charge, id: "type_field", class: 'form-control', type:"text", placeholder:"Charges in MYR" %>
+                    </div>
+                  </div>
+                </div>
+
+                <hr>
+
+                <h4>Add Remarks</h4><br>
+                <div class="row">
+                  <div class="form-group pull-in clearfix">
+                    <div class="col-sm-4">
+                      <%= f.text_field :remark_admin, id: "type_field", class: 'form-control', placeholder:"Any notes for this shipment", type:"text" %>
+                    </div>
+                  </div>
+                </div>
+
+                <hr>
+
+                <h4>Add Sea Freight Charge</h4><br>
+                <div class="row">
+                  <div class="form-group pull-in clearfix">
+                    <div class="col-sm-4">
+                      <label>Charges</label><small>(MYR)</small>
+                      <%= f.text_field :sea_charge, id: "type_field", class: 'form-control', type:"text", required: true %>
+                    </div>
+                  </div>
+                </div>
+                <hr>
+
+                <%= link_to 'Back', admin_shipment_path(@shipment), class:"btn btn-md btn-info" %>
+                <%= f.submit "Submit", class: "btn btn-normal btn-form", type:"submit" %>
+                <% end %>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

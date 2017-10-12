@@ -1,0 +1,226 @@
+<style media="screen">
+.invoice-box{
+    max-width:800px;
+    margin:auto;
+    padding:30px;
+    border:1px solid #eee;
+    box-shadow:0 0 10px rgba(0, 0, 0, .15);
+    font-size:16px;
+    line-height:24px;
+    font-family:'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
+    color:#555;
+}
+
+.invoice-box table{
+    width:100%;
+    line-height:inherit;
+    text-align:left;
+}
+
+.invoice-box table td{
+    padding:5px;
+    vertical-align:top;
+}
+
+.invoice-box table tr td:nth-child(2){
+    text-align:right;
+}
+
+.invoice-box table tr.top table td{
+    padding-bottom:20px;
+}
+
+.title{
+    font-size:45px;
+    line-height:45px;
+    color:#333;
+}
+
+.invoice-box table tr.information table td{
+    padding-bottom:40px;
+}
+
+.invoice-box table tr.heading td{
+    background:#eee;
+    border-bottom:1px solid #ddd;
+    font-weight:bold;
+}
+
+.invoice-box table tr.details td{
+    padding-bottom:20px;
+}
+
+.invoice-box table tr.item td{
+    border-bottom:1px solid #eee;
+}
+
+.invoice-box table tr.item.last td{
+    border-bottom:none;
+}
+
+.invoice-box table tr.total td:nth-child(2){
+    border-top:2px solid #eee;
+    font-weight:bold;
+}
+
+@media only screen and (max-width: 600px) {
+    .invoice-box table tr.top table td{
+        width:100%;
+        display:block;
+        text-align:center;
+    }
+
+    .invoice-box table tr.information table td{
+        width:100%;
+        display:block;
+        text-align:center;
+    }
+}
+
+</style>
+
+<div class="invoice-box">
+  <table cellpadding="0" cellspacing="0">
+    <tr class="top">
+      <td colspan="2">
+          <tr>
+            <td class="title">
+              Ezicargo
+            </td>
+
+            <td>
+              Invoice #: EZI<%=@shipment.id%><br>
+              Created: <%= @shipment.updated_at.strftime("%d-%m-%Y")%><br>
+            </td>
+          </tr>
+      </td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr class="information">
+      <td colspan="2">
+          <tr>
+            <td>
+              Ezicargo RICH Sdn Bhd (1185516-M)<br>
+              No 35 - 2, Rampai Niaga 5<br>
+              Rampai Business Park <br>
+              Taman Sri Rampai <br>
+              53300, Kuala Lumpur
+            </td>
+
+            <td>
+              <%=@shipment.user.name %><br>
+              <%=@shipment.user.address%><br>
+              <% if @shipment.user.city %>
+                <%=@shipment.user.city%><br>
+              <% end %>
+              <%=@shipment.user.postcode%><br>
+              <%=@shipment.user.address2%><br>
+              <%=@shipment.user.phone%>
+            </td>
+          </tr>
+      </td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr class="heading">
+      <td>
+        Payment Method
+      </td>
+
+      <td>
+        Online Banking (BillPlz)
+      </td>
+    </tr>
+
+    <tr class="details">
+      <td>
+        Bill ID
+      </td>
+
+      <td>
+        <%= @shipment.bill_id %>
+      </td>
+    </tr>
+
+    <tr class="heading">
+      <td>
+        Item
+      </td>
+
+      <td>
+        Price (MYR)
+      </td>
+    </tr>
+
+    <tr class="item">
+      <td>
+        Parcels (<%=@shipment.final_kg %>KG)
+      </td>
+
+      <td>
+        <% if @shipment.sea_freight? %>
+        <%= @shipment.sea_charge %>
+        <% else %>
+        <%= @shipment.air_charge %>
+        <% end %>
+      </td>
+    </tr>
+
+    <tr class="item">
+      <td>
+        <u>Extra Services</u> <br>
+        <%if @shipment.reorganize? || @shipment.repackaging? || @shipment.parcels.where(photoshoot: true).size >= 1 || @shipment.parcels.where(inspection: true).size >= 1  %>
+        <% if @shipment.reorganize == true%>Reorganize<br><%end%>
+        <% if @shipment.repackaging == true%>Repackaging<br><%end%>
+        <% if @shipment.parcels.where(photoshoot: true).size >= 1%>Photoshoot<br><%end%>
+        <% if @shipment.parcels.where(inspection: true).size >= 1%>Inspection<br><%end%>
+        <% else %>
+        None
+        <%end%>
+      </td>
+
+      <td>
+        <br>
+        <%if @shipment.reorganize? || @shipment.repackaging? || @shipment.parcels.where(photoshoot: true).size >= 1 || @shipment.parcels.where(inspection: true).size >= 1  %>
+        <% if @shipment.reorganize == true%><%=calculate_reorganize(@shipment)%><br><%end%>
+        <% if @shipment.repackaging == true%><%=calculate_repackaging(@shipment)%><br><%end%>
+        <% if @shipment.parcels.where(photoshoot: true).size >= 1%><%= calculate_photoshoot(@shipment) %><br><%end%>
+        <% if @shipment.parcels.where(inspection: true).size >= 1%><%= calculate_inspection(@shipment)%> <br><%end%>
+        <% else %>
+          0.00
+        <% end %>
+      </td>
+    </tr>
+
+    <tr class="item last">
+      <td>
+        <u>Extra Charges</u> <br>
+          <%= @shipment.extra_remark? ? @shipment.extra_remark : "N/A" %>
+      </td>
+
+      <td>
+        <br>
+        <% if @shipment.extra_charge != 0 %>
+          <%= calculate_add_charge(@shipment) %>
+        <% elsif @shipment.minus_charge != 0 %>
+          - <%= calculate_minus_charge(@shipment) %>
+        <% else %>
+          0.0
+        <% end %>
+      </td>
+    </tr>
+
+    <tr class="total">
+      <td></td>
+
+      <td>
+        TOTAL:  MYR <%= @shipment.charge %>
+      </td>
+    </tr>
+  </table>
+</div>

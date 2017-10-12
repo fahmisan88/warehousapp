@@ -32,9 +32,14 @@ gem 'jbuilder', '~> 2.5'
 # gem 'bootstrap'
 gem 'bootstrap-sass'
 gem 'font-awesome-rails'
+<<<<<<< HEAD
 gem 'carrierwave'
 gem 'mini_magick'
 gem 'fog-aws'
+=======
+gem 'carrierwave', github: 'carrierwaveuploader/carrierwave'
+gem 'mini_magick', '~> 4.6'
+>>>>>>> staging
 gem 'bcrypt'
 gem 'pundit'
 gem 'figaro'
@@ -46,6 +51,8 @@ gem 'sendinblue', '~> 2.4'
 gem 'strip_attributes', '~> 1.8'
 gem 'json', '~> 2.0', '>= 2.0.3'
 gem 'whenever', :require => false
+gem 'wicked_pdf'
+gem 'wkhtmltopdf-binary'
 
 group :production do
   gem 'rails_12factor'

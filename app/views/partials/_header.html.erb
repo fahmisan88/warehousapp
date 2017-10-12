@@ -14,7 +14,7 @@
         <ul class="nav navbar-nav navbar-right">
           <li><a id="butt" style="cursor:pointer;">How It Works<span class="sr-only">(current)</span></a></li>
           <%if current_user && current_user.status == "Active" && current_user.address?%>
-          <li><a href="<%=dashboard_path%>">DASHBOARD<span class="sr-only">(current)</span></a></li>
+          <li><a href="<%=dashboards_path%>">DASHBOARD<span class="sr-only">(current)</span></a></li>
           <li><%= link_to "Logout", session_path(current_user), method: :delete, class: 'white shadowed link-styling' %><span class="sr-only">(current)</span></li>
           <%elsif current_user && current_user.status == "Active" && current_user.address.nil?%>
           <li><%= link_to "Logout", session_path(current_user), method: :delete, class: 'white shadowed link-styling' %><span class="sr-only">(current)</span></li>

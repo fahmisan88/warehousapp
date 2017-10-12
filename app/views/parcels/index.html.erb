@@ -1,208 +1,190 @@
-<br>
-<div id="wrapper">
-  <div id="page-wrapper">
-    <br>
-    <br>
-    <div class="row">
-      <div class="col-lg-12">
-        <ol class="breadcrumb">
-          <li class="active">
-            <i class="fa fa-archive"></i> Parcel
-          </li>
-        </ol>
+<div class="container banner">
+  <div class="row">
+    <div class="col-md-6">
+      <%= form_tag(parcels_path, method: "get", id: "search-form") do %>
+      <div class="col-md-6"><%= text_field_tag :search, params[:search], placeholder: "Search AWB", class: "form-control text" %></div>
+      <div class="col-md-3"><%= submit_tag "Search", :name => nil, class:"btn btn-success btn-form"%></div>
+      <%end%>
+      <span class="col-md-3"><%= link_to "View All", parcels_path, class: "btn btn-success btn-info" %></span>
+    </div>
+    <div class="col-md-6">
+      <div class="pull-right">
+        <%= link_to "Create Parcel", new_parcel_path, class: "btn btn-normal btn-success" %>
       </div>
     </div>
-    <div class="row">
-      <div class="col-lg-4">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h3 class="panel-title"><i class="fa fa-search fa-fw"></i>Search EZI ID / AWB</h3>
-          </div>
-          <table class="table table-bordered">
-            <tbody>
-              <tr>
-                <td>
-                  <%= form_tag(parcels_path, method: "get", id: "search-form") do %>
-                  <div class="col-lg-6"><%= text_field_tag :search, params[:search], class: "form-control text" %></div>
-                  <div class="col-lg-2"><%= submit_tag "Search", :name => nil, class:"btn btn-success btn-sm"%></div>
-                  <%end%>
-                  <div class="text-right">
-                    <a href="<%=parcels_path%>">View All</a>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+  </div><br>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          Parcels
         </div>
-      </div>
-<div class="col-lg-4">
-<div class="dropdown">
-  <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Sort By Status
-    <span class="caret"></span></button>
-    <ul class="dropdown-menu">
-      <li>
-        <a href="/parcels">
-          <i class="icon_set_1_icon-11"></i>All
-        </a>
-      </li>
-      <li>
-        <a href="/parcels?status=Waiting" <%if @filter_params == "Waiting" %>id="active" <% end %> >
-          <i class="icon_set_1_icon-11"></i>Waiting
-        </a>
-      </li>
-      <li>
-        <a href="/parcels?status=Arrived" <%if @filter_params == "Arrived" %>id="active" <% end %> >
-          <i class="icon_set_1_icon-11"></i>Arrived
-        </a>
-      </li>
-      <li>
-        <a href="/parcels?status=Ready%20To%20Ship" <%if @filter_params == "Ready To Ship" %>id="active" <% end %> >
-          <i class="icon_set_1_icon-11"></i>Ready To Ship
-        </a>
-      </li>
-      <li>
-        <a href="/parcels?status=Shipped" <%if @filter_params == "Shipped" %>id="active" <% end %> >
-          <i class="icon_set_1_icon-11"></i>Shipped
-        </a>
-      </li>
-      <li>
-        <a href="/parcels?status=Request" <%if @filter_params == "Request" %>id="active" <% end %> >
-          <i class="icon_set_1_icon-11"></i>Request
-        </a>
-      </li>
-      <li>
-        <a href="/parcels?status=Refunding" <%if @filter_params == "Refunding" %>id="active" <% end %> >
-          <i class="icon_set_1_icon-11"></i>Refunding
-        </a>
-      </li>
-      <li>
-        <a href="/parcels?status=Refunded" <%if @filter_params == "Refunded" %>id="active" <% end %> >
-          <i class="icon_set_1_icon-11"></i>Refunded
-        </a>
-      </li>
-    </ul>
-  </div>
-  </div>
-</div>
-<div class="row">
-  <div class="col-lg-12">
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title"><i class="fa fa-archive fa-fw"></i> My Parcels</h3>
-      </div>
-      <div class="panel-body">
-        <div class = "parcels">
-          <% if @parcels.empty? %>
-          <h3 class="text-center">NO PARCELS AVAILABLE</h3>
-          <%else%>
+        <div class="panel-body">
+          <div class = "parcels">
 
-          <div>
-
-            <table class="table table-bordered">
+            <% if @parcels.empty? %>
+            <div style="overflow-x:auto;">
+            <table class="table table-striped">
               <thead>
                 <tr>
                   <th>#</th>
-                  <th>Date</th>
-                  <th>Free Storage Days </th>
+                  <th>Created</th>
                   <th>AWB</th>
                   <th>Description</th>
-                  <th>Status</th>
-                  <%if admin_user || staff_user %>
-                  <th>User ID</th>
-                  <% end %>
-                  <th>Action</th>
-                </tr>
-              </thead>
+                    <th>
+                      <div class="dropdown">
+                        <button class="btn btn-small-dropdown dropdown-toggle" type="button" data-toggle="dropdown">Status
+                        <span class="caret"></span></button>
+                        <ul class="dropdown-menu">
+                          <li>
+                            <a href="/parcels">
+                              <i class="icon_set_1_icon-11"></i>All
+                            </a>
+                          </li>
+                          <li>
+                            <a href="/parcels?status=Waiting" <%if @filter_params == "Waiting" %>id="active" <% end %> >
+                              <i class="icon_set_1_icon-11"></i>Waiting
+                            </a>
+                          </li>
+                          <li>
+                            <a href="/parcels?status=Arrived" <%if @filter_params == "Arrived" %>id="active" <% end %> >
+                              <i class="icon_set_1_icon-11"></i>Arrived
+                            </a>
+                          </li>
+                          <li>
+                            <a href="/parcels?status=Ready%20To%20Ship" <%if @filter_params == "Ready To Ship" %>id="active" <% end %> >
+                              <i class="icon_set_1_icon-11"></i>Ready To Ship
+                            </a>
+                          </li>
+                          <li>
+                            <a href="/parcels?status=Shipped" <%if @filter_params == "Shipped" %>id="active" <% end %> >
+                              <i class="icon_set_1_icon-11"></i>Shipped
+                            </a>
+                          </li>
+                          <li>
+                            <a href="/parcels?status=Request%20Refund" <%if @filter_params == "Request Refund" %>id="active" <% end %> >
+                              <i class="icon_set_1_icon-11"></i>Request Refund
+                            </a>
+                          </li>
+                          <li>
+                            <a href="/parcels?status=Refund%20Rejected" <%if @filter_params == "Refund Rejected" %>id="active" <% end %> >
+                              <i class="icon_set_1_icon-11"></i>Refund Rejected
+                            </a>
+                          </li>
+                          <li>
+                            <a href="/parcels?status=Refunded" <%if @filter_params == "Refunded" %>id="active" <% end %> >
+                              <i class="icon_set_1_icon-11"></i>Refunded
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
+                    </th>
+                    <th>Manage</th>
+                  </tr>
+                </thead>
               <tbody>
-                <% if params[:page].nil? || params[:page] == "0" || params[:page] == "1" %>
-                  <% x = 0 %>
-                <% else %>
-                  <% page = params[:page].to_i - 1 %>
-                  <% x = page * 10 %>
-                <% end %>
-                <%@parcels.each_with_index do |parcel, index|%>
-                <tr>
-                  <td><%= index + x + 1 %></td>
-                  <td><%= parcel.updated_at.strftime("%d-%m-%Y  (%H:%M)")%></td>
-                  <td class="text-center">
-                    <% if parcel.free_storage.nil? %>
-                    No data
-                    <% else %>
-                    <% if Time.now >= parcel.free_storage %>
-                    0 day
-                    <% elsif Time.now < parcel.free_storage && Time.now > parcel.free_storage - 1.days %>
-                    1 day
-                    <% elsif Time.now < parcel.free_storage - 1.days && Time.now > parcel.free_storage - 2.days %>
-                    2 days
-                    <% elsif Time.now < parcel.free_storage - 2.days && Time.now > parcel.free_storage - 3.days %>
-                    3 days
-                    <% elsif Time.now < parcel.free_storage - 3.days && Time.now > parcel.free_storage - 4.days %>
-                    4 days
-                    <% elsif Time.now < parcel.free_storage - 4.days && Time.now > parcel.free_storage - 5.days %>
-                    5 days
-                    <% elsif Time.now < parcel.free_storage - 5.days && Time.now > parcel.free_storage - 6.days %>
-                    6 days
-                    <% elsif Time.now < parcel.free_storage - 6.days && Time.now > parcel.free_storage - 7.days %>
-                    7 days
-                    <% elsif Time.now < parcel.free_storage - 7.days && Time.now > parcel.free_storage - 8.days %>
-                    8 days
-                    <% elsif Time.now < parcel.free_storage - 8.days && Time.now > parcel.free_storage - 9.days %>
-                    9 days
-                    <% elsif Time.now < parcel.free_storage - 9.days && Time.now > parcel.free_storage - 10.days %>
-                    10 days
-                    <% elsif Time.now < parcel.free_storage - 10.days && Time.now > parcel.free_storage - 11.days %>
-                    11 days
-                    <% elsif Time.now < parcel.free_storage - 11.days && Time.now > parcel.free_storage - 12.days %>
-                    12 days
-                    <% elsif Time.now < parcel.free_storage - 12.days && Time.now > parcel.free_storage - 13.days %>
-                    13 days
-                    <% elsif Time.now < parcel.free_storage - 13.days && Time.now > parcel.free_storage - 14.days %>
-                    14 days
-                    <% elsif Time.now < parcel.free_storage - 14.days || Time.now > parcel.free_storage - 15.days %>
-                    15 days
-                    <% else %>
-                    <% end %>
-                    <% end %>
-                  </td>
-                  <td>
-                    <% if parcel.new_awb?%>
-                    <%= parcel.new_awb%>
-                    <%else%>
-                    <%= parcel.awb%>
-                    <%end%>
-                  </td>
-                  <td><%= parcel.description%> </td>
-                  <td><%= parcel.status%></td>
-                  <%if admin_user || staff_user %>
-                  <td><%= parcel.user.ezi_id%></td>
-                  <% end %>
-                  <td>
-                    <% if (admin_user||staff_user)%>
-                    <span><%= link_to "", edit_parcel_path(parcel), class:"fa fa-pencil" %></span>&nbsp;&nbsp;
-                    <%else%>
-                    <%end%>
-                    <span><%= link_to "", parcel_path(parcel), class:"fa fa-eye" %></span>&nbsp;&nbsp;
-                    <% if parcel.status == "Waiting"%>
-                    <span><%= link_to "", parcel_path(parcel), class:"fa fa-trash", data: { confirm: "Are you sure you want delete this parcel?"}, method: :delete %></span>
-                    <%elsif admin_user && (parcel.status == "Arrived" || parcel.status == "Waiting")%>
-                    <span><%= link_to "", parcel_path(parcel), class:"fa fa-trash", data: { confirm: "Are you sure you want delete this parcel?"}, method: :delete %></span>
-                    <%end%>
-                  </td>
-                  <%end%>
-                  <%end%>
-                </tr>
-
               </tbody>
             </table>
-            <nav>
-              <%= paginate @parcels %>
-            </nav>
+          </div><br><br>
+            <h3 class="text-center">NO PARCELS AVAILABLE</h3><br><br>
+            <%else%>
+            <div style="overflow-x:auto;">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Created</th>
+                    <th>AWB</th>
+                    <th>Description</th>
+                      <th>
+                        <div class="dropdown">
+                          <button class="btn btn-small-dropdown dropdown-toggle" type="button" data-toggle="dropdown">Status
+                          <span class="caret"></span></button>
+                          <ul class="dropdown-menu">
+                            <li>
+                              <a href="/parcels">
+                                <i class="icon_set_1_icon-11"></i>All
+                              </a>
+                            </li>
+                            <li>
+                              <a href="/parcels?status=Waiting" <%if @filter_params == "Waiting" %>id="active" <% end %> >
+                                <i class="icon_set_1_icon-11"></i>Waiting
+                              </a>
+                            </li>
+                            <li>
+                              <a href="/parcels?status=Arrived" <%if @filter_params == "Arrived" %>id="active" <% end %> >
+                                <i class="icon_set_1_icon-11"></i>Arrived
+                              </a>
+                            </li>
+                            <li>
+                              <a href="/parcels?status=Ready%20To%20Ship" <%if @filter_params == "Ready To Ship" %>id="active" <% end %> >
+                                <i class="icon_set_1_icon-11"></i>Ready To Ship
+                              </a>
+                            </li>
+                            <li>
+                              <a href="/parcels?status=Shipped" <%if @filter_params == "Shipped" %>id="active" <% end %> >
+                                <i class="icon_set_1_icon-11"></i>Shipped
+                              </a>
+                            </li>
+                            <li>
+                              <a href="/parcels?status=Request%20Refund" <%if @filter_params == "Request Refund" %>id="active" <% end %> >
+                                <i class="icon_set_1_icon-11"></i>Request Refund
+                              </a>
+                            </li>
+                            <li>
+                              <a href="/parcels?status=Refund%20Rejected" <%if @filter_params == "Refund Rejected" %>id="active" <% end %> >
+                                <i class="icon_set_1_icon-11"></i>Refund Rejected
+                              </a>
+                            </li>
+                            <li>
+                              <a href="/parcels?status=Refunded" <%if @filter_params == "Refunded" %>id="active" <% end %> >
+                                <i class="icon_set_1_icon-11"></i>Refunded
+                              </a>
+                            </li>
+                          </ul>
+                        </div>
+                      </th>
+                      <th>Manage</th>
+                    </tr>
+                  </thead>
+                <tbody>
+                  <% if params[:page].nil? || params[:page] == "0" || params[:page] == "1" %>
+                  <% x = 0 %>
+                  <% else %>
+                  <% page = params[:page].to_i - 1 %>
+                  <% x = page * 10 %>
+                  <% end %>
+                  <%@parcels.each_with_index do |parcel, index|%>
+                  <tr>
+                    <td><%= index + x + 1 %></td>
+                    <td><%= parcel.created_at.strftime('%d %b %G')%></td>
+                    <td>
+                      <% if parcel.new_awb? %>
+                      <%= parcel.new_awb%>&nbsp;<small>(edited)</small>
+                      <% else %>
+                      <%= parcel.awb%>
+                      <% end %>
+                    </td>
+                    <td><%= parcel.description %></td>
+                    <td><%= parcel.status %></td>
+                    <td>
+                      <span><%= link_to "", parcel_path(parcel), class:"fa fa-eye" %></span>&nbsp;&nbsp;
+                      <% if parcel.status == "Waiting" %>
+                      <span><%= link_to "", parcel_path(parcel), class:"fa fa-trash", data: { confirm: "Are you sure you want delete this parcel?"}, method: :delete %></span>
+                      <% end %>
+                    </td>
+                    <%end%>
+                  </tr>
+                </tbody>
+              </table>
+                <nav class="text-center">
+                  <%= paginate @parcels %>
+                </nav>
+            </div>
+            <% end %>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
-</div>
-</div>
 </div>

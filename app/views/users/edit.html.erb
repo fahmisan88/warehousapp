@@ -1,18 +1,5 @@
-<br>
-<div id="wrapper">
-  <div id="page-wrapper">
-    <br>
-    <br>
-    <div class="row">
-        <div class="col-xs-10">
-            <ol class="breadcrumb">
-                <li class="active">
-                    <i class="fa fa-user"></i> User
-                </li>
-            </ol>
-        </div>
-    </div>
-    <div class="row">
+<div class="container banner">
+  <div class="row">
       <div class="col-xs-10">
         <div class="panel panel-default">
           <div class="panel-heading">
@@ -26,6 +13,10 @@
                 <div class="form-group col-xs-10">
                   <label for="address">Address:</label>
                   <%= f.text_field :address, id: "type_field", class: 'form-control', type:"text", required: true %>
+                </div>
+                <div class="form-group col-xs-10">
+                  <label for="address">City:</label>
+                  <%= f.text_field :city, id: "type_field", class: 'form-control', type:"text", required: true %>
                 </div>
                 <div class="form-group col-xs-10">
                   <label for="type">State:</label>
@@ -55,5 +46,4 @@
         </div>
       </div>
     </div>
-  </div>
 </div>

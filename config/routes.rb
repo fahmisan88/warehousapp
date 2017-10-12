@@ -2,7 +2,6 @@ Rails.application.routes.draw do
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   root to: 'landing#index'
-  get '/dashboard' => 'dashboards#index'
   get '/statement' => 'shipments#statement'
 
   get '/register' => 'users#new'
@@ -18,8 +17,6 @@ Rails.application.routes.draw do
   post '/checkpackage' => 'users#packagecheck'
   post '/updatepackage' => 'users#update_package'
 
-  get '/parcels/parcel_new' => 'parcels#admin_create_parcel_show'
-  post '/parcels/admin_create' => 'parcels#admin_create'
   post '/eziid_check' => 'parcels#checkezicode'
 
   # create new users with free registration. eligable for special agent. need key in special password to create new users
@@ -55,38 +52,57 @@ Rails.application.routes.draw do
   end
   resources :parcels do
     member do
-    get :edit_awb
-    get :show_image
-    get :request_refund
-    patch :update_awb
-    put :update_awb
-    patch :update_refund
-    put :update_refund
-    patch :update_request_refund
-    put :update_request_refund
-  end
+      get :request_refund
+      patch :update_request_refund
+    end
   end
   resources :shipments do
     member do
-      patch :calculate
-      put :calculate
-      patch :sea_calculate
-      put :sea_calculate
-      patch :add_charge
-      put :add_charge
-      get :add_tracking
-      patch :update_tracking
-      get :edit_status
-      patch :update_status
+      get :invoice
     end
   end
-
-  resources :currencies, only: [:edit, :update]
-  resources :activities, only:[:index]
+  resources :dashboards, only: :index
+  resources :activities, only: :index
 
   scope '/webhooks', controller: :webhooks do
   post :payment_callback
   post :user_payment_callback
   post :renewal_callback
+  end
+
+  namespace :admin do
+    resources :dashboards, only: :index
+    resources :currencies, only: [:edit, :update]
+    resources :parcels do
+      member do
+        post :accept_refund
+        post :reject_refund
+      end
+    end
+    resources :shipments, except: :index do
+      member do
+        patch :calculate
+        patch :update_tracking
+        patch :update_status
+        patch :sea_calculate
+        get :invoice
+        get :edit_sea
+      end
+      collection do
+        get :air
+        get :sea
+      end
+    end
+    resources :users, only: [:index, :show, :edit, :update] do
+      member do
+        get :edit_id
+        patch :update_id
+      end
+    end
+    resources :statements, only: :index do
+      member do
+        get :invoice
+      end
+    end
   end
 end
