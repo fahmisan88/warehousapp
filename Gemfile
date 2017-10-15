@@ -32,14 +32,9 @@ gem 'jbuilder', '~> 2.5'
 # gem 'bootstrap'
 gem 'bootstrap-sass'
 gem 'font-awesome-rails'
-<<<<<<< HEAD
 gem 'carrierwave'
 gem 'mini_magick'
 gem 'fog-aws'
-=======
-gem 'carrierwave', github: 'carrierwaveuploader/carrierwave'
-gem 'mini_magick', '~> 4.6'
->>>>>>> staging
 gem 'bcrypt'
 gem 'pundit'
 gem 'figaro'

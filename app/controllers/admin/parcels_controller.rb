@@ -1,6 +1,15 @@
 class Admin::ParcelsController < ApplicationController
   before_action :check_if_admin
 
+  include Sendinblue
+
+  def testmail
+    mailer = Mailin.new(ENV['SENDINBLUE_API_URL'], ENV['SENDINBLUE_API_KEY'], 10)
+    data = {"id" => 15, "to" => "nor.azlan.idris@gmail.com", "attr" => {"NAME" => "Smith John"}, "headers" => {"Content-Type" => "text/html;charset=iso-8859-1"} }
+    result = mailer.send_transactional_template(data)
+    puts result['code'] == "success" ? "email sent" : "opss..error"
+  end
+
   def index
     @filter_params = params[:status]
     @parcels       = Parcel.all.order(updated_at: :desc).page(params[:page]).per(20)
@@ -99,15 +108,34 @@ class Admin::ParcelsController < ApplicationController
         final_kg = chargeable
       end
 
+      # check if parcel status is waiting before change to arrived for first time to use in email notification
+      parcelwaiting = (@parcel.status == "Waiting"? true : false)
+
       @parcel.update(volume: volume, weight: weight, chargeable: chargeable, free_storage: free_storage, final_kg: final_kg, status: "Arrived")
       @parcel_user = @parcel.user_id
       @user_info   = User.find(@parcel_user)
-      # deliver_mail(@user_info.name, @user_info.email, "parcels", "arrived")
-      flash[:success] = "You've successfully updated the parcel!"
-      redirect_to admin_parcel_path(@parcel)
-    else
-      flash[:danger] = @parcel.errors.full_messages
-      render :edit
+
+      mailer = Mailin.new(ENV['SENDINBLUE_API_URL'], ENV['SENDINBLUE_API_KEY'], 5)
+      data = {"id" => 15, "to" => @user_info.email, "attr" => {"NAME" => @user_info.name, "PRODUCT" => @parcel.description, "AWB" => @parcel.awb}, "headers" => {"Content-Type" => "text/html;charset=iso-8859-1"} }
+
+    #   flash[:success] = "You've successfully updated the parcel!"
+    #   redirect_to admin_parcel_path(@parcel)
+    # else
+      if parcelwaiting
+        result = mailer.send_transactional_template(data)
+        if result['code'] == "success"
+          flash[:success] = "You've successfully updated the parcel & an email has sent to user"
+          redirect_to parcel_path(@parcel)
+        else
+          puts result['code']
+          puts result['message']
+          flash[:success] = "You've successfully updated the parcel"
+          redirect_to parcel_path(@parcel)
+        end
+      else
+        flash[:danger] = @parcel.errors.full_messages
+        render :edit
+      end
     end
   end
 

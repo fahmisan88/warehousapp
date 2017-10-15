@@ -1,15 +1,6 @@
 class ParcelsController < ApplicationController
   before_action :authenticate!
 
-  include Sendinblue
-
-  def testmail
-    mailer = Mailin.new(ENV['SENDINBLUE_API_URL'], ENV['SENDINBLUE_API_KEY'], 10)
-    data = {"id" => 15, "to" => "nor.azlan.idris@gmail.com", "attr" => {"NAME" => "Smith John"}, "headers" => {"Content-Type" => "text/html;charset=iso-8859-1"} }
-    result = mailer.send_transactional_template(data)
-    puts result['code'] == "success" ? "email sent" : "opss..error"
-  end
-
   def index
     @filter_params = params[:status]
     @parcels= current_user.parcels.order(updated_at: :desc).page params[:page]

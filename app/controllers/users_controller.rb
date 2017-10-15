@@ -3,16 +3,15 @@ class UsersController < ApplicationController
   before_action :authenticate!,  only: [:edit, :update]
 
   def show
-<<<<<<< HEAD
-    if member_user.present?
-      @user = member_user
-    elsif admin_user.present?
-      @user = User.find_by(id: params[:id])
-    end
-=======
+# <<<<<<< HEAD
+#     if member_user.present?
+#       @user = member_user
+#     elsif admin_user.present?
+#       @user = User.find_by(id: params[:id])
+#     end
+# =======
     @user = User.find_by(id: params[:id])
     authorize @user
->>>>>>> staging
   end
 
   def pay

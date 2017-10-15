@@ -15,12 +15,8 @@ class IdentitycardsController < ApplicationController
     @user = member_user
     if @user.update_attributes(photo_params)
       flash[:success] = "Identity card/passport was successfully uploaded."
-      redirect_to '/dashboard'
+      redirect_to '/dashboards'
     else
-<<<<<<< HEAD
-      # flash[:danger] = "This format file is prohibited from being upload"
-=======
->>>>>>> staging
       @user.errors.each do |attribute, message|
         flash[:danger] = message.to_s
       end
