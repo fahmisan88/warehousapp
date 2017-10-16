@@ -39,7 +39,6 @@ class Admin::UsersController < ApplicationController
 
   def update
     @user = User.find_by(id: params[:id])
-    authorize @user
     if @user.update(user_params)
       flash[:success] = "Address updated"
       redirect_to admin_users_path
