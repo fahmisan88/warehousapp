@@ -161,6 +161,8 @@ class UsersController < ApplicationController
   def update
     @user = User.find_by(id: params[:id])
     authorize @user
+    @user.skip_icpassport_validation = true
+
     if @user.update(user_params)
       flash[:success] = "You have added your address!"
       redirect_to dashboard_path
