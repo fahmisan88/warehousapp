@@ -3,6 +3,8 @@ class User < ApplicationRecord
 
   mount_uploader :icpassport, IcpassportUploader
 
+  attr_accessor :skip_icpassport_validation
+
   has_many :wallets
   has_many :parcels
   has_many :shipments
@@ -20,7 +22,7 @@ class User < ApplicationRecord
   # validates_file_size :icpassport, in: 500.kilobytes..3.megabytes, message: 'Identity card or passport image size must between %{min} and %{max}'
   # validates_file_content_type :icpassport, allow: ['image/jpeg', 'image/jpg', 'image/png'], mode: :strict, message: 'Only %{types} are allowed'
 
-  validates :icpassport, file_size: { less_than: 3.megabytes, message: 'Identity card or passport image size must below 3MB' }, file_content_type: { allow: ['image/jpeg', 'image/png', 'image/jpg'], mode: :strict, message: 'Only %{types} are allowed' }
+  validates :icpassport, presence: true, file_size: { less_than: 3.megabytes, message: 'Identity card or passport image size must below 3MB' }, file_content_type: { allow: ['image/jpeg', 'image/png', 'image/jpg'], mode: :strict, message: 'Only %{types} are allowed' }, unless: :skip_icpassport_validation
 
   enum role: [:user, :staff, :admin]
   enum status: [:Inactive, :Active, :Suspended, :Blocked, :Expired]

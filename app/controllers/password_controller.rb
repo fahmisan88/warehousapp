@@ -12,6 +12,7 @@ class PasswordController < ApplicationController
         end
 
         @user = User.find_by(email: pass_reset_params[:email].downcase)
+        @user.skip_icpassport_validation = true
 
         if @user.present?
             @user.generate_password_token!
