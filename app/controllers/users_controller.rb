@@ -152,15 +152,6 @@ class UsersController < ApplicationController
       flash[:danger] = "You are not successfully registered. Please contact admin."
       redirect_to '/register'
     end
-
-
-    # if @user = User.create(name: reg_user_params[:fullname], email: reg_user_params[:email].downcase, password: reg_user_params[:passwd], package: reg_user_params[:package].to_i).valid?
-    #   flash[:success] = "You are registered. Please login and pay the yearly fee to continue using our service."
-    #   redirect_to new_session_path
-    # else
-    #   flash[:danger] = "You are not successfully registered. Please contact admin."
-    #   redirect_to '/register'
-    # end
   end
 
 #edit and update method is for adding address for user
