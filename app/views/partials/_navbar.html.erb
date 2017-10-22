@@ -23,6 +23,11 @@
               <li><a>Expires: <%= current_user.expiry.strftime('%d %b %G')%> </a></li>
               <li role="separator" class="divider"></li>
               <li><%= link_to "View Profile", user_path(current_user)%></li>
+                  <li class="text-center">
+                      <button type="button" class="btn" style="background-color: #7ef99c;border-radius: 19px;width: 100%;width: 80%;">
+                        <a href="/ic/upload" style="color: #262626;"><i class="fa fa-fw fa-vcard"></i> Upload IC</a>
+                      </button>
+                    </li>
               <li><%= link_to "Log Out", session_path(current_user), method: :delete %></li>
             </ul>
           </li>
