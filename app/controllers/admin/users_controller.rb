@@ -39,6 +39,7 @@ class Admin::UsersController < ApplicationController
 
   def update
     @user = User.find_by(id: params[:id])
+    @user.skip_icpassport_validation = true
     if @user.update(user_params)
       flash[:success] = "Address updated"
       redirect_to admin_users_path
@@ -50,6 +51,7 @@ class Admin::UsersController < ApplicationController
 
   def update_id
     @user = User.find_by(id: params[:id])
+    @user.skip_icpassport_validation = true
     if @user.update(edit_params)
       flash[:success] = "You have updated the user information!"
       redirect_to admin_users_path
