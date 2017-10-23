@@ -3,13 +3,13 @@ class UsersController < ApplicationController
   before_action :authenticate!,  only: [:edit, :update]
 
   def show
-# <<<<<<< HEAD
+#
 #     if member_user.present?
 #       @user = member_user
 #     elsif admin_user.present?
 #       @user = User.find_by(id: params[:id])
 #     end
-# =======
+#
     @user = User.find_by(id: params[:id])
     authorize @user
   end
@@ -123,14 +123,15 @@ class UsersController < ApplicationController
   end
 
   def create
-    if @user = User.create(name: reg_user_params[:fullname], email: reg_user_params[:email].downcase, password: reg_user_params[:passwd], package: reg_user_params[:package].to_i).valid?
+    @user = User.new(name: reg_user_params[:fullname], email: reg_user_params[:email].downcase, password: reg_user_params[:passwd], package: reg_user_params[:package].to_i)
+    @user.skip_icpassport_validation = true
+    if @user.save
       flash[:success] = "You are registered. Please login and pay the yearly fee to continue using our service."
       redirect_to new_session_path
     else
       flash[:danger] = "You are not successfully registered. Please contact admin."
       redirect_to '/register'
     end
-
   end
 
 #edit and update method is for adding address for user
@@ -146,6 +147,7 @@ class UsersController < ApplicationController
   def update
     @user = User.find_by(id: params[:id])
     authorize @user
+    @user.skip_icpassport_validation = true
     if @user.update(user_params)
       flash[:success] = "Address updated"
       redirect_to dashboards_path
