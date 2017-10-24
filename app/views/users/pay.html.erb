@@ -31,7 +31,11 @@
                           </table>
 
                           <div class="button text-center">
-                            <%= link_to "Pay Now", billplz_user_path, method: :patch, class: "btn btn-success btn-lg" %>
+                            <% if current_user.bill_url? %>
+                              <%= link_to "Pay Now", current_user.bill_url, method: :patch, class: "btn btn-success btn-lg" %>
+                            <% else %>
+                              <%= link_to "Pay Now", billplz_user_path, method: :patch, class: "btn btn-success btn-lg" %>
+                            <% end %>
                           </div>
 
                           <%= link_to "Back", session_path(current_user), method: :delete, class: 'white shadowed link-styling' %>

@@ -9,10 +9,6 @@ class ParcelPolicy < ApplicationPolicy
   end
 
   def edit?
-    user_has_power?
-  end
-
-  def edit_awb?
     show?
   end
 

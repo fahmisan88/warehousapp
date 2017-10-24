@@ -46,6 +46,8 @@ gem 'sendinblue', '~> 2.4'
 gem 'strip_attributes', '~> 1.8'
 gem 'json', '~> 2.0', '>= 2.0.3'
 gem 'whenever', :require => false
+gem 'wicked_pdf'
+gem 'wkhtmltopdf-binary'
 
 group :production do
   gem 'rails_12factor'

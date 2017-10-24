@@ -1,27 +1,15 @@
-<br>
-<div id="wrapper">
-  <div id="page-wrapper">
-    <br>
-    <br>
-    <div class="row">
-        <div class="col-xs-10">
-            <ol class="breadcrumb">
-                <li class="active">
-                    <i class="fa fa-user"></i> User
-                </li>
-            </ol>
-        </div>
-    </div>
-    <div class="row">
-      <div class="col-xs-10">
+
+<div class="container banner">
+  <div class="row">
+      <div class="col-md-8 col-md-offset-2">
         <div class="panel panel-default">
           <div class="panel-heading">
-            <h3 class="panel-title"><i class="fa fa-user fa-fw"></i> Update User </h3>
+            Update User
           </div>
           <div class="panel-body">
 
             <div class="container">
-              <%= form_for(@user, url: update_id_user_path(@user), html: { id: "parcel-update-form" }) do |f| %>
+              <%= form_for(@user, url: update_id_admin_user_path(@user), html: { id: "parcel-update-form" }) do |f| %>
               <form>
                 <div class="form-group col-xs-10">
                   <label for="address">EZI ID:</label>
@@ -32,7 +20,7 @@
                   <%= f.text_field :expiry, id: "type_field", class: 'form-control', type:"text", required: true, placeholder:"dd/mm/yyyy" %>
                 </div>
                 <div class="col-xs-10">
-                  <%= f.submit "Update User", class: "btn btn-success btn-lg", type:"submit" %>
+                  <%= f.submit "Update User", class: "btn btn-success btn-form", type:"submit" %>
                 </div>
               </form>
               <% end %>
@@ -43,5 +31,4 @@
         </div>
       </div>
     </div>
-  </div>
 </div>

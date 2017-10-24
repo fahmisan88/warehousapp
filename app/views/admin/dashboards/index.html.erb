@@ -1,0 +1,192 @@
+<div class="container banner">
+  <div class="row">
+  <div class="col-lg-3 col-md-6">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <div class="row">
+          <div class="col-xs-3">
+            <i class="fa fa-archive fa-5x"></i>
+          </div>
+          <div class="col-xs-9 text-right">
+            <div class="huge"><%=@parcels.count%></div>
+            <div>New Parcels!</div>
+          </div>
+        </div>
+      </div>
+      <a href="<%=admin_parcels_path%>">
+        <div class="panel-footer">
+          <span class="pull-left">View Details</span>
+          <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+          <div class="clearfix"></div>
+        </div>
+      </a>
+    </div>
+  </div>
+  <div class="col-lg-3 col-md-6">
+    <div class="panel panel-green">
+      <div class="panel-heading">
+        <div class="row">
+          <div class="col-xs-3">
+            <i class="fa fa-plane fa-5x"></i>
+          </div>
+          <div class="col-xs-9 text-right">
+            <div class="huge"><%=@shipments.count%></div>
+            <div>New Shipments!</div>
+          </div>
+        </div>
+      </div>
+      <a href="<%=air_admin_shipments_path%>">
+        <div class="panel-footer">
+          <span class="pull-left">View Details</span>
+          <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+          <div class="clearfix"></div>
+        </div>
+      </a>
+    </div>
+  </div>
+  <div class="col-lg-3 col-md-6">
+    <div class="panel panel-yellow">
+      <div class="panel-heading">
+        <div class="row">
+          <div class="col-xs-3">
+            <i class="fa fa-money fa-5x"></i>
+          </div>
+
+          <div class="col-xs-9 text-right">
+            <div class="huge">$<%=@todaysale.sum(:charge).floor%></div>
+            <div>Today's Sales!</div>
+          </div>
+
+        </div>
+      </div>
+      <a href="<%=admin_statements_path%>">
+        <div class="panel-footer">
+          <span class="pull-left">View Details</span>
+          <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+          <div class="clearfix"></div>
+        </div>
+      </a>
+    </div>
+  </div>
+  <div class="col-lg-3 col-md-6">
+    <div class="panel panel-red">
+      <div class="panel-heading">
+        <div class="row">
+          <div class="col-xs-3">
+            <i class="fa fa-money fa-5x"></i>
+          </div>
+          <div class="col-xs-9 text-right">
+            <div class="huge">$<%=@totalsales%></div>
+            <div>Total Sales!</div>
+          </div>
+        </div>
+      </div>
+      <a href="<%=admin_statements_path%>">
+        <div class="panel-footer">
+          <span class="pull-left">View Details</span>
+          <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+          <div class="clearfix"></div>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-lg-12">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i> Total Sales Chart</h3>
+      </div>
+      <div class="panel-body">
+        <div id="morris-area-chart"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  <div class="row">
+    <div class="col-lg-4">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title"><i class="fa fa-clock-o fa-fw"></i> Todays Currency</h3>
+        </div>
+        <div class="panel-body">
+          <div class="list-group">
+            <b href="#" class="list-group-item">
+              <i class="fa fa-fw fa-dolar"></i>1 MYR = <%=@currency.myr2rmb%> RMB
+            </b>
+          </div>
+          <div class="text-right">
+            <a href="<%=edit_admin_currency_path(@currency)%>">Update Currency Rate <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-4">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title"><i class="fa fa-money fa-fw"></i> Today's Transaction</h3>
+        </div>
+        <div class="panel-body">
+          <div class="table-responsive">
+            <table class="table table-bordered table-hover table-striped">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Order #</th>
+                  <th>Order Date</th>
+                  <th>Amount (MYR)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <%@todaysales.each do |sales|%>
+                <tr>
+                  <td><%=current_user.ezi_id%></td>
+                  <td><%=sales.bill_id%></td>
+                  <td><%=sales.updated_at.strftime("%d-%m-%Y")%></td>
+                  <td><%=sales.charge%></td>
+                </tr>
+                <%end%>
+              </tbody>
+            </table>
+          </div>
+          <div class="text-right">
+            <a href="<%=admin_statements_path%>">View All Transactions <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-4">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title"><i class="fa fa-money fa-fw"></i> Pending Transaction</h3>
+        </div>
+        <div class="panel-body">
+          <div class="table-responsive">
+            <table class="table table-bordered table-hover table-striped">
+              <thead>
+                <tr>
+                  <th>Bill #</th>
+                  <th>Bill at</th>
+                  <th>Amount (MYR)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <%@todaysale2.each do |sales|%>
+                <tr>
+                  <td><%=sales.bill_id%></td>
+                  <td><%=sales.updated_at.strftime("%d-%m-%Y")%></td>
+                  <td><%=sales.charge%></td>
+                </tr>
+                <%end%>
+              </tbody>
+            </table>
+          </div>
+          <div class="text-right">
+            <a href="<%=admin_statements_path%>">View All Transactions <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+</div>

@@ -1,75 +1,59 @@
-<br>
-<div id="wrapper">
-  <div id="page-wrapper">
-    <br>
-    <br>
-    <div class="row">
-        <div class="col-lg-12">
-            <ol class="breadcrumb">
-                <li class="active">
-                    <i class="fa fa-user"></i> User
-                </li>
-            </ol>
+<div class="container banner">
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          Profile
         </div>
-    </div>
-    <div class="row">
-      <div class="col-lg-8">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h3 class="panel-title"><i class="fa fa-user fa-fw"></i> My Profile</h3>
-          </div>
-          <div class="panel-body">
-
-
-            <table class="table">
-              <tbody>
-                <tr>
-                  <th>EZI ID</th>
-                  <td><%=@user.ezi_id%></td>
-                </tr>
-                <tr>
-                  <th>Name</th>
-                  <td><%=@user.name%></td>
-                </tr>
-                <tr>
-                  <th>Email</th>
-                  <td><%=@user.email%></td>
-                </tr>
-                <tr>
-                  <th>Address</th>
-                  <td><%=@user.address%></td>
-                </tr>
-                <tr>
-                  <th>State</th>
-                  <td><%=@user.address2%></td>
-                </tr>
-                <tr>
-                  <th>Postcode</th>
-                  <td><%=@user.postcode%></td>
-                </tr>
-                <tr>
-                  <th>Mobile Phone</th>
-                  <td><%=@user.phone%></td>
-                </tr>
-                <tr>
-                  <th>Member since</th>
-                  <td><%=@user.created_at.strftime("%d-%m-%Y")%></td>
-                </tr>
-                <tr>
-                  <th>Total Spent</th>
-                  <td></td>
-                </tr>
-
-              </tbody>
-            </table>
-            <%if admin_user || staff_user%>
-            <%= link_to 'Back', users_path, class:"btn btn-link" %>
-            <% end %>
-          </div>
+        <div class="panel-body">
+          <table class="table">
+            <tbody>
+              <tr>
+                <th>EZI ID</th>
+                <td><%=@user.ezi_id%></td>
+              </tr>
+              <tr>
+                <th>Name</th>
+                <td><%=@user.name%></td>
+              </tr>
+              <tr>
+                <th>Email</th>
+                <td><%=@user.email%></td>
+              </tr>
+              <tr>
+                <th>Address</th>
+                <td><%=@user.address%></td>
+              </tr>
+              <tr>
+                <th>City</th>
+                <td><%=@user.city%></td>
+              </tr>
+              <tr>
+                <th>State</th>
+                <td><%=@user.address2%></td>
+              </tr>
+              <tr>
+                <th>Postcode</th>
+                <td><%=@user.postcode%></td>
+              </tr>
+              <tr>
+                <th>Mobile Phone</th>
+                <td><%=@user.phone%></td>
+              </tr>
+              <tr>
+                <th>Member since</th>
+                <td><%=@user.created_at.strftime("%d-%m-%Y")%></td>
+              </tr>
+              <tr>
+                <th>Membership Expiry</th>
+                <td><%=@user.expiry.strftime('%a, %d %b %G')%></td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
       <div class="row">
-        <div class="col-lg-4">
+        <div class="col-lg-6">
           <div class="panel panel-default">
             <div class="panel-heading">
               <h3 class="panel-title"><i class="fa fa-user fa-vcard"></i> Identity Card / Passport</h3>
@@ -80,7 +64,7 @@
                 <p>The user are not yet upload identity card or passport image.</p>
                 <% else %>
                 <%= link_to @user.icpassport.url, style: "cursor: pointer;", target: "_blank" do %>
-                <%= image_tag(@user.icpassport, size: "416x234", alt: @user.ezi_id) %>
+                <%= image_tag(@user.icpassport, width: "100%", height: "auto", alt: @user.ezi_id) %>
                 <% end %>
                 <% end %>
               </div>
@@ -90,5 +74,4 @@
       </div>
     </div>
   </div>
-</div>
 </div>
