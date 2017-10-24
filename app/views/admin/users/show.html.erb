@@ -52,6 +52,28 @@
           </table>
         </div>
       </div>
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">
+                <i class="fa fa-user fa-vcard"></i>
+                Identity Card / Passport</h3>
+            </div>
+            <div class="panel-body text-center">
+              <div>
+                <% if @user.icpassport.blank? %>
+                <p>The user are not yet upload identity card or passport image.</p>
+              <% else %>
+                <%= link_to @user.icpassport.url, style: "cursor: pointer;", target: "_blank" do %>
+                <%= image_tag(@user.icpassport, width: "100%", height: "auto", alt: @user.ezi_id) %>
+                <% end %>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
