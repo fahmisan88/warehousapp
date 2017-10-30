@@ -58,6 +58,7 @@ class PasswordController < ApplicationController
 
         if User.exists?(reset_password_token: @token)
             @user = User.find_by(reset_password_token: @token)
+            @user.skip_icpassport_validation = true
             if @user.email == @email
                     if @user.reset_password!(@password)
                         redirect_to '/login'
