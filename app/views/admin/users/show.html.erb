@@ -10,7 +10,11 @@
             <tbody>
               <tr>
                 <th>EZI ID</th>
-                <td><%=@user.ezi_id%></td>
+                <% if @user.ezi_id.nil? %>
+                  <td><span style="color:red;">Not a paid member yet</span></td>
+                <% else %>
+                  <td><%=@user.ezi_id%></td>
+                <% end %>
               </tr>
               <tr>
                 <th>Name</th>
@@ -46,7 +50,11 @@
               </tr>
               <tr>
                 <th>Membership Expiry</th>
-                <td><%=@user.expiry.strftime('%a, %d %b %G')%></td>
+                <% if @user.expiry.nil? %>
+                  <td>n/a</td>
+                <% else %>
+                  <td><%=@user.expiry.strftime('%a, %d %b %G')%></td>
+                <% end %>
               </tr>
             </tbody>
           </table>
