@@ -10,6 +10,7 @@
             <thead>
               <tr>
                 <th>AWB</th>
+                <th>Remark A.</th>
                 <th>Description</th>
                 <th>Chinese Name</th>
                 <th>Type</th>
@@ -22,6 +23,7 @@
               <% @shipment.parcels.each do |parcel| %>
               <tr>
                 <td><span class="icon-babu"><i class="fa fa-check-circle-o"></i></span>&nbsp;<%= parcel.awb %></td>
+                <td><%= parcel.remark_admin %></td>
                 <td><%= parcel.description %></td>
                 <td><%= parcel.product_chinese %></td>
                 <td><%= parcel.parcel_good %></td>
@@ -141,22 +143,30 @@
         <div class="panel-body">
           <div class="table-responsive">
             <div class="list-group">
-              <b href="#" class="list-group-item text-center">
-                <%=@shipment.user.name %>
-                <br>
-                <%=@shipment.user.address%>
-                <br>
-                <% if @shipment.user.city %>
-                <%=@shipment.user.city%>
-                <br>
-                <% end %>
-                <br>
-                <%=@shipment.user.postcode%>
-                <br>
-                <%=@shipment.user.address2%>
-                <br>
-                <%=@shipment.user.phone%>
-              </b>
+              <div class="col-md-3"><b>Name:</b></div>
+              <div class="col-md-9"><b><%=@shipment.user.name %></b></div>
+            </div>
+            <div class="list-group">
+              <div class="col-md-3"><b>Address:</b></div>
+              <div class="col-md-9"><b><%=@shipment.user.address%></b></div>
+            </div>
+            <% if @shipment.user.city %>
+            <div class="list-group">
+              <div class="col-md-3"><b>City:</b></div>
+              <div class="col-md-9"><b><%=@shipment.user.city%></b></div>
+            </div>
+            <% end %>
+            <div class="list-group">
+              <div class="col-md-3"><b>Postcode:</b></div>
+              <div class="col-md-9"><b><%=@shipment.user.postcode%></b></div>
+            </div>
+            <div class="list-group">
+              <div class="col-md-3"><b>State:</b></div>
+              <div class="col-md-9"><b><%=@shipment.user.address2%></b></div>
+            </div>
+            <div class="list-group">
+              <div class="col-md-3"><b>Phone:</b></div>
+              <div class="col-md-9"><b><%=@shipment.user.phone%></b></div>
             </div>
           </div>
         </div>
