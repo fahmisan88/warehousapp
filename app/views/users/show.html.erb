@@ -61,15 +61,20 @@
             <div class="panel-body text-center">
               <div>
                 <% if @user.icpassport.blank? %>
-                <p>You are not upload identity card or passport image yet. You can upload once.</p>
-                <div style="height:40px;line-height: 40px;background-color: #d9534f;border-radius: 19px;-webkit-border-radius: 19px;-moz-border-radius: 19px;width: 100%;">
-                  <a href="/ic/upload" style="color: #ffffff;text-decoration: none;"><i class="fa fa-fw fa-vcard"></i> <strong>Upload IC</strong></a>
-                </div>
+                  <p>You are not upload identity card or passport image yet. You can upload once.</p>
+                  <div style="height:40px;line-height: 40px;background-color: #d9534f;border-radius: 19px;-webkit-border-radius: 19px;-moz-border-radius: 19px;width: 100%;">
+                    <a href="/ic/upload" style="color: #ffffff;text-decoration: none;"><i class="fa fa-fw fa-vcard"></i> <strong>Upload IC/Passport</strong></a>
+                  </div>
                 <% else %>
-                <%= link_to @user.icpassport.url, style: "cursor: pointer;", target: "_blank" do %>
-                <%= image_tag(@user.icpassport, width: "100%", height: "auto", alt: @user.ezi_id) %>
+                  <%= link_to @user.icpassport.url, style: "cursor: pointer;", target: "_blank" do %>
+                    <%= image_tag(@user.icpassport, width: "100%", height: "auto", alt: @user.ezi_id) %>
+                  <% end %>
                 <% end %>
-                <% end %>
+              </div>
+              <div style="padding-top: 15px;">
+                <div style="height:40px;line-height: 40px;background-color: #d9534f;border-radius: 19px;-webkit-border-radius: 19px;-moz-border-radius: 19px;width: 100%;">
+                  <a href="/ic/upload" style="color: #ffffff;text-decoration: none;"><i class="fa fa-fw fa-vcard"></i> <strong>Re-upload IC/Passport</strong></a>
+                </div>
               </div>
             </div>
           </div>
