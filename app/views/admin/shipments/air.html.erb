@@ -66,7 +66,7 @@
                 <%@shipments.each_with_index do |shipment, index|%>
                 <tr>
                   <td><%= index + x + 1 %></td>
-                  <td><%= shipment.updated_at.strftime("%d %b %G")%> </td>
+                  <td><%= shipment.updated_at.strftime("%d-%m-%Y (%H:%M)")%> </td>
                   <td><%= shipment.id%></td>
                   <td>
                     <%if shipment.charge.nil? %>

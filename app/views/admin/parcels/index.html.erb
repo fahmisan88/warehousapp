@@ -254,7 +254,7 @@
                 <%@parcels.each_with_index do |parcel, index|%>
                 <tr>
                   <td><%= index + x + 1 %></td>
-                  <td><%= parcel.created_at.strftime("%d %b %G")%></td>
+                  <td><%= parcel.created_at.strftime("%d-%m-%Y (%H:%M)")%></td>
                   <td>
                     <% if parcel.new_awb? %>
                     <%= parcel.new_awb%>&nbsp;<small>(edited)</small>
