@@ -136,6 +136,9 @@ class Admin::ParcelsController < ApplicationController
         flash[:danger] = @parcel.errors.full_messages
         render :edit
       end
+    else
+      flash[:danger] = @parcel.errors.full_messages
+      redirect_to parcel_path(@parcel)
     end
   end
 
