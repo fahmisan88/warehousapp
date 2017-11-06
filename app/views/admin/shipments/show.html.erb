@@ -13,10 +13,10 @@
                 <th>Remark A.</th>
                 <th>Description</th>
                 <th>Chinese Name</th>
+                <th>Quantity</th>
+                <th>Price</th>
                 <th>Type</th>
                 <th>Weight (KG)</th>
-                <th>Quantity</th>
-                <th>Parcel Price</th>
               </tr>
             </thead>
             <tbody>
@@ -26,10 +26,10 @@
                 <td><%= parcel.remark_admin %></td>
                 <td><%= parcel.description %></td>
                 <td><%= parcel.product_chinese %></td>
-                <td><%= parcel.parcel_good %></td>
-                <td><%= parcel.final_kg %></td>
                 <td><%= parcel.product_quantity %></td>
                 <td><%= parcel.product_total_price %></td>
+                <td><%= parcel.parcel_good %></td>
+                <td><%= parcel.final_kg %></td>
               </tr>
               <% end %>
             </tbody>
@@ -90,13 +90,13 @@
                 </td>
               </tr>
               <% if @shipment.remark? %>
-              <tr>
+              <tr class="text-red">
                 <th>Remark User</th>
                 <td><%=@shipment.remark%></td>
               </tr>
               <% end %>
               <% if @shipment.remark_admin? %>
-              <tr>
+              <tr class="text-red">
                 <th>Remark Admin</th>
                 <td><%=@shipment.remark_admin%></td>
               </tr>
@@ -105,11 +105,14 @@
                 <th>Tracking Number</th>
                 <td>
                   <% if @shipment.tracking %>
-                    <%= @shipment.tracking %>
+                    <%= form_for(@shipment, url: update_tracking_admin_shipment_path(@shipment), html: { id: "tracking-update-form" }) do |f| %>
+                    <%= f.text_field :tracking, id: "type_field", type:"text", required: true, size: 18 %>
+                    <%= f.submit "Update", class: "btn-xs", data: { confirm: "Are you sure you want to change this tracking number?"}, type:"submit" %>
+                    <% end %>
                   <% else %>
                     <%= form_for(@shipment, url: update_tracking_admin_shipment_path(@shipment), html: { id: "tracking-update-form" }) do |f| %>
                     <%= f.text_field :tracking, id: "type_field", type:"text", required: true, size: 18 %>
-                    <%= f.submit "Add", class: "btn-xs", data: { confirm: "Are you sure you want change this shipment's status?"}, type:"submit" %>
+                    <%= f.submit "Add", class: "btn-xs", type:"submit" %>
                     <% end %>
                   <% end %>
                 </td>

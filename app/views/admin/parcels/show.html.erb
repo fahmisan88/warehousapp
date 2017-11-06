@@ -64,6 +64,12 @@
                     <% if @parcel.status == "Request Refund" %>
                     <%=@parcel.status%>&nbsp;&nbsp;<span><%= link_to "Accept", accept_refund_admin_parcel_path(@parcel), method: :post, class:"btn btn-success" %></span>&nbsp;&nbsp;<span><%= link_to "Reject", reject_refund_admin_parcel_path(@parcel), method: :post, class:"btn btn-danger" %></span><br>
                     Reason: <%=@parcel.refund_explain%>
+                    <% elsif @parcel.status == "Shipped" %>
+                      <% if @parcel.shipments.last.sea_freight? %>
+                        Shipped by Sea (<%=@parcel.shipments.last.updated_at.strftime("%d-%m-%Y")%>)
+                      <% else %>
+                        Shipped by Air (<%=@parcel.shipments.last.updated_at.strftime("%d-%m-%Y")%>)
+                      <% end %>
                     <% else %>
                     <%=@parcel.status%>
                     <% end %>
