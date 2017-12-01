@@ -48,6 +48,7 @@ gem 'json', '~> 2.0', '>= 2.0.3'
 gem 'whenever', :require => false
 gem 'wicked_pdf'
 gem 'wkhtmltopdf-binary'
+gem 'rails-settings-cached'
 
 group :production do
   gem 'rails_12factor'
