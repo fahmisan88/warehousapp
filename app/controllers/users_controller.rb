@@ -119,6 +119,8 @@ class UsersController < ApplicationController
       redirect_to root_path
     else
       @user = User.new
+      @registration = SystemConfig.find_by(var: "registration")
+      @registration = SystemConfig.value || SystemConfig.registration
     end
   end
 

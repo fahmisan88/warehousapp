@@ -19,6 +19,7 @@
 //= require form-validator
 //= require jquery.modal
 //= require zebra_tooltips
+//= require switchery
 //= require_tree .
 
 function validateFiles(inputFile) {
