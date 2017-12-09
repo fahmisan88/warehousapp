@@ -1,5 +1,7 @@
 class PasswordController < ApplicationController
 
+  include Sendinblue
+
     def index
         redirect_to '/password/resetpass'
     end
@@ -16,9 +18,7 @@ class PasswordController < ApplicationController
 
         if @user.present?
             @user.generate_password_token!
-            # send email here
-            puts HTTParty.put("https://api.sendinblue.com/v2.0/template/13",:body =>{"id":13, "to":@user.email,"attr":{"NAME":@user.name,"PASS_RESET_URL_NO_PROTO": ENV['URL_NO_PROTO'] + "/password/reset/" + @user.reset_password_token,"PASS_RESET_URL": ENV['URL'] + "/password/reset/" + @user.reset_password_token}}, :default_timeout => 10, :headers => {"api-key"=>ENV['SENDINBLUE_API_KEY'],"content-type"=>"application/json"})
-            # --------------------------------------------
+            sendmail(@user.email, @user.name, @user.reset_password_token)
             redirect_to '/'
             flash[:info] = "Check email for reset password instruction"
         else
@@ -86,5 +86,12 @@ class PasswordController < ApplicationController
 
     def pass_reset_update_params
         params.require(:user).permit(:email, :token, :password)
+    end
+
+    def sendmail(email, name, token)
+      mailer = Mailin.new(ENV['SENDINBLUE_API_URL'], ENV['SENDINBLUE_API_KEY'], 10)
+      data = {"id" => 13, "to" => email, "attr" => {"NAME" => name, "PASS_RESET_URL_NO_PROTO" => ENV['URL_NO_PROTO'] + "/password/reset/" + token, "PASS_RESET_URL" => ENV['URL'] + "/password/reset/" + token}, "headers" => {"Content-Type" => "text/html;charset=iso-8859-1"} }
+      result = mailer.send_transactional_template(data)
+      return result['code']
     end
 end
