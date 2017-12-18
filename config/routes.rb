@@ -33,6 +33,8 @@ Rails.application.routes.draw do
   get '/ic/upload' => 'identitycards#new'
   post '/ic/create' => 'identitycards#create'
 
+
+
   resources :sessions, only: [:new, :create, :destroy]
   resources :users do
     member do
@@ -104,5 +106,8 @@ Rails.application.routes.draw do
         get :invoice
       end
     end
+
+    get '/setting' => 'systemsettings#edit'
+    post '/setting' => 'systemsettings#update'
   end
 end

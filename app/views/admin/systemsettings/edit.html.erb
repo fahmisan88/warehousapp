@@ -1,0 +1,49 @@
+<style>
+.line-height {
+  line-height: 32px;
+}
+
+hr.style5 {
+	border-top: 1px dashed #dee1e5;
+}
+</style>
+
+<div class="container banner">
+  <div class="row">
+    <div class="col-lg-6 col-lg-offset-3">
+      <div class="panel panel-default">
+        <div class="panel-heading">System Settings</div>
+        <div class="panel-body">
+          <form action="/admin/setting" method="post">
+            <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>" >
+            <div class="row">
+              <div class="col-lg-6 text-right line-height">
+                New user registration
+              </div>
+              <div class="col-lg-6 text-left line-height">
+                <% if @registration == "open" %>
+                  <input type="hidden" name="setting[registration]" value="close" />
+                  <input type="checkbox" name="setting[registration]" class="js-switch" checked="checked" value="open" />
+                <% else %>
+                  <input type="hidden" name="setting[registration]" value="close" />
+                  <input type="checkbox" name="setting[registration]" class="js-switch" value="open" />
+                <% end %>
+              </div>
+            </div>
+            <hr class="style5">
+            <div class="row">
+              <div class="col-lg-2 col-lg-offset-5">
+                <input type="submit" value="Submit" class="btn btn-normal btn-form">
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+var elem = document.querySelector('.js-switch');
+var init = new Switchery(elem);
+</script>

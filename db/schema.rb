@@ -31,6 +31,19 @@ ActiveRecord::Schema.define(version: 20171218071033) do
     t.index ["trackable_id", "trackable_type"], name: "index_activities_on_trackable_id_and_trackable_type", using: :btree
   end
 
+  create_table "announcements", force: :cascade do |t|
+    t.string   "title"
+    t.text     "description"
+    t.integer  "user_id"
+    t.jsonb    "to"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.string   "files1"
+    t.string   "files2"
+    t.string   "files3"
+    t.index ["user_id"], name: "index_announcements_on_user_id", using: :btree
+  end
+
   create_table "currencies", force: :cascade do |t|
     t.decimal  "myr2rmb"
     t.datetime "created_at", null: false
@@ -85,6 +98,16 @@ ActiveRecord::Schema.define(version: 20171218071033) do
     t.datetime "parcel_shipped"
   end
 
+  create_table "settings", force: :cascade do |t|
+    t.string   "var",                   null: false
+    t.text     "value"
+    t.integer  "thing_id"
+    t.string   "thing_type", limit: 30
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
+    t.index ["thing_type", "thing_id", "var"], name: "index_settings_on_thing_type_and_thing_id_and_var", unique: true, using: :btree
+  end
+
   create_table "shipments", force: :cascade do |t|
     t.integer  "user_id"
     t.string   "remark"
@@ -135,11 +158,12 @@ ActiveRecord::Schema.define(version: 20171218071033) do
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "releasesuspend_at"
-    t.string   "city"
     t.string   "icpassport"
+    t.string   "city"
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["ezi_id"], name: "index_users_on_ezi_id", using: :btree
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   end
 
+  add_foreign_key "announcements", "users"
 end

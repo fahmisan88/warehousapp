@@ -9,6 +9,7 @@
         <div class="panel-title">Sign Up</div>
       </div>
       <div class="panel-body" >
+        <% if @registration == "open" %>
         <%= form_for(@user, url: {action: "create"}, method: :post, html: {id: "form-validation", class: "form-horizontal"} ) do %>
 
                                 <div class="form-group">
@@ -65,6 +66,11 @@
                                     </div>
                                 </div>
 
+                            <% end %>
+                            <% else %>
+                            <div class="text-center">
+                              Registration is closed for temporary.
+                            </div>
                             <% end %>
       </div>
     </div>
