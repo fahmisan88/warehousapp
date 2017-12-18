@@ -50,6 +50,7 @@ class Admin::ShipmentsController < ApplicationController
   def show
     @shipment = Shipment.find_by(id: params[:id])
     @currency = Currency.find_by(id: 1)
+    @charged_storages = @shipment.parcels.where("? > free_storage", Time.now)
   end
 
   def edit
@@ -82,30 +83,41 @@ class Admin::ShipmentsController < ApplicationController
   def calculate
     @shipment = Shipment.find(params[:id])
     @currency = Currency.find_by(id: 1)
+    @charged_storages = @shipment.parcels.where("? > free_storage", Time.now)
     @ringgit = @currency.myr2rmb
 
-    chargePhotoshoot = @shipment.parcels.where(photoshoot: true).size * 10 / @ringgit
-    chargeInspection = @shipment.parcels.where(inspection: true).size * 30 / @ringgit
-    extraCharge = params[:shipment][:extra_charge].to_d / @ringgit
-    minusCharge = params[:shipment][:minus_charge].to_d / @ringgit
+    chargePhotoshoot = (@shipment.parcels.where(photoshoot: true).size * 10 / @ringgit).ceil(1)
+    chargeInspection = (@shipment.parcels.where(inspection: true).size * 30 / @ringgit).ceil(1)
+    extraCharge = (params[:shipment][:extra_charge].to_d / @ringgit).ceil(1)
+    minusCharge = (params[:shipment][:minus_charge].to_d / @ringgit).ceil(1)
     airCharge = params[:shipment][:air_charge].to_d
 
+    if @charged_storages.present?
+      storageCharge = 0
+      @charged_storages.each do |c|
+        charge = (((Time.now - c.free_storage) / 3600 / 24).round * 5 / @ringgit).ceil(1)
+        storageCharge += charge
+      end
+    else
+      storageCharge = 0
+    end
+
     if params[:shipment][:reorganize] == "true"
-      chargeReorganize = @shipment.parcels.size * 2 / @ringgit
+      chargeReorganize = (@shipment.parcels.size * 2 / @ringgit).ceil(1)
     else
       chargeReorganize = 0
     end
 
     if params[:shipment][:repackaging] == "true"
-      chargeRepackaging = 10 / @ringgit
+      chargeRepackaging = (10 / @ringgit).ceil(1)
     else
       chargeRepackaging = 0
     end
 
-    chargeMYR = (airCharge + extraCharge + chargeReorganize + chargeRepackaging + chargePhotoshoot + chargeInspection - minusCharge).ceil(1)
+    chargeMYR = (airCharge + extraCharge + chargeReorganize + chargeRepackaging + chargePhotoshoot + chargeInspection + storageCharge - minusCharge).ceil(1)
     @shipment.update(charge: chargeMYR, repackaging: calculate_params[:repackaging], reorganize: calculate_params[:reorganize],
                       extra_charge: calculate_params[:extra_charge], minus_charge: calculate_params[:minus_charge], extra_remark: calculate_params[:extra_remark],
-                      remark_admin: calculate_params[:remark_admin], air_charge: calculate_params[:air_charge]
+                      remark_admin: calculate_params[:remark_admin], air_charge: calculate_params[:air_charge], storage_charge: storageCharge
                     )
     flash[:success] ="Calculate successfully"
     redirect_to admin_shipment_path(@shipment)
@@ -115,22 +127,33 @@ class Admin::ShipmentsController < ApplicationController
   def sea_calculate
     @shipment = Shipment.find(params[:id])
     @currency = Currency.find_by(id: 1)
+    @charged_storages = @shipment.parcels.where("? > free_storage", Time.now)
     @ringgit = @currency.myr2rmb
 
-    chargePhotoshoot = @shipment.parcels.where(photoshoot: true).size * 10 / @ringgit
-    chargeInspection = @shipment.parcels.where(inspection: true).size * 30 / @ringgit
-    extraCharge = params[:shipment][:extra_charge].to_d / @ringgit
-    minusCharge = params[:shipment][:minus_charge].to_d / @ringgit
+    chargePhotoshoot = (@shipment.parcels.where(photoshoot: true).size * 10 / @ringgit).ceil(1)
+    chargeInspection = (@shipment.parcels.where(inspection: true).size * 30 / @ringgit).ceil(1)
+    extraCharge = (params[:shipment][:extra_charge].to_d / @ringgit).ceil(1)
+    minusCharge = (params[:shipment][:minus_charge].to_d / @ringgit).ceil(1)
     seaCharge = params[:shipment][:sea_charge].to_d
 
+    if @charged_storages.present?
+      storageCharge = 0
+      @charged_storages.each do |c|
+        charge = (((Time.now - c.free_storage) / 3600 / 24).round * 5 / @ringgit).ceil(1)
+        storageCharge += charge
+      end
+    else
+      storageCharge = 0
+    end
+
     if params[:shipment][:reorganize] == "true"
-      chargeReorganize = @shipment.parcels.size * 2 / @ringgit
+      chargeReorganize = (@shipment.parcels.size * 2 / @ringgit).ceil(1)
     else
       chargeReorganize = 0
     end
 
     if params[:shipment][:repackaging] == "true"
-      chargeRepackaging = 10 / @ringgit
+      chargeRepackaging = (10 / @ringgit).ceil(1)
     else
       chargeRepackaging = 0
     end
@@ -141,10 +164,11 @@ class Admin::ShipmentsController < ApplicationController
       chargeTransport = params[:shipment][:transport_charge].to_d
     end
 
-    chargeMYR = (seaCharge + extraCharge + chargeReorganize + chargeRepackaging + chargePhotoshoot + chargeInspection + chargeTransport - minusCharge).ceil(1)
+    chargeMYR = (seaCharge + extraCharge + chargeReorganize + chargeRepackaging + chargePhotoshoot + chargeInspection + chargeTransport + storageCharge - minusCharge).ceil(1)
     @shipment.update(charge: chargeMYR, repackaging: sea_calculate_params[:repackaging], reorganize: sea_calculate_params[:reorganize],
                       extra_charge: sea_calculate_params[:extra_charge], minus_charge: sea_calculate_params[:minus_charge], extra_remark: sea_calculate_params[:extra_remark],
-                      remark_admin: sea_calculate_params[:remark_admin], sea_charge: sea_calculate_params[:sea_charge], cbm: sea_calculate_params[:cbm], transport_charge: sea_calculate_params[:transport_charge]
+                      remark_admin: sea_calculate_params[:remark_admin], sea_charge: sea_calculate_params[:sea_charge], cbm: sea_calculate_params[:cbm], transport_charge: sea_calculate_params[:transport_charge],
+                      storage_charge: storageCharge
                     )
     flash[:success] ="Sea Charge Submitted"
     redirect_to admin_shipment_path(@shipment)
@@ -208,11 +232,11 @@ class Admin::ShipmentsController < ApplicationController
   end
 
   def calculate_params
-    params.require(:shipment).permit(:air_charge, :repackaging, :reorganize, :extra_charge, :extra_remark, :minus_charge, :remark_admin)
+    params.require(:shipment).permit(:air_charge, :repackaging, :reorganize, :extra_charge, :extra_remark, :minus_charge, :remark_admin, :storage_charge)
   end
 
   def sea_calculate_params
-    params.require(:shipment).permit(:sea_charge, :repackaging, :reorganize, :extra_charge, :extra_remark, :minus_charge, :remark_admin, :cbm, :transport_charge)
+    params.require(:shipment).permit(:sea_charge, :repackaging, :reorganize, :extra_charge, :extra_remark, :minus_charge, :remark_admin, :cbm, :transport_charge, :storage_charge)
   end
 
   def tracking_params
