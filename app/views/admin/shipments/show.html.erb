@@ -248,6 +248,41 @@
                 </td>
               </tr>
               <tr>
+                <td><u><strong>Storage Charges</strong></u></td>
+                <td>
+                  <% if @shipment.status == "Paid" %>
+                    <% if @charged_storages.present? && @charged_storages.last.parcel_shipped? %>
+                      <% @charged_storages.each do |c| %>
+                        <%= c.awb %> (<%= ((c.parcel_shipped - c.free_storage) / 3600 / 24).round %> days) <br>
+                      <% end %>
+                    <% else %>
+                      N/A
+                    <% end %>
+                  <% else %>
+                    <% if @charged_storages.present? %>
+                      <% @charged_storages.each do |c| %>
+                        <%= c.awb %> (<b class="text-red"><%= ((Time.now - c.free_storage) / 3600 / 24).round %> days</b>) <br>
+                      <% end %>
+                    <% else %>
+                      N/A
+                    <% end %>
+                  <% end %>
+                </td>
+                <td>
+                  <% if @charged_storages.present? %>
+                    <% if @shipment.storage_charge? %>
+                      <%= @shipment.storage_charge %>
+                    <% else %>
+                      <% @charged_storages.each do |c| %>
+                        <%= calculate_storage(c) %> <br>
+                      <% end %>
+                    <% end %>
+                  <% else %>
+                    0.00
+                  <% end %>
+                </td>
+              </tr>
+              <tr>
                 <td><u><strong>Additional Charges</strong></u></td>
                 <td><%= @shipment.extra_charge != 0 ? @shipment.extra_remark : "N/A" %></td>
                 <td><%= calculate_add_charge(@shipment) %></td>

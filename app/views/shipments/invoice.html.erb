@@ -207,6 +207,15 @@
       </td>
     </tr>
 
+    <% if @shipment.storage_charge? %>
+    <tr class="item">
+      <td>Storage Charges</td>
+      <td>
+        <%= @shipment.storage_charge %>
+      </td>
+    </tr>
+    <% end %>
+
     <tr class="item last">
       <td>
         <u>Extra Charges</u> <br>

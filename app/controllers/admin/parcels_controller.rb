@@ -101,6 +101,7 @@ class Admin::ParcelsController < ApplicationController
       weight       = (@parcel.weight.to_f).ceil
       chargeable   = ((weight + volume)/2.to_f).ceil
       free_storage = Time.now + 15.days
+      parcel_arrived = Time.now
 
       if weight >= chargeable
         final_kg = weight
@@ -111,7 +112,7 @@ class Admin::ParcelsController < ApplicationController
       # check if parcel status is waiting before change to arrived for first time to use in email notification
       parcelwaiting = (@parcel.status == "Waiting"? true : false)
 
-      @parcel.update(volume: volume, weight: weight, chargeable: chargeable, free_storage: free_storage, final_kg: final_kg, status: "Arrived")
+      @parcel.update(volume: volume, weight: weight, chargeable: chargeable, free_storage: free_storage, final_kg: final_kg, status: "Arrived", parcel_arrived: parcel_arrived)
       @parcel_user = @parcel.user_id
       @user_info   = User.find(@parcel_user)
 

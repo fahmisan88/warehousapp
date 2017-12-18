@@ -192,4 +192,14 @@ def calculate_minus_charge(shipment)
   return charge
 end
 
+def calculate_storage(parcel)
+  parcel = Parcel.find_by(id: parcel)
+  currency = Currency.find_by(id: 1)
+  days = ((Time.now - parcel.free_storage) / 3600 / 24).round
+  ringgit = currency.myr2rmb
+
+  charge = (days * 5 / ringgit).ceil(1)
+  return charge
+end
+
 end

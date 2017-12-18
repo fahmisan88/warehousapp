@@ -11,7 +11,7 @@ class WebhooksController < ApplicationController
 
         @shipment.update_attributes(status: 2, paid_at: params[:paid_at])
         @shipment.ordered_parcels.each do |x|
-          x.parcel.update_attributes(status: 3)
+          x.parcel.update_attributes(status: 3, parcel_shipped: Time.now)
         end
       render body: nil
     end

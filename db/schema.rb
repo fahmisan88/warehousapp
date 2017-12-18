@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171008135709) do
+ActiveRecord::Schema.define(version: 20171218071033) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -81,6 +81,8 @@ ActiveRecord::Schema.define(version: 20171008135709) do
     t.string   "ezi_id"
     t.json     "images"
     t.string   "inspection_detail"
+    t.datetime "parcel_arrived"
+    t.datetime "parcel_shipped"
   end
 
   create_table "shipments", force: :cascade do |t|
@@ -109,6 +111,7 @@ ActiveRecord::Schema.define(version: 20171008135709) do
     t.decimal  "air_charge"
     t.string   "cbm"
     t.decimal  "transport_charge"
+    t.decimal  "storage_charge"
   end
 
   create_table "users", force: :cascade do |t|

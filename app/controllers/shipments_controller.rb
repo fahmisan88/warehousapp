@@ -59,6 +59,7 @@ class ShipmentsController < ApplicationController
   def show
     @shipment = Shipment.find_by(id: params[:id])
     @currency = Currency.find_by(id: 1)
+    @charged_storages = @shipment.parcels.where("? > free_storage", Time.now)
     authorize @shipment
   end
 
