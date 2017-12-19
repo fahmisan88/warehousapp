@@ -78,26 +78,30 @@
                 <tr>
                   <th>Storage Days</th>
                   <td>
-                    <% if @parcel.status != "Shipped"%>
-                      <% if @parcel.parcel_arrived? %>
-                        <% if @parcel.free_storage < Time.now %>
-                          <b class="text-red"><%= ((Time.now - @parcel.parcel_arrived) / 3600 / 24).round %> days</b>
+                    <% if @parcel.free_storage? %>
+                      <% if @parcel.status != "Shipped"%>
+                        <% if @parcel.parcel_arrived? %>
+                          <% if @parcel.free_storage < Time.now %>
+                            <b class="text-red"><%= ((Time.now - @parcel.parcel_arrived) / 3600 / 24).round %> days</b>
+                          <% else %>
+                            <%= ((Time.now - @parcel.parcel_arrived) / 3600 / 24).round %> days
+                          <% end %>
                         <% else %>
-                          <%= ((Time.now - @parcel.parcel_arrived) / 3600 / 24).round %> days
+                          <% if @parcel.free_storage < Time.now %>
+                            <b class="text-red"><%= ((Time.now - (@parcel.free_storage - 15.days)) / 3600 / 24).round %> days</b>
+                          <% else %>
+                            <%= ((Time.now - (@parcel.free_storage - 15.days)) / 3600 / 24).round %> days
+                          <% end %>
                         <% end %>
                       <% else %>
-                        <% if @parcel.free_storage < Time.now %>
-                          <b class="text-red"><%= ((Time.now - (@parcel.free_storage - 15.days)) / 3600 / 24).round %> days</b>
+                        <% if @parcel.parcel_shipped? %>
+                          <%= ((@parcel.parcel_shipped - @parcel.parcel_arrived) / 3600 / 24).round %> days
                         <% else %>
-                          <%= ((Time.now - (@parcel.free_storage - 15.days)) / 3600 / 24).round %> days
+                          N/A
                         <% end %>
                       <% end %>
                     <% else %>
-                      <% if @parcel.parcel_shipped? %>
-                        <%= ((@parcel.parcel_shipped - @parcel.parcel_arrived) / 3600 / 24).round %> days
-                      <% else %>
-                        N/A
-                      <% end %>
+                      N/A
                     <% end %>
                   </td>
                 </tr>
