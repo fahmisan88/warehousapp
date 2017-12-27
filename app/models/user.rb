@@ -4,6 +4,9 @@ class User < ApplicationRecord
   mount_uploader :icpassport, IcpassportUploader
 
   attr_accessor :skip_icpassport_validation
+  attr_accessor :skip_package_validation
+  attr_accessor :skip_password_validation
+  attr_accessor :skip_name_validation
 
   has_many :wallets
   has_many :parcels
@@ -13,11 +16,11 @@ class User < ApplicationRecord
   VALID_NAME_REGEX = /\A[a-zA-Z\x27 ]+\z/i
   VALID_PASSWORD_REGEX = /\A[\w]+\z/
   validates :email, presence: true, uniqueness: true, format: { with: VALID_EMAIL_REGEX, message: "Not a valid email address" }
-  validates :password, presence: true, on: :create, length: { in: 6..20 }, format: { with: VALID_PASSWORD_REGEX, message: "Only allows alphanumeric and underscore between 6 to 20 characters"}
+  validates :password, presence: true, on: :create, length: { in: 6..20 }, format: { with: VALID_PASSWORD_REGEX, message: "Only allows alphanumeric and underscore between 6 to 20 characters"}, unless: :skip_password_validation
 
   # package; 1 = RM150/year, 2 = RM250/2years, 3 = RM300/3years
-  validates :package, inclusion: { in: [1,2,3] }
-  validates :name, presence: true, length: { in: 5..80 }, format: { with: VALID_NAME_REGEX, message: "Only allows letters, space and single quote (') between 5 to 80 characters"}
+  validates :package, inclusion: { in: [1,2,3] }, unless: :skip_package_validation
+  validates :name, presence: true, length: { in: 5..80 }, format: { with: VALID_NAME_REGEX, message: "Only allows letters, space and single quote (') between 5 to 80 characters"}, unless: :skip_name_validation
 
   # validates_file_size :icpassport, in: 500.kilobytes..3.megabytes, message: 'Identity card or passport image size must between %{min} and %{max}'
   # validates_file_content_type :icpassport, allow: ['image/jpeg', 'image/jpg', 'image/png'], mode: :strict, message: 'Only %{types} are allowed'

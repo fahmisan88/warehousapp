@@ -15,6 +15,9 @@ class PasswordController < ApplicationController
 
         @user = User.find_by(email: pass_reset_params[:email].downcase)
         @user.skip_icpassport_validation = true
+        @user.skip_name_validation = true
+        @user.skip_package_validation = true
+        @user.skip_password_validation = true
 
         if @user.present?
             @user.generate_password_token!
@@ -59,6 +62,9 @@ class PasswordController < ApplicationController
         if User.exists?(reset_password_token: @token)
             @user = User.find_by(reset_password_token: @token)
             @user.skip_icpassport_validation = true
+            @user.skip_name_validation = true
+            @user.skip_package_validation = true
+            @user.skip_password_validation = true
             if @user.email == @email
                     if @user.reset_password!(@password)
                         redirect_to '/login'
