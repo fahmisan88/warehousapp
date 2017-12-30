@@ -2,6 +2,7 @@ class Admin::ParcelsController < ApplicationController
   before_action :check_if_admin
 
   include Sendinblue
+  include Onewaysms
 
   def testmail
     mailer = Mailin.new(ENV['SENDINBLUE_API_URL'], ENV['SENDINBLUE_API_KEY'], 10)
@@ -119,11 +120,14 @@ class Admin::ParcelsController < ApplicationController
       mailer = Mailin.new(ENV['SENDINBLUE_API_URL'], ENV['SENDINBLUE_API_KEY'], 5)
       data = {"id" => 15, "to" => @user_info.email, "attr" => {"NAME" => @user_info.name, "PRODUCT" => @parcel.description, "AWB" => @parcel.awb}, "headers" => {"Content-Type" => "text/html;charset=iso-8859-1"} }
 
+      smser = Sms.new(ENV['ONEWAYSMS_USER'], ENV['ONEWAYSMS_PASS'])
+
     #   flash[:success] = "You've successfully updated the parcel!"
     #   redirect_to admin_parcel_path(@parcel)
     # else
       if parcelwaiting
         result = mailer.send_transactional_template(data)
+        sms_res = smser.parcel_sms(@user_info.phone, @parcel.awb)
         if result['code'] == "success"
           flash[:success] = "You've successfully updated the parcel & an email has sent to user"
           redirect_to parcel_path(@parcel)
