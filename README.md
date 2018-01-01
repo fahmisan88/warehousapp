@@ -1,6 +1,7 @@
 # README
 
 Current version of RoR is 5.0.6
+
 Current version of Ruby is 2.4.1
 
 1. install *imagemagick* and *postgresql dev*
