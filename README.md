@@ -1,5 +1,7 @@
 # README
 
+Current version of RoR is 5.0.1
+
 1. install *imagemagick* and *postgresql dev*
 
 ```bash
@@ -22,4 +24,5 @@ gem install minitest -v 5.10.3
 gem install activesupport -v 5.0.6
 gem install mini_portile2 -v 2.3.0
 gem install nokogiri -v 1.8.1
+gem install crass -v 1.0.2
 ```
