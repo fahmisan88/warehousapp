@@ -31,6 +31,7 @@ class Admin::UsersController < ApplicationController
 
   def edit
     @user = User.find_by(id: params[:id])
+    @user.phone[0] = '' if !@user.phone.nil?
   end
 
   def edit_id
@@ -40,7 +41,12 @@ class Admin::UsersController < ApplicationController
   def update
     @user = User.find_by(id: params[:id])
     @user.skip_icpassport_validation = true
-    if @user.update(user_params)
+
+    mobile = user_params[:phone]
+    mobile = "60" + mobile if mobile[0,1] != "0"
+    mobile = "6" + mobile if mobile[0,1] == "0"
+
+    if @user.update(phone: mobile, address: user_params[:address], address2: user_params[:address2], postcode: user_params[:postcode], city: user_params[:city])
       flash[:success] = "Address updated"
       redirect_to admin_users_path
     else
