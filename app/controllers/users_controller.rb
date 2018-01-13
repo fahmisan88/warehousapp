@@ -127,11 +127,12 @@ class UsersController < ApplicationController
   def create
     @user = User.new(name: reg_user_params[:fullname], email: reg_user_params[:email].downcase, password: reg_user_params[:passwd], package: reg_user_params[:package].to_i)
     @user.skip_icpassport_validation = true
+    @user.skip_phone_validation = true
     if @user.save
       flash[:success] = "You are registered. Please login and pay the yearly fee to continue using our service."
       redirect_to new_session_path
     else
-      flash[:danger] = "You are not successfully registered. Please contact admin."
+      flash[:danger] = @user.errors.full_messages
       redirect_to '/register'
     end
   end
