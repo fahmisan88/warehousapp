@@ -15,6 +15,7 @@ Rails.application.routes.draw do
 
   post '/checkemail' => 'users#emailcheck'
   post '/checkpackage' => 'users#packagecheck'
+  post '/checkmobile' => 'users#checkmobile'
   post '/updatepackage' => 'users#update_package'
 
   post '/eziid_check' => 'parcels#checkezicode'

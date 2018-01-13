@@ -22,7 +22,7 @@
                                 <div class="form-group">
                                     <label for="fullname" class="col-md-3 control-label">Full Name</label>
                                     <div class="col-md-9">
-                                        <input id="validation-fullname" type="text" class="form-control" placeholder="Full Name" name="user[fullname]" required="required" data-validation="custom" data-validation-regexp="^[a-zA-Z\x27 ]{5,80}$" data-validation-error-msg="Only letters, space and single quote (') are allowed between 5 to 80 characters">
+                                        <input id="validation-fullname" type="text" class="form-control" placeholder="Full Name" name="user[fullname]" required="required" data-validation="custom" data-validation-regexp="^[a-zA-Z\x27\x2d\x40 ]{5,80}$" data-validation-error-msg="Only letters, space, single quote ('), hyphen (-) and alias (@) are allowed between 5 to 80 characters">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -44,7 +44,6 @@
                                       <select class="form-control" name = "user[package]" data-validation="required,server" data-validation-url="/checkpackage">
                                         <option value="1" selected="selected">1 Year subscription = RM150</option>
                                         <option value="2">2 Years subscription = RM250</option>
-                                        <!-- <option value="3">3 Years subscription = RM300</option> -->
                                       </select>
                                   </div>
                                 </div>

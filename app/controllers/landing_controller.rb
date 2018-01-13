@@ -5,7 +5,7 @@ class LandingController < ApplicationController
        redirect_to admin_dashboards_path
      elsif current_user && current_user.status == "Active" && current_user.address?
        redirect_to dashboards_path
-     elsif current_user && current_user.status == "Active" && current_user.address.empty?
+     elsif current_user && current_user.status == "Active" && current_user.address.nil?
        redirect_to edit_user_path(current_user)
      else
      end
