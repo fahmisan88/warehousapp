@@ -16,7 +16,7 @@
 //= require turbolinks
 //= require es6-promise.auto
 //= require sweetalert2
-//= require form-validator
+//= require form-validator/index
 //= require jquery.modal
 //= require zebra_tooltips
 //= require switchery

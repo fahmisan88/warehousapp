@@ -42,13 +42,13 @@ gem 'kaminari'
 gem 'httparty'
 gem 'file_validators', '~> 2.1'
 gem 'cocaine'
-gem 'sendinblue', '~> 2.4'
 gem 'strip_attributes', '~> 1.8'
 gem 'json', '~> 2.0', '>= 2.0.3'
 gem 'whenever', :require => false
 gem 'wicked_pdf'
 gem 'wkhtmltopdf-binary'
 gem 'rails-settings-cached'
+gem 'phonelib'
 
 group :production do
   gem 'rails_12factor'

@@ -150,12 +150,18 @@ class UsersController < ApplicationController
     @user = User.find_by(id: params[:id])
     authorize @user
     @user.skip_icpassport_validation = true
-    if @user.update(user_params)
+
+    mobile = user_params[:phone]
+    mobile = "60" + mobile if mobile[0,1] != "0"
+    mobile = "6" + mobile if mobile[0,1] == "0"
+
+    if @user.update(phone: mobile, address: user_params[:address], address2: user_params[:address2], postcode: user_params[:postcode], city: user_params[:city])
       flash[:success] = "Address updated"
       redirect_to dashboards_path
     else
-      flash[:danger] = "Your update failed!"
-      render :edit
+      flash[:danger] = @user.errors.full_messages
+      puts @user.errors.details
+      redirect_to edit_user_path
     end
   end
 
@@ -213,13 +219,36 @@ class UsersController < ApplicationController
 # check validation choosen package at registration form
   def packagecheck
     @package = reg_user_params[:package]
-    if (1..3).include? @package.to_i
+    if (1..2).include? @package.to_i
       respond_to do |format|
         format.json { render json: { valid: true } }
       end
     else
       respond_to do |format|
         format.json { render json: { valid: false, message: "Package is not available" } }
+      end
+    end
+  end
+
+# check validation mobile number thru ajax at edit form
+  def checkmobile
+    mobile = user_params[:phone]
+    if /\A\d+\z/.match(mobile)
+      mobile = "60" + mobile if mobile[0,1] != "0"
+      mobile = "6" + mobile if mobile[0,1] == "0"
+      phone = Phonelib.parse(mobile)
+      if phone.type == :mobile
+        respond_to do |format|
+          format.json { render json: { valid: true } }
+        end
+      else
+        respond_to do |format|
+          format.json { render json: { valid: false, message: "Please insert valid mobile number" } }
+        end
+      end
+    else
+      respond_to do |format|
+        format.json { render json: { valid: false, message: "your mobile number must all digits and no spaces" } }
       end
     end
   end

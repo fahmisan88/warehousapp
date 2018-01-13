@@ -22,8 +22,9 @@
 # ignore all images upload
 /public/uploads/*
 
-# Ignore rbenv-vars
+# Ignore rbenv-vars & ruby-version
 .rbenv-vars
+.ruby-version
 
 # Ignore Mac cache files
 *.DS_Store
