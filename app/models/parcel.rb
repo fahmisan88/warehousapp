@@ -6,6 +6,7 @@ class Parcel < ApplicationRecord
 
   enum status: [:Waiting, :Arrived, :"Ready To Ship", :Shipped, :"Request Refund", :"Refund Rejected", :Refunded, :"need user action"]
   enum parcel_good: [:Normal, :Sensitive, :"Sensitive battery", :"Sensitive cosmetic", :"Sensitive magnet", :"Sensitive branded"]
+  enum plan: [:"Air Freight", :"Sea Freight"]
 
   mount_uploader :image, ImageUploader
   mount_uploaders :images, ImageUploader

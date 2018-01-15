@@ -177,7 +177,7 @@ class Admin::ParcelsController < ApplicationController
   private
 
   def parcel_params
-    params.require(:parcel).permit(:awb, :description, :image, :remark, :parcel_good, :photoshoot, :inspection, :product_chinese, :product_quantity, :product_total_price, :price_per_unit, :ezi_id,:length,:width,:height,:weight,:volume)
+    params.require(:parcel).permit(:awb, :description, :image, :remark, :parcel_good, :photoshoot, :inspection, :product_chinese, :product_quantity, :product_total_price, :price_per_unit, :ezi_id,:length,:width,:height,:weight,:volume, :plan)
   end
 
   def update_parcel_params
