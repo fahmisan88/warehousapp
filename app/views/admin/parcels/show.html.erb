@@ -136,7 +136,12 @@
                     <% end%>
                   </td>
                 </tr>
-
+                <% if @parcel.plan? %>
+                  <tr>
+                    <th>Shipping Plan</th>
+                    <td><%= @parcel.plan %></td>
+                  </tr>
+                <% end %>
               </tbody>
             </table>
             <%= link_to 'Back', admin_parcels_path, class:"btn btn-small btn-info" %>
